@@ -1,8 +1,7 @@
 <template>
-  <div id="register" class="text-center">
+  <div id="register" class="register-text-center">
     <form class="form-register" @submit.prevent="register">
-      <img class="mb-4" src="../assets/telogo.png" alt width="72" height="72" />
-      <h1 class="h3 mb-3 font-weight-normal">Create Account</h1>
+      <h1 class="register-tag">Create Account</h1>
       <div class="alert alert-danger" role="alert" v-if="registrationErrors">
         There were problems registering this user.
       </div>
@@ -10,7 +9,7 @@
       <input
         type="text"
         id="username"
-        class="form-control"
+        class="register-form-control"
         placeholder="Username"
         v-model="user.username"
         required
@@ -20,7 +19,7 @@
       <input
         type="password"
         id="password"
-        class="form-control"
+        class="register-form-control"
         placeholder="Password"
         v-model="user.password"
         required
@@ -28,15 +27,15 @@
       <input
         type="password"
         id="confirmPassword"
-        class="form-control"
+        class="register-form-control"
         placeholder="Confirm Password"
         v-model="user.confirmPassword"
         required
       />
-      <router-link :to="{ name: 'login' }">
+      <router-link :to="{ name: 'login' }" class="login-router">
         Have an account?
       </router-link>
-      <button class="btn btn-lg btn-primary btn-block" type="submit">
+      <button class="register-submit" type="submit">
         Create Account
       </button>
     </form>
@@ -82,54 +81,49 @@ export default {
 </script>
 
 <style>
-html,
-body {
-  height: 100%;
+.sr-only{
+  display:inline-block;
+  font-size: 20px;
 }
-#app {
-  height: 100%;
-}
-#register {
-  height: 100%;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-align: center;
-  align-items: center;
-  padding-top: 40px;
-  padding-bottom: 40px;
-  background-color: #f5f5f5;
-  font-family: 'Roboto Condensed', sans-serif;
-}
-
-form {
-  text-align: center;
-}
-
-.form-register {
+.register-form-control{
   width: 100%;
-  max-width: 330px;
-  padding: 15px;
-  margin: auto;
-}
-
-.form-register .form-control {
-  position: relative;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
   box-sizing: border-box;
-  height: auto;
-  padding: 10px;
-  font-size: 16px;
 }
-.form-register .form-control:focus {
-  z-index: 2;
+.register-tag{
+  font-size: 50px;
+  margin-top: 45px;
+  font-family: fantasy;
+  color: rgb(240, 201, 73);
+  padding-top: 5px;
 }
-.form-register input[type='text'] {
-  margin-bottom: 10px;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
+.register-text-center{
+  background: dimgray;
+  padding-bottom: 100%;
 }
-.form-register input[type='password'] {
-  margin-bottom: 10px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
+.register-submit{
+    background-color: rgb(240, 201, 73);
+    border: none;
+    color: black;
+    padding: 10px 40px;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    font-size: 20px;
+    border-radius: 8px;
+    transition-duration: 0.4s;
+    border: 2px solid rgb(240, 201, 73);
+}
+.register-submit:hover{
+    background-color: white;
+    border: 2px solid rgb(240, 201, 73);
+}
+.login-router{
+  display: block;
+  color: rgb(240, 201, 73);
+  margin-bottom: 8px;
 }
 </style>

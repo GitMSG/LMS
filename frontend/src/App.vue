@@ -1,32 +1,81 @@
 <template>
+  <body>
   <div id="app">
-    <transition name="fade" mode="out-in">
-      <router-view></router-view>
-    </transition>
+    <div id="nav" class="nav">
+      <router-link :to="{ name: 'home' }" class="baritem">Home</router-link>
+      <router-link :to="{ name: 'breweries' }" class="baritem">Breweries</router-link>
+      <router-link :to="{ name: 'beers' }" class="baritem">Beers</router-link>
+      <router-link :to="{ name: 'editUserRoles' }" class="baritem" v-if="userRole == 'admin'">Edit User Roles</router-link>
+      <h3 id="user-acct" v-if="aUser"> {{aUser}}, Logged in as {{userRole}}</h3>
+      <logout />
+    </div>
+    <router-view/>
   </div>
+  </body>
 </template>
 
 <script>
+import auth from '@/auth.js'
+import Logout from '@/components/Logout.vue'
 export default {
-  name: 'app',
-  components: {},
-};
+  components: {
+    Logout
+  },
+  data() {
+    return {
+        aUser: auth.getUser().sub,
+        userRole: auth.getUser().rol
+    }
+  }
+  
+}
 </script>
 
 <style>
-#app {
+
+.nav{
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+  position: fixed;
+  top: 0;
+  overflow: hidden;
+  width: 100%;
+  z-index: 1;
+  float: left;
+}
+.baritem{
+  float: left;
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+.baritem:hover{
+background-color: #111;
+}
+#user-acct{
+  display: inline-block;
+  font-weight:lighter;
+  color: rgb(240, 201, 73);
+  padding: 10px 100px;
+  margin-top:0px;
+  margin-bottom:0px;
+  text-decoration: none;
+}
+
+body {
+  margin-right: 0;
+  margin-left: 0;
+  margin-top: 45px;
   font-family: 'Roboto Condensed', sans-serif;
-  margin: 0px;
-  padding: 0px;
 }
-.fade-enter-active,
-.fade-leave-active {
-  transition-duration: 0.3s;
-  transition-property: opacity;
-  transition-timing-function: ease;
+body{
+  background: dimgray;
 }
-.fade-enter,
-.fade-leave-active {
-  opacity: 0;
-}
+
+
 </style>

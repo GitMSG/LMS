@@ -1,13 +1,12 @@
-import Vue from 'vue';
-import Router from 'vue-router';
-import ListSnippets from '@/views/ListSnippets';
-import ViewSnippet from '@/views/ViewSnippet';
-import SaveSnippet from '@/views/SaveSnippet';
-import Login from '@/views/Login';
-import Register from '@/views/Register';
-import auth from './auth';
+import Vue from 'vue'
+import Router from 'vue-router'
+import auth from './auth'
+import Home from './views/Home.vue'
+import Login from './views/Login.vue'
+import Register from './views/Register.vue'
+import EditUserRoles from './views/EditUserRoles.vue'
 
-Vue.use(Router);
+Vue.use(Router)
 
 const router = new Router({
   mode: 'history',
@@ -16,43 +15,50 @@ const router = new Router({
     {
       path: '/',
       name: 'home',
-      component: ListSnippets,
+      component: Home,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
-      path: '/snippet/:id',
-      name: 'snippet',
-      component: ViewSnippet,
-      props: true,
-    },
-    {
-      path: '/save/:id?',
-      name: 'save',
-      component: SaveSnippet,
-    },
-    {
-      path: '/login',
-      name: 'login',
+      path: "/login",
+      name: "login",
       component: Login,
+      meta: {
+        requiresAuth: false
+      }
     },
     {
-      path: '/register',
-      name: 'register',
+      path: "/register",
+      name: "register",
       component: Register,
+      meta: {
+        requiresAuth: false
+      }
     },
-  ],
-});
+     {
+       path: "/editUserRoles",
+       name: "editUserRoles",
+       component: EditUserRoles,
+       meta: {
+         requiresAuth: true
+       }
+     },
+  ]
+})
 
 router.beforeEach((to, from, next) => {
-  // redirect to login page if not logged in and trying to access a restricted page
-  const publicPages = ['/login', '/register'];
-  const authRequired = !publicPages.includes(to.path);
-  const loggedIn = auth.getUser();
+  // Determine if the route requires Authentication
+  const requiresAuth = to.matched.some(x => x.meta.requiresAuth);
+  const user = auth.getUser();
 
-  if (authRequired && !loggedIn) {
-    return next('/login');
+  // If it does and they are not logged in, send the user to "/login"
+  if (requiresAuth && !user) {
+    next("/login");
+  } else {
+    // Else let them go to their next destination
+    next();
   }
-
-  next();
 });
 
 export default router;

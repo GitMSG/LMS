@@ -1,19 +1,19 @@
 <template>
-  <div id="login" class="text-center">
+  <div id="login" class="login-text-center">
     <form class="form-signin" @submit.prevent="login">
-      <img class="mb-4" src="../assets/telogo.png" alt width="72" height="72" />
-      <h1 class="h3 mb-3 font-weight-normal">Please Sign In</h1>
+      <h1 class="login-tag">Please Sign In</h1>
       <div class="alert alert-danger" role="alert" v-if="invalidCredentials">
         Invalid username and password!
       </div>
       <div class="alert alert-success" role="alert" v-if="this.$route.query.registration">
         Thank you for registering, please sign in.
       </div>
+      <div class="login-form">
       <label for="username" class="sr-only">Username</label>
       <input
         type="text"
         id="username"
-        class="form-control"
+        class="login-form-control"
         placeholder="Username"
         v-model="user.username"
         required
@@ -23,17 +23,14 @@
       <input
         type="password"
         id="password"
-        class="form-control"
+        class="login-form-control"
         placeholder="Password"
         v-model="user.password"
         required
       />
-      <router-link :to="{ name: 'register' }">
-        Need an account?
-      </router-link>
-      <button class="btn btn-lg btn-primary btn-block" type="submit">
-        Sign in
-      </button>
+      <router-link :to="{ name: 'register' }" class="new-account-router">Need an account?</router-link>
+      <button type="submit" class="login-submit">Sign in</button>
+      </div>
     </form>
   </div>
 </template>
@@ -77,6 +74,7 @@ export default {
             }
             auth.saveToken(token);
             this.$router.push('/');
+            this.$router.go();
           }
         })
         .catch((err) => console.error(err));
@@ -86,54 +84,54 @@ export default {
 </script>
 
 <style>
-html,
-body {
-  height: 100%;
-}
-#app {
-  height: 100%;
-}
-#login {
-  height: 100%;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-align: center;
-  align-items: center;
-  padding-top: 40px;
-  padding-bottom: 40px;
-  background-color: #f5f5f5;
-  font-family: 'Roboto Condensed', sans-serif;
-}
-
-form {
+/* .login-form{
   text-align: center;
+  display: block;
+} */
+.sr-only{
+  display:inline-block;
+  font-size: 20px;
 }
-
-.form-signin {
+.login-form-control{
   width: 100%;
-  max-width: 330px;
-  padding: 15px;
-  margin: auto;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+.login-tag{
+  font-size: 50px;
+  margin-top: 45px;
+  font-family: fantasy;
+  color: rgb(240, 201, 73);
+  padding-top: 5px;
+}
+.login-text-center{
+  background: dimgray;
+  padding-bottom: 100%;
+}
+.login-submit{
+    background-color: rgb(240, 201, 73);
+    border: none;
+    color: black;
+    padding: 10px 40px;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    font-size: 20px;
+    border-radius: 8px;
+    transition-duration: 0.4s;
+    border: 2px solid rgb(240, 201, 73);
+}
+.login-submit:hover{
+    background-color: white;
+    border: 2px solid rgb(240, 201, 73);
+}
+.new-account-router{
+  display: block;
+  color: rgb(240, 201, 73);
+  margin-bottom: 8px;
 }
 
-.form-signin .form-control {
-  position: relative;
-  box-sizing: border-box;
-  height: auto;
-  padding: 10px;
-  font-size: 16px;
-}
-.form-signin .form-control:focus {
-  z-index: 2;
-}
-.form-signin input[type='text'] {
-  margin-bottom: 10px;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
-}
-.form-signin input[type='password'] {
-  margin-bottom: 10px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-}
 </style>
