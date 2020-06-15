@@ -37,8 +37,8 @@ public class RequestAuthProvider implements AuthProvider {
     }
 
     @Override
-    public boolean signIn(String username, String password) {
-        User authenticatedUser = dao.getValidUserWithPassword(username, password);
+    public boolean signIn(String email, String password) {
+        User authenticatedUser = dao.getValidUserWithPassword(email, password);
         if (authenticatedUser != null) {
             request.setAttribute(USER_KEY, authenticatedUser);
             return true;
@@ -58,7 +58,7 @@ public class RequestAuthProvider implements AuthProvider {
         if (userFromSession == null) {
             return false;
         }
-        User userFromDb = dao.getValidUserWithPassword(userFromSession.getUsername(), existingPassword);
+        User userFromDb = dao.getValidUserWithPassword(userFromSession.getEmail(), existingPassword);
         if (userFromDb != null && userFromDb.getId() == userFromDb.getId()) {
             dao.changePassword(userFromSession, newPassword);
             return true;
@@ -68,15 +68,15 @@ public class RequestAuthProvider implements AuthProvider {
     }
 
     @Override
-    public void register(String username, String password, String role) {
-        dao.saveUser(username, password, role);
+    public void register(String email, String password, String role) {
+        dao.saveUser(email, password, role);
     }
 
     @Override
-    public boolean userHasRole(String[] roles) {
+    public boolean userHasPermission(String[] roles) {
         User currentUser = getCurrentUser();
         if (currentUser != null && roles != null) {
-            return Arrays.asList(roles).contains(currentUser.getRole());
+            return Arrays.asList(roles).contains(currentUser.getPermission());
         } else {
             return false;
         }

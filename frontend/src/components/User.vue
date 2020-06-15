@@ -1,13 +1,13 @@
 <template>
     <div id="userInfo">
         <span>
-        <form @submit.prevent="changeUserRole" class="role-form">
-                <span class="role-username">{{username}}</span>
-                <select v-model="user.role" class="role-select">
-                    <option value="user" v-if="this.$props.currentRole != 'user'">User</option>
-                    <option value="admin" v-if="this.$props.currentRole != 'admin'">Admin</option>
+        <form @submit.prevent="changeUserpermission" class="permission-form">
+                <span class="permission-email">{{email}}</span>
+                <select v-model="user.permission" class="permission-select">
+                    <option value="user" v-if="this.$props.currentpermission != 'user'">User</option>
+                    <option value="admin" v-if="this.$props.currentpermission != 'admin'">Admin</option>
                 </select>
-            <button type="submit" class="role-submit">Submit Change</button>
+            <button type="submit" class="permission-submit">Submit Change</button>
         </form>
         </span>
     </div>
@@ -19,21 +19,21 @@ import auth from '@/auth.js'
 export default {
     props: {
         id: Number,
-        username: String,
-        currentRole: String
+        email: String,
+        currentpermission: String
     },
     data() {
         return {
             user: {
-                username: this.$props.username,
-                role: '',
+                email: this.$props.email,
+                permission: '',
                 id: this.$props.id
             }
         }
     },
     methods: {
-        changeUserRole(){
-            fetch(`${process.env.VUE_APP_REMOTE_API}/api/changeUserRole`, {
+        changeUserpermission(){
+            fetch(`${process.env.VUE_APP_REMOTE_API}/api/changeUserPermission`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

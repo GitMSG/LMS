@@ -49,5 +49,5 @@ public interface AuthProvider {
      * @param roles the roles to check for
      * @return true, if the user has one of the roles
      */
-    boolean userHasRole(String[] roles);
+    boolean userHasPermission(String[] roles);
 }

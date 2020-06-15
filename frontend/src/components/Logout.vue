@@ -12,23 +12,33 @@ export default {
   methods: {
     logout(){
       auth.logout();
-      this.$router.push({name: 'home'});
-       this.$router.go(); 
+      
+      this.$router.push({name: 'login'});      
+      this.$router.go(); 
     }
   }
 }
 </script>
  
  <style scoped>
- .logout{
-  float: right;
-  display: block;
-  color: white;
+ .logout-button{
+  background-color: #336699;
+  color: black;
+  padding: 5px 20px;
   text-align: center;
-  padding: 5px 10px;
   text-decoration: none;
+  display: block;
+  font-size: 16px;
+  border-radius: 4px;
+ 
 }
-.logout-button {
-    padding:5px 10px;
+.logout-button:hover{
+  background-color: white;
+  color:#336699;
+  cursor:pointer;
 }
+ .logout{
+  margin:auto;
+}
+
  </style>

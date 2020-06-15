@@ -1,25 +1,28 @@
 <template>
+<div>
+<h1 class="login-tag">Sign In</h1>
   <div id="login" class="login-text-center">
-    <form class="form-signin" @submit.prevent="login">
-      <h1 class="login-tag">Please Sign In</h1>
+    <form @submit.prevent="login">
+      
       <div class="alert alert-danger" role="alert" v-if="invalidCredentials">
-        Invalid username and password!
+        Invalid email and password!
       </div>
       <div class="alert alert-success" role="alert" v-if="this.$route.query.registration">
         Thank you for registering, please sign in.
       </div>
-      <div class="login-form">
-      <label for="username" class="sr-only">Username</label>
+     
+      <label for="email" class="label">Email</label>
       <input
         type="text"
-        id="username"
+        id="email"
         class="login-form-control"
-        placeholder="Username"
-        v-model="user.username"
+        placeholder="Email"
+        v-model="user.email"
         required
         autofocus
       />
-      <label for="password" class="sr-only">Password</label>
+      <br/>
+      <label for="password" class="label">Password</label>
       <input
         type="password"
         id="password"
@@ -28,10 +31,11 @@
         v-model="user.password"
         required
       />
-      <router-link :to="{ name: 'register' }" class="new-account-router">Need an account?</router-link>
-      <button type="submit" class="login-submit">Sign in</button>
-      </div>
+     <!--  <router-link :to="{ name: 'register' }" class="new-account-router">Need an account?</router-link> -->
+      <button type="submit" class="login-submit">Sign In</button>
+      
     </form>
+  </div>
   </div>
 </template>
 
@@ -44,7 +48,7 @@ export default {
   data() {
     return {
       user: {
-        username: '',
+        email: '',
         password: '',
       },
       invalidCredentials: false,
@@ -88,50 +92,63 @@ export default {
   text-align: center;
   display: block;
 } */
-.sr-only{
-  display:inline-block;
-  font-size: 20px;
+#login {
+  width:40%;
+  display: flex;
+  justify-content:center;
+  align-items:center;
+  margin:auto;
+  color:white;
+  background-color:#202124;
+  border-radius:4px;
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14),0 1px 10px 0 rgba(0, 0, 0, 0.12);
+  text-align:right;
+  padding:20px;
 }
+.label {
+  padding:20px;
+}
+
 .login-form-control{
-  width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
+  align-content:center;
+  border-radius:2px;
+  padding: 10px ;
+  margin: 10px 0;
+  border:none;
+  text-align:center;
 }
 .login-tag{
-  font-size: 50px;
-  margin-top: 45px;
-  font-family: fantasy;
-  color: rgb(240, 201, 73);
+  
+  font-weight:lighter;
+  color: #202124;
   padding-top: 5px;
 }
-.login-text-center{
-  background: dimgray;
-  padding-bottom: 100%;
-}
+
 .login-submit{
-    background-color: rgb(240, 201, 73);
+  
+    background-color: #336699;
     border: none;
     color: black;
-    padding: 10px 40px;
+    padding: 5px 20px;
+    margin:auto;
+    margin-top:20px;
     text-align: center;
     text-decoration: none;
     display: block;
     font-size: 20px;
-    border-radius: 8px;
-    transition-duration: 0.4s;
-    border: 2px solid rgb(240, 201, 73);
+    border-radius: 4px;
+   
+   
 }
 .login-submit:hover{
     background-color: white;
-    border: 2px solid rgb(240, 201, 73);
+    border: 1px solid #336699;
+    color:#336699;
 }
-.new-account-router{
+/* .new-account-router{
   display: block;
   color: rgb(240, 201, 73);
   margin-bottom: 8px;
-}
+} */
 
 </style>

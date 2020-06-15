@@ -57,14 +57,14 @@ public class RequestAuthProviderTest {
     public void getCurrentUserWithUserTest() {
         User mockedUser = new User();
         mockedUser.setId(0);
-        mockedUser.setUsername("TEST");
+        mockedUser.setEmail("TEST");
 
         when(mockedRequest.getAttribute(RequestAuthProvider.USER_KEY)).thenReturn(mockedUser);
 
         User fromSut = sut.getCurrentUser();
 
         assertEquals(mockedUser.getId(), fromSut.getId());
-        assertEquals(mockedUser.getUsername(), fromSut.getUsername());
+        assertEquals(mockedUser.getEmail(), fromSut.getEmail());
     }
 
     @Test
@@ -87,7 +87,7 @@ public class RequestAuthProviderTest {
     public void signInSuccessTest() {
         User testUser = new User();
         testUser.setId(0);
-        testUser.setUsername("TEST");
+        testUser.setEmail("TEST");
         when(mockedDao.getValidUserWithPassword("TEST", "TEST")).thenReturn(testUser);
 
         assertTrue(sut.signIn("TEST", "TEST"));
@@ -105,7 +105,7 @@ public class RequestAuthProviderTest {
     public void changePasswordSuccessTest() {
         User testUser = new User();
         testUser.setId(0);
-        testUser.setUsername("TEST");
+        testUser.setEmail("TEST");
 
         when(mockedRequest.getAttribute(RequestAuthProvider.USER_KEY)).thenReturn(testUser);
         when(mockedDao.getValidUserWithPassword("TEST", "TEST")).thenReturn(testUser);
@@ -118,7 +118,7 @@ public class RequestAuthProviderTest {
     public void changePasswordBadPasswordTest() {
         User testUser = new User();
         testUser.setId(0);
-        testUser.setUsername("TEST");
+        testUser.setEmail("TEST");
 
         when(mockedRequest.getAttribute(RequestAuthProvider.USER_KEY)).thenReturn(testUser);
         when(mockedDao.getValidUserWithPassword("TEST", "TEST")).thenReturn(null);
@@ -131,7 +131,7 @@ public class RequestAuthProviderTest {
     public void changePasswordNoOneLoggedInTest() {
         User testUser = new User();
         testUser.setId(0);
-        testUser.setUsername("TEST");
+        testUser.setEmail("TEST");
 
         when(mockedRequest.getAttribute(RequestAuthProvider.USER_KEY)).thenReturn(null);
         when(mockedDao.getValidUserWithPassword("TEST", "TEST")).thenReturn(testUser);
@@ -144,71 +144,71 @@ public class RequestAuthProviderTest {
     public void hasRoleSuccessTest() {
         User testUser = new User();
         testUser.setId(0);
-        testUser.setUsername("TEST");
-        testUser.setRole("user");
+        testUser.setEmail("TEST");
+        testUser.setPermission("user");
 
         when(mockedRequest.getAttribute(RequestAuthProvider.USER_KEY)).thenReturn(testUser);
 
-        assertTrue(sut.userHasRole(new String[] { "user" }));
+        assertTrue(sut.userHasPermission(new String[] { "user" }));
     }
 
     @Test
     public void hasRoleFailTest() {
         User testUser = new User();
         testUser.setId(0);
-        testUser.setUsername("TEST");
-        testUser.setRole("user");
+        testUser.setEmail("TEST");
+        testUser.setPermission("user");
 
         when(mockedRequest.getAttribute(RequestAuthProvider.USER_KEY)).thenReturn(testUser);
 
-        assertFalse(sut.userHasRole(new String[] { "admin" }));
+        assertFalse(sut.userHasPermission(new String[] { "admin" }));
     }
 
     @Test
     public void hasRoleMultipleSuccessTest() {
         User testUser = new User();
         testUser.setId(0);
-        testUser.setUsername("TEST");
-        testUser.setRole("user");
+        testUser.setEmail("TEST");
+        testUser.setPermission("user");
 
         when(mockedRequest.getAttribute(RequestAuthProvider.USER_KEY)).thenReturn(testUser);
 
-        assertTrue(sut.userHasRole(new String[] { "admin", "user", "editor" }));
+        assertTrue(sut.userHasPermission(new String[] { "admin", "user", "editor" }));
     }
 
     @Test
     public void hasRoleMultipleFailTest() {
         User testUser = new User();
         testUser.setId(0);
-        testUser.setUsername("TEST");
-        testUser.setRole("user");
+        testUser.setEmail("TEST");
+        testUser.setPermission("user");
 
         when(mockedRequest.getAttribute(RequestAuthProvider.USER_KEY)).thenReturn(testUser);
 
-        assertFalse(sut.userHasRole(new String[] { "admin", "manager", "editor" }));
+        assertFalse(sut.userHasPermission(new String[] { "admin", "manager", "editor" }));
     }
 
     @Test
     public void hasRoleNullTest() {
         User testUser = new User();
         testUser.setId(0);
-        testUser.setUsername("TEST");
-        testUser.setRole("user");
+        testUser.setEmail("TEST");
+        testUser.setPermission("user");
 
         when(mockedRequest.getAttribute(RequestAuthProvider.USER_KEY)).thenReturn(testUser);
 
-        assertFalse(sut.userHasRole(null));
+        assertFalse(sut.userHasPermission(null));
     }
 
     @Test
     public void hasRoleEmptyTest() {
         User testUser = new User();
         testUser.setId(0);
-        testUser.setUsername("TEST");
-        testUser.setRole("user");
+        testUser.setEmail("TEST");
+        testUser.setPermission("user");
 
         when(mockedRequest.getAttribute(RequestAuthProvider.USER_KEY)).thenReturn(testUser);
 
-        assertFalse(sut.userHasRole(new String[] {}));
+        assertFalse(sut.userHasPermission(new String[] {}));
     }
 }

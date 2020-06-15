@@ -53,7 +53,7 @@ public class ApiController {
         In this example, if the user does not have the admin role
         we send back an unauthorized error.
         */
-        if (!authProvider.userHasRole(new String[] { "admin" })) {
+        if (!authProvider.userHasPermission(new String[] { "admin" })) {
             throw new UnauthorizedException();
         }
         return "Success";
@@ -66,9 +66,9 @@ public class ApiController {
     	return allUsers;
     }
     
-    @RequestMapping(path = "/changeUserRole", method = RequestMethod.POST)
-    public void changeUserRole(@RequestBody User user) {
-    	userDao.changeRole(user.getUsername(), user.getRole());
+    @RequestMapping(path = "/changeUserPermission", method = RequestMethod.POST)
+    public void changeUserPermission(@RequestBody User user) {
+    	userDao.changePermission(user.getEmail(), user.getPermission());
     }
     
    

@@ -39,22 +39,22 @@ public class JdbcUserDao implements UserDao {
      *
      * @param userName the user name to give the new user
      * @param password the user's password
-     * @param role the user's role
+     * @param permission the user's role
      * @return the new user
      */
     @Override
-    public User saveUser(String userName, String password, String role) {
+    public User saveUser(String email, String password, String permission) {
         byte[] salt = passwordHasher.generateRandomSalt();
         String hashedPassword = passwordHasher.computeHash(password, salt);
         String saltString = new String(Base64.encode(salt));
         long newId = jdbcTemplate.queryForObject(
-                "INSERT INTO users(username, password, salt, role) VALUES (?, ?, ?, ?) RETURNING id", Long.class,
-                userName, hashedPassword, saltString, role);
+                "INSERT INTO users(email, password, salt, permission) VALUES (?, ?, ?, ?) RETURNING id", Long.class,
+                email, hashedPassword, saltString, permission);
 
         User newUser = new User();
         newUser.setId(newId);
-        newUser.setUsername(userName);
-        newUser.setRole(role);
+        newUser.setEmail(email);
+        newUser.setPermission(permission);
 
         return newUser;
     }
@@ -73,15 +73,15 @@ public class JdbcUserDao implements UserDao {
      * know the password, we will have to get the user's salt from the database,
      * hash the password, and compare that against the hash in the database.
      *
-     * @param userName the user name of the user we are checking
+     * @param email the user name of the user we are checking
      * @param password the password of the user we are checking
      * @return true if the user is found and their password matches
      */
     @Override
-    public User getValidUserWithPassword(String userName, String password) {
-        String sqlSearchForUser = "SELECT * FROM users WHERE UPPER(username) = ?";
+    public User getValidUserWithPassword(String email, String password) {
+        String sqlSearchForUser = "SELECT * FROM users WHERE UPPER(email) = ?";
 
-        SqlRowSet results = jdbcTemplate.queryForRowSet(sqlSearchForUser, userName.toUpperCase());
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sqlSearchForUser, email.toUpperCase());
         if (results.next()) {
             String storedSalt = results.getString("salt");
             String storedPassword = results.getString("password");
@@ -103,7 +103,7 @@ public class JdbcUserDao implements UserDao {
     @Override
     public List<User> getAllUsers() {
         List<User> users = new ArrayList<User>();
-        String sqlSelectAllUsers = "SELECT id, username, role FROM users";
+        String sqlSelectAllUsers = "SELECT id, email, permission FROM users";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sqlSelectAllUsers);
 
         while (results.next()) {
@@ -117,15 +117,15 @@ public class JdbcUserDao implements UserDao {
     private User mapResultToUser(SqlRowSet results) {
         User user = new User();
         user.setId(results.getLong("id"));
-        user.setUsername(results.getString("username"));
-        user.setRole(results.getString("role"));
+        user.setEmail(results.getString("email"));
+        user.setPermission(results.getString("permission"));
         return user;
     }
 
     @Override
-    public User getUserByUsername(String username) {
-        String sqlSelectUserByUsername = "SELECT id, username, role FROM users WHERE username = ?";
-        SqlRowSet results = jdbcTemplate.queryForRowSet(sqlSelectUserByUsername, username);
+    public User getUserByEmail(String email) {
+        String sqlSelectUserByEmail = "SELECT id, email, permission FROM users WHERE email = ?";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sqlSelectUserByEmail, email);
 
         if (results.next()) {
             return mapResultToUser(results);
@@ -135,9 +135,9 @@ public class JdbcUserDao implements UserDao {
     }
 
 	@Override
-	public void changeRole(String username, String role) {
+	public void changePermission(String email, String permission) {
 		// TODO Auto-generated method stub
-		 jdbcTemplate.update("UPDATE users SET role = ? WHERE username = ?", role, username);
+		 jdbcTemplate.update("UPDATE users SET permission = ? WHERE email = ?", permission, email);
 	}
 
 }

@@ -62,7 +62,7 @@ public class JwtTokenHandler {
         Claims claims = Jwts.parser()
                 .setSigningKey(DatatypeConverter.parseBase64Binary(SECRET_KEY))
                 .parseClaimsJws(token).getBody();
-        User authedUser = dao.getUserByUsername(claims.getSubject());
+        User authedUser = dao.getUserByEmail(claims.getSubject());
         return authedUser;
     }
 }

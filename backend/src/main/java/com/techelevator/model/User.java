@@ -8,11 +8,10 @@ import org.hibernate.validator.constraints.NotBlank;
  * User
  */
 public class User {
-    @NotBlank(message = "Username is required")
-    private String username;
+    @NotBlank(message = "Email is required")
+    private String email;
 
-    @NotBlank(message = "Role is required")
-    private String role;
+    private String permission;
     private long id;
 
     @NotBlank(message = "Password is required")
@@ -51,8 +50,8 @@ public class User {
     /**
      * @return the username
      */
-    public String getUsername() {
-        return username;
+    public String getEmail() {
+        return email;
     }
 
     /**
@@ -72,22 +71,22 @@ public class User {
     /**
      * @return the role
      */
-    public String getRole() {
-        return role;
+    public String getPermission() {
+        return permission;
     }
 
     /**
-     * @param role the role to set
+     * @param permission the role to set
      */
-    public void setRole(String role) {
-        this.role = role;
+    public void setPermission(String permission) {
+        this.permission = permission;
     }
 
     /**
      * @param username the username to set
      */
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public void setPassword(String password) {

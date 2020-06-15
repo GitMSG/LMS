@@ -1,12 +1,8 @@
 <template>
   <body>
   <div class="home" :style="image">
-    <h1 class="home-header">Working Title</h1>
-    <!-- <button class="logout-button" v-on:click="logout">Logout</button> -->
-    <div class="homePara">
-      <p>Welcome </p>
+    <h1 class="home-header">Tech Elevator LMS</h1>
     
-    </div>
   </div>
   </body>
 </template>
@@ -20,7 +16,7 @@ export default {
     return {
       image: {
         
-        background: ,
+       
         backgroundSize: "cover",
         backgroundPosition: "center",
         height: "10px", 
@@ -40,21 +36,14 @@ export default {
 </script>
 
 <style >
-body {
+/* body {
  padding: 0;
  position: relative;
  
-}
-.homePara {
-    font-size: large;
-    background-color: rgb(207, 207, 211);
-    margin: 0px 150px 10px 150px;
-    padding: 10px 50px 10px 50px;
-    border-radius: 5px;
-    border: 1px solid;
-    box-shadow: 5px 10px rgb(49, 48, 48);
-}
+} */
+
 .home{
+  text-align:center;
   background: dimgray;
   padding-bottom: 100%;
   width: 100%;
@@ -62,33 +51,14 @@ body {
   background-size: cover;
 
 }
-.background-img {
-   z-index: -1;
-   background: cover;
-}
+
 .home-header{
   font-size: 50px;
-  font-family: Lobster;
-  color: rgb(240, 201, 73);
+  font-weight:lighter;
+  color: #add8e6;
   padding-top: 25px;
   padding-left: 25px;
 }
-.logout-button{
-  background-color: rgb(240, 201, 73);
-  border: none;
-  color: black;
-  padding: 10px 40px;
-  text-align: center;
-  text-decoration: none;
-  display: block;
-  font-size: 20px;
-  border-radius: 8px;
-  transition-duration: 0.4s;
-  border: 2px solid rgb(240, 201, 73);
-}
-.logout-button:hover{
-  background-color: white;
-  border: 2px solid rgb(240, 201, 73);
-}
+
 
 </style>

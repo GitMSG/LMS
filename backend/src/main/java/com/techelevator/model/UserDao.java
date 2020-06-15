@@ -11,10 +11,10 @@ public interface UserDao {
      *
      * @param userName the user name to give the new user
      * @param password the user's password
-     * @param role the user's role
+     * @param permission the user's role
      * @return the new user
      */
-    public User saveUser(String userName, String password, String role);
+    public User saveUser(String email, String password, String permission);
 
     public void changePassword(User user, String newPassword);
 
@@ -27,7 +27,7 @@ public interface UserDao {
      * @param password the password of the user we are checking
      * @return true if the user is found and their password matches
      */
-    public User getValidUserWithPassword(String userName, String password);
+    public User getValidUserWithPassword(String email, String password);
 
     /**
      * Get all of the users from the database.
@@ -35,8 +35,8 @@ public interface UserDao {
      */
     public List<User> getAllUsers();
 
-    public User getUserByUsername(String username);
+    public User getUserByEmail(String email);
     
-    public void changeRole(String username, String role);
+    public void changePermission(String email, String permission);
 
 }
