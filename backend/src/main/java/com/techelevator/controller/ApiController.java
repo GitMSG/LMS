@@ -24,8 +24,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.techelevator.authentication.AuthProvider;
 import com.techelevator.authentication.UnauthorizedException;
-import com.techelevator.model.User;
-import com.techelevator.model.UserDao;
+import com.techelevator.user.User;
+import com.techelevator.user.UserDao;
 
 
 /**

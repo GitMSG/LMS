@@ -1,6 +1,6 @@
 package com.techelevator.authentication;
 
-import com.techelevator.model.User;
+import com.techelevator.user.User;;
 
 public interface AuthProvider {
     /**
@@ -17,11 +17,11 @@ public interface AuthProvider {
 
     /**
      * Signs in a user using the given username and password
-     * @param username the given username
+     * @param email the given username
      * @param password the given password
      * @return true if user was successfully signed in
      */
-    boolean signIn(String username, String password);
+    boolean signIn(String email, String password);
 
     /**
      * Sign out the currently signed in user
@@ -38,11 +38,11 @@ public interface AuthProvider {
 
     /**
      * Register a new user to the system
-     * @param username the new user's username
+     * @param email the new user's username
      * @param password the new user's password
-     * @param role the new user's role
+     * @param permission the new user's role
      */
-    void register(String username, String password, String role);
+    void register(String email, String password, String permission);
 
     /**
      * Checks to see if the current user has one of the given roles

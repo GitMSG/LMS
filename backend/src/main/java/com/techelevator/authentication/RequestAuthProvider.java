@@ -4,8 +4,8 @@ import java.util.Arrays;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.techelevator.model.User;
-import com.techelevator.model.UserDao;
+import com.techelevator.user.User;
+import com.techelevator.user.UserDao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -68,8 +68,8 @@ public class RequestAuthProvider implements AuthProvider {
     }
 
     @Override
-    public void register(String email, String password, String role) {
-        dao.saveUser(email, password, role);
+    public void register(String email, String password, String permission) {
+        dao.saveUser(email, password, permission);
     }
 
     @Override

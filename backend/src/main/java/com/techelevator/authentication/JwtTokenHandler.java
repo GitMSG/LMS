@@ -6,8 +6,8 @@ import java.util.Date;
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 
-import com.techelevator.model.User;
-import com.techelevator.model.UserDao;
+import com.techelevator.user.User;
+import com.techelevator.user.UserDao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -30,7 +30,7 @@ public class JwtTokenHandler {
     @Autowired
     private UserDao dao;
 
-    public String createToken(String username, String role) {
+    public String createToken(String email, String permission) {
         Date now = new Date();
 
         // We will sign our JWT with our ApiKey secret
@@ -38,14 +38,14 @@ public class JwtTokenHandler {
         Key signingKey = new SecretKeySpec(apiKeySecretBytes, signatureAlgorithm.getJcaName());
 
         // Let's set the JWT Claims
-        JwtBuilder builder = Jwts.builder().setIssuedAt(now).setSubject(username).claim("rol", role).signWith(signingKey,
+        JwtBuilder builder = Jwts.builder().setIssuedAt(now).setSubject(email).claim("rol", permission).signWith(signingKey,
                 signatureAlgorithm);
 
         // if it has been specified, let's add the expiration
 
         long expMillis = System.currentTimeMillis() + 21600000;
         Date exp = new Date(expMillis);
-        System.out.println("Token for user "+username + " expiration: " + exp);
+        System.out.println("Token for user "+email + " expiration: " + exp);
         builder.setExpiration(exp);
 
         // Builds the JWT and serializes it to a compact, URL-safe string

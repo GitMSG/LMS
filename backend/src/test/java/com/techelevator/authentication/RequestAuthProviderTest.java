@@ -11,8 +11,8 @@ import static org.mockito.Mockito.when;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.techelevator.model.User;
-import com.techelevator.model.UserDao;
+import com.techelevator.user.User;
+import com.techelevator.user.UserDao;
 
 import org.junit.Before;
 import org.junit.Test;
