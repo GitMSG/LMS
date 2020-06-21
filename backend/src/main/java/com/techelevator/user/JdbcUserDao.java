@@ -1,4 +1,4 @@
-package lmsApp.user;
+package com.techelevator.user;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
-import lmsApp.authentication.PasswordHasher;
+import com.techelevator.authentication.PasswordHasher;
 
 @Component
 public class JdbcUserDao implements UserDao {

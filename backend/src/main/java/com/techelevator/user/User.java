@@ -1,4 +1,4 @@
-package lmsApp.user;
+package com.techelevator.user;
 
 import javax.validation.constraints.AssertTrue;
 

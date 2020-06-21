@@ -1,4 +1,4 @@
-package lmsApp.user;
+package com.techelevator.user;
 
 import java.util.List;
 

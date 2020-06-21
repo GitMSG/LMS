@@ -1,4 +1,4 @@
-package lmsApp.training;
+package com.techelevator.training;
 
 public interface TrainingDao {
 
