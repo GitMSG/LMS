@@ -31,7 +31,7 @@
         v-model="user.password"
         required
       />
-      <router-link :to="{ name: 'register' }" class="new-account-router">Need an account?</router-link>
+      <!-- <router-link :to="{ name: 'register' }" class="new-account-router">Need an account?</router-link> -->
       <button type="submit" class="login-submit">Sign In</button>
       
     </form>
@@ -93,7 +93,8 @@ export default {
   display: block;
 } */
 #login {
-  width:40%;
+  min-width:415px;
+  max-width:50%;
   display: flex;
   justify-content:center;
   align-items:center;
@@ -108,11 +109,13 @@ export default {
 .label {
   padding:20px;
 }
-
+input {
+  width:250px;
+}
 .login-form-control{
   align-content:center;
   border-radius:2px;
-  padding: 10px ;
+  padding: 5px ;
   margin: 10px 0;
   border:none;
   text-align:center;

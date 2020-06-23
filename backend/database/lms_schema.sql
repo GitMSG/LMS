@@ -12,16 +12,17 @@ CREATE TABLE users(
     email varchar(64) NOT NULL UNIQUE,
     password varchar(32) NOT NULL,
     salt varchar(256) NOT NULL,
-    permission varchar(32)
+    permission varchar(32),
     CONSTRAINT pk_users_id PRIMARY KEY (id)
 );
 
 CREATE TABLE user_profile(
     profile_id integer NOT NULL,
-    profile_firstname varchar(32) NOT NULL,
-    profile_lastname varchar(32) NOT NULL,
+    firstname varchar(32) NOT NULL,
+    lastname varchar(32) NOT NULL,
     role varchar(255) NOT NULL,
     start_date date NOT NULL,
+    end_date date,
     profile_pic varchar(255),
     CONSTRAINT uq_user_profile_profile_id UNIQUE (profile_id)
 );
@@ -34,14 +35,15 @@ CREATE TABLE training(
     train_date date NOT NULL,
     is_compliance boolean NOT NULL,
     train_proof varchar(255),
-    minutes integer NOT NULL
+    minutes integer NOT NULL,
     CONSTRAINT pk_training_train_id PRIMARY KEY (train_id)
 );
 
 CREATE TABLE cert_period(
-    cert_id serial PRIMARY KEY,
+    cert_id serial,
     profile_id integer NOT NULL,
-    up_to_date boolean
+    cert_start_date date NOT NULL,
+    CONSTRAINT pk_cert_period_cert_id PRIMARY KEY (cert_id)
 );
 
 CREATE TABLE training_cert_period (
@@ -58,17 +60,16 @@ INSERT INTO users (email, password, salt, permission)
 INSERT INTO training (train_name, train_provider, train_topic, train_date, is_compliance, train_proof, minutes) 
         VALUES('LEARNING HOW TO TEACH', 'YMCA', 'We teach people how to teach, its very educational.', '2020-02-13',true, null, 90);
 
-INSERT INTO cert_period (profile_id, up_to_date) 
-        VALUES ((SELECT id FROM users WHERE users.email ='matt.goshorn@techelevator.com'), false);
+INSERT INTO cert_period (profile_id, cert_start_date) 
+        VALUES ((SELECT id FROM users WHERE users.email ='matt.goshorn@techelevator.com'), '2019-10-01');
 
-INSERT INTO user_profile (profile_id, profile_firstname, profile_lastname, role, start_date, profile_pic,) 
-        VALUES ((SELECT id FROM users WHERE email = 'matt.goshorn@techelevator.com' ),'Matt','Goshorn', 'Instructor', '2020-01-13', null);
+INSERT INTO user_profile (profile_id, firstname, lastname, role, start_date, end_date, profile_pic) 
+        VALUES ((SELECT id FROM users WHERE email = 'matt.goshorn@techelevator.com' ),'Matt','Goshorn', 'Instructor', '2020-01-13', null, null);
 
 INSERT INTO training_cert_period (train_id, cert_period_id)
         VALUES ((SELECT train_id FROM training WHERE training.train_name='LEARNING HOW TO TEACH'), 1);
 
 
---commit;
 ALTER TABLE user_profile
 ADD FOREIGN KEY(profile_id)
 REFERENCES users(id);
@@ -85,6 +86,7 @@ ALTER TABLE training_cert_period
 ADD FOREIGN KEY(cert_period_id)
 REFERENCES cert_period(cert_id);
 
+COMMIT;
 
 
 
