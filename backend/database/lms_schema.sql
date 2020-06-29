@@ -48,7 +48,8 @@ CREATE TABLE cert_period(
 
 CREATE TABLE training_cert_period (
     train_id integer NOT NULL,
-    cert_period_id integer NOT NULL
+    cert_period_id integer NOT NULL,
+    CONSTRAINT pk_training_cert_period_train_id_cert_period_id PRIMARY KEY (train_id, cert_period_id)
 );
 
 -- Password is 'greatwall'
