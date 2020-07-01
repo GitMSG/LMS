@@ -1,8 +1,8 @@
 <template>
   
-  <div class="home" :style="image">
+  <div class="home" >
     <h1 class="home-header">Tech Elevator LMS</h1>
-    
+   
   </div>
   
 </template>
@@ -14,16 +14,7 @@ export default {
   name: 'home',
   data() {
     return {
-      image: {
-        
-       
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        height: "10px", 
-        maxWidth: "100%"
-
-        
-      }
+     
     }
   },
   methods: {
@@ -36,7 +27,10 @@ export default {
 </script>
 
 <style >
-
+.home{
+    width:100vw;
+  height:100vh;
+}
 
 .home-header{
   font-size: 50px;

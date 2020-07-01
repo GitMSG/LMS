@@ -49,15 +49,12 @@ public class ApiController {
     private TrainingDao trainingDao;
    
 	
-	  @RequestMapping(path = "/addUserProfile", method = RequestMethod.POST) public
-	  UserProfile addUserProfile(@RequestBody UserProfile aUserProfile, String
-	  email) { UserProfile newProfile = new UserProfile(
-	  aUserProfile.getFirstName(),
-	  aUserProfile.getLastName(),aUserProfile.getRole(),
-	  aUserProfile.getStartDate(),aUserProfile.getEndDate(),aUserProfile.
-	  getProfilePic()); userProfileDao.createUserProfile(newProfile,email); return
-	  aUserProfile;
-	  
+      @RequestMapping(path = "/createProfile", method = RequestMethod.POST) 
+      public void addUserProfile(@RequestBody UserProfile aUserProfile, String email) {
+           UserProfile newProfile = new UserProfile( aUserProfile.getFirstName(),
+            aUserProfile.getLastName(),aUserProfile.getRole(),aUserProfile.getStartDate(),
+            aUserProfile.getEndDate(),aUserProfile.getProfilePic()); 
+        userProfileDao.createUserProfile( newProfile , email );   
 	  }
 	 
     @RequestMapping(path = "/", method = RequestMethod.GET)

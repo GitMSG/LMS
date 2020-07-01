@@ -16,8 +16,13 @@ public class JdbcUserProfileDao implements UserProfileDao {
 		this.myJdbcTemplate = new JdbcTemplate(myDataSource);
 	}
 	
-	public UserProfile createUserProfile(UserProfile newProfile, String email) {
-		return null;
+	public void createUserProfile(UserProfile newProfile, String email) {
+		String insertSql = "INSERT INTO user_profile "
+						 + "(profile_id, firstname, lastname, role, start_date, end_date, profile_pic) "
+						 + "VALUES ((SELECT id from users where email = '"+ email +"'),?,?,?,?,?,?) ";
+		myJdbcTemplate.update(insertSql,newProfile.getProfileId(),newProfile.getFirstName(),newProfile.getLastName(),
+				   newProfile.getRole(),newProfile.getStartDate(),newProfile.getEndDate(),newProfile.getProfilePic());
+		
 		
 	}
 

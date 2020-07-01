@@ -1,8 +1,8 @@
 <template>
   <body>
   <nav-bar/>
-  <div class='app' >
-    
+  <admin-nav v-if="this.userRole == 'admin'" />
+  <div class='app' > 
     <router-view/>
   </div>
   </body>
@@ -11,10 +11,11 @@
 <script>
 import auth from '@/auth.js'
 import NavBar from '@/components/NavBar.vue'
+import AdminNav from '@/components/AdminNav.vue'
 export default {
   components: {
-    NavBar
-
+    NavBar,
+    AdminNav,
   },
   data() {
     return {
@@ -28,10 +29,11 @@ export default {
 
 <style>
 body {
+ 
   text-align:center;
   margin:0;
   font-family: 'Roboto Condensed', sans-serif;
-  background: radial-gradient(circle, rgba(36,104,143,1) 0%, rgba(37,38,38,1) 100%);
+  background: radial-gradient(circle, rgba(36,104,143,1) 20%, rgba(37,38,38,1) 100%);
 }
 .app {
   padding:20px;

@@ -3,9 +3,8 @@
  
     <div id="nav" class="nav">
       <router-link :to="{ name: 'home' }" class="baritem">Home</router-link>
-    <!--   <router-link :to="{ name: 'breweries' }" class="baritem">Breweries</router-link>
-      <router-link :to="{ name: 'beers' }" class="baritem">Beers</router-link> -->
-      <router-link :to="{ name: 'editUserRoles' }" class="baritem" v-if="userRole == 'admin'">Edit User Roles</router-link>
+      
+      
       <h3 id="user-acct" v-if="aUser"> {{aUser}}, Logged in as {{userRole}}</h3>
       <logout />
     </div>

@@ -1,21 +1,23 @@
 <template>
   <div id="register" class="register-text-center">
-    <form class="form-register" @submit.prevent="register">
-      <h1 class="register-tag">Create Account</h1>
+   <h1 class="register-tag">Create Account</h1>
+   <div class="form-register">
+    <form  @submit.prevent="register">
       <div class="alert alert-danger" role="alert" v-if="registrationErrors">
         There were problems registering this user.
       </div>
-      <label for="username" class="sr-only">Username</label>
+      <label for="username" class="label">Email</label>
       <input
         type="text"
-        id="username"
+        id="email"
         class="register-form-control"
         placeholder="Username"
-        v-model="user.username"
+        v-model="user.email"
         required
         autofocus
       />
-      <label for="password" class="sr-only">Password</label>
+      <br/>
+      <label for="password" class="label">Password</label>
       <input
         type="password"
         id="password"
@@ -32,13 +34,14 @@
         v-model="user.confirmPassword"
         required
       />
-      <router-link :to="{ name: 'login' }" class="login-router">
+     <!--  <router-link :to="{ name: 'login' }" class="login-router">
         Have an account?
-      </router-link>
+      </router-link> -->
       <button class="register-submit" type="submit">
         Create Account
       </button>
     </form>
+    </div>
   </div>
 </template>
 
@@ -48,10 +51,10 @@ export default {
   data() {
     return {
       user: {
-        username: '',
+        email: '',
         password: '',
         confirmPassword: '',
-        role: 'user',
+        permission: 'user',
       },
       registrationErrors: false,
     };
@@ -81,49 +84,60 @@ export default {
 </script>
 
 <style>
-.sr-only{
-  display:inline-block;
-  font-size: 20px;
+
+#register{
+  width:100vw;
+  height:100vh;
 }
 .register-form-control{
-  width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
+  align-content:center;
+  border-radius:2px;
+  padding: 5px ;
+  margin: 15px 0;
+  border:none;
+  text-align:center;
+}
+.form-register{
+   min-width:450px;
+  max-width:50%;
+  display: flex;
+  justify-content:center;
+  align-items:center;
+  margin:auto;
+  color:white;
+  background-color:#202124;
+  border-radius:4px;
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14),0 1px 10px 0 rgba(0, 0, 0, 0.12);
+  text-align:right;
+  padding:20px;
 }
 .register-tag{
-  font-size: 50px;
-  margin-top: 45px;
-  font-family: fantasy;
-  color: rgb(240, 201, 73);
+  font-weight:lighter;
+  color: #202124;
   padding-top: 5px;
 }
-.register-text-center{
-  background: dimgray;
-  padding-bottom: 100%;
+.label {
+  padding:20px;
 }
+
 .register-submit{
-    background-color: rgb(240, 201, 73);
+   
+    background-color: #336699;
     border: none;
     color: black;
-    padding: 10px 40px;
+    padding: 5px 20px;
+    margin:auto;
+    margin-top:20px;
     text-align: center;
     text-decoration: none;
     display: block;
     font-size: 20px;
-    border-radius: 8px;
-    transition-duration: 0.4s;
-    border: 2px solid rgb(240, 201, 73);
+    border-radius: 4px;
 }
 .register-submit:hover{
     background-color: white;
-    border: 2px solid rgb(240, 201, 73);
+    border: 1px solid #336699;
+    color:#336699;
 }
-.login-router{
-  display: block;
-  color: rgb(240, 201, 73);
-  margin-bottom: 8px;
-}
+
 </style>

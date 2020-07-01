@@ -24,7 +24,7 @@ export default {
     },
 
     created() {
-      fetch('http://localhost:8080/AuthenticationApplication/api/users',
+      fetch(`${process.env.VUE_APP_REMOTE_API}/api/users`,
         {
         method: 'GET',
         headers: {
@@ -46,34 +46,31 @@ export default {
 </script>
 
 <style>
-.permission-page{
-  background: dimgray;
- 
+#editUsersPage{
+  width:100vw;
+  height:100vh;
 }
 .permission-header{
  
-  font-family: fantasy;
-  color: rgb(240, 201, 73);
+  font-family: 'roboto condensed';
+  font-weight:lighter;
+  color: #add8e6;
 
 }
 .permission-item{
     list-style-type: none;
-    border: 2px solid black;
-    width: 45%;
-    margin-bottom: 5px;
-    background: rgb(75, 75, 75);
+    border: none;
+    width: 60%;
+    margin: 20px 10px;
+   
 }
 .permission-email{
-    color: rgb(240, 201, 73);
-}
-.permission-select{
-    float:right;
+    color: white;
+    margin:20px;
 }
 .permission-submit{
     float: right;
 }
-/* .permission-form{
-    padding: 2px 5px;
-}
- */
+
+ 
 </style>

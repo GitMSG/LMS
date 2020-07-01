@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 public interface UserProfileDao {
 	
-	public UserProfile createUserProfile(UserProfile newProfile, String email);
+	public void createUserProfile(UserProfile newProfile, String email);
 	
 	
 

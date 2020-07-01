@@ -1,5 +1,5 @@
 <template>
-<div>
+<div id="login-page" >
 <h1 class="login-tag">Sign In</h1>
   <div id="login" class="login-text-center">
     <form @submit.prevent="login">
@@ -88,11 +88,12 @@ export default {
 </script>
 
 <style>
-/* .login-form{
-  text-align: center;
-  display: block;
-} */
+#login-page{
+   width:100vw;
+  height:100vh;
+}
 #login {
+  
   min-width:415px;
   max-width:50%;
   display: flex;
@@ -148,10 +149,6 @@ input {
     border: 1px solid #336699;
     color:#336699;
 }
-/* .new-account-router{
-  display: block;
-  color: rgb(240, 201, 73);
-  margin-bottom: 8px;
-} */
+
 
 </style>
