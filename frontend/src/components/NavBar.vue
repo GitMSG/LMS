@@ -1,15 +1,11 @@
 <template>
-  <body>
- 
-    <div id="nav" class="nav">
+     <div id="nav" class="nav">
       <router-link :to="{ name: 'home' }" class="baritem">Home</router-link>
-      
+      <router-link :to="{ name: 'profileForm'}" class="baritem">Profile Form</router-link>
       
       <h3 id="user-acct" v-if="aUser"> {{aUser}}, Logged in as {{userRole}}</h3>
       <logout />
     </div>
-   
-  </body>
 </template>
 <script>
 import auth from '@/auth.js'

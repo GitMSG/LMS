@@ -89,7 +89,8 @@ REFERENCES cert_period(cert_id);
 
 COMMIT;
 
-
+Delete from user_profile
+where profile_id = 2;
 
 
 

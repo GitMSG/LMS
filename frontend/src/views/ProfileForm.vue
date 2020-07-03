@@ -16,18 +16,24 @@
                     <div class="profileInput">
                         <span class="label">Start Date: </span><input type="text" v-model="profile.startDate">
                     </div>
-                    <div class="profileInput">
+                   <!--  <div class="profileInput">
                         <span class="label">End Date: </span><input type="text" v-model="profile.endDate">
-                    </div>
+                    </div> -->
                 </div>
                 <div class="imageDiv">
                     <div class="profileInput">
-                        <span class="label">Profile Picture: </span><vue-dropzone id="dropzone" :options="dropzoneOptions" v-on:vdropzone-sending="addFormData" @vdropzone-success="getSuccess" v-model="profile.picture"></vue-dropzone>
+                        <span class="label">Profile Picture: </span>
+                        <vue-dropzone id="dropzone" 
+                                    :options="dropzoneOptions" 
+                                    v-on:vdropzone-sending="addFormData" 
+                                    @vdropzone-success="getSuccess" 
+                                    v-model="profile.profilePic">
+                        </vue-dropzone>
                     </div>
                 </div>
             </div>
         </div>
-        <button class="profile-button" type="submit" :disabled="!isValidForm" >Add Profile</button>
+        <button class="profile-button" type="submit" >Add Profile</button>
     </form>
 
     </div>
@@ -43,35 +49,41 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
         },
         data() {
             return {
+                
                 profile: {
                     firstName: '',
                     lastName: '',
                     role: '',
                     startDate: '',
-                    endDate: '',
-                    image: ''
+                    //endDate: '',
+                    profilePic: '',
+                    
+                    
                 },
                 dropzoneOptions: {
-                    url: 'https://api.cloudinary.com/v1_1/brillhart/image/upload' /*this came with dropzone example --> 'https://httpbin.org/post'*/,
+                    url: `${process.env.CLOUDINARY_BASE}/image/upload` /*this came with dropzone example --> 'https://httpbin.org/post'*/,
                     thumbnailWidth: 150,
                     maxFilesize: 2.0,
                     acceptedFiles: ".jpg, .jpeg, .png, .gif"
                 },
                 post: {
-                    image: '',
-                    caption: ''
-                }
+                    profilePic: '',
+                    
+                },
+                             
             }
         },
         methods:{
             createProfile() {
-            fetch(`${process.env.VUE_APP_REMOTE_API}/api/addUserProfile`, {
+               
+            fetch(`${process.env.VUE_APP_REMOTE_API}/api/createProfile`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: 'Bearer ' + auth.getToken(),     
                 },
-                body: JSON.stringify(this.profile),
+                body: JSON.stringify(this.profile)
+                      
                 })
                 .then((response) => {
                     if(response.ok) {
@@ -83,14 +95,17 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
                 .catch((err) => console.error(err));
             },
              addFormData(file, xhr, formData) {
-                formData.append("api_key", "652428861445774");
-                formData.append("upload_preset", "brillhartpreset"); // my upload preset
+                formData.append("api_key", `${process.env.CLOUD_KEY}`);
+                formData.append("upload_preset", "goshornpreset"); // my upload preset
                 formData.append("timestamp", (Date.now() / 1000) | 0);
                 formData.append("tags", "vue-app");
             },
             getSuccess(file, response) {
-                this.profile.picture = response.secure_url;
+                this.profile.profilePic = response.secure_url;
             }
+        },
+        created(){
+           
         }
         
     }

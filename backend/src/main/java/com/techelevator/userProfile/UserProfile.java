@@ -8,21 +8,32 @@ import java.time.LocalDate;
 	private String firstName;
 	private String lastName;
 	private String role;
-	private LocalDate startDate;
-	private LocalDate endDate;
+	private String startDate;
+	private String endDate;
 	private String profilePic;
 	
-	public UserProfile( String firstName, String lastName, String role, LocalDate startDate, LocalDate endDate, String profilePic) {
+	public UserProfile() {
+		
+	}
+	public UserProfile( String firstName, String lastName, String role, String startDate, String endDate, String profilePic) {
 		super();
 	
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.role = role;
-		this.startDate = startDate;
-		this.endDate = endDate;
+		this.startDate =  startDate; 
+		this.endDate =  endDate;
 		this.profilePic = profilePic;
 	}
-
+	public LocalDate makeDate(String date) {
+		LocalDate newDate = LocalDate.parse(date);
+		return newDate;
+	}
+	@Override
+	public String toString() {
+		return "UserProfile [firstName=" + firstName + ", lastName=" + lastName + ", role=" + role + ", startDate="
+				+ startDate + ", endDate=" + endDate + ", profilePic=" + profilePic + "]";
+	}
 	public long getProfileId() {
 		return profileId;
 	}
@@ -55,19 +66,23 @@ import java.time.LocalDate;
 		this.role = role;
 	}
 
-	public LocalDate getStartDate() {
+	public String getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(LocalDate startDate) {
+	public void setStartDate(String startDate) {
 		this.startDate = startDate;
 	}
 
-	public LocalDate getEndDate() {
-		return endDate;
+	public String getEndDate() {
+		if (endDate == "") {
+		return	 endDate = null;
+		}	else {
+			return endDate;
+		}
 	}
 
-	public void setEndDate(LocalDate endDate) {
+	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
 

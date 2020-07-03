@@ -50,7 +50,9 @@ public class ApiController {
    
 	
       @RequestMapping(path = "/createProfile", method = RequestMethod.POST) 
-      public void addUserProfile(@RequestBody UserProfile aUserProfile, String email) {
+      public void addUserProfile(@RequestBody UserProfile aUserProfile) {
+    	  String email = authProvider.getCurrentUser().getEmail();
+    	  System.out.println("inside /createProfile endpoint  "+email);
            UserProfile newProfile = new UserProfile( aUserProfile.getFirstName(),
             aUserProfile.getLastName(),aUserProfile.getRole(),aUserProfile.getStartDate(),
             aUserProfile.getEndDate(),aUserProfile.getProfilePic()); 

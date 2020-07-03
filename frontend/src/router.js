@@ -5,7 +5,7 @@ import Home from './views/Home.vue'
 import Login from './views/Login.vue'
 import Register from './views/Register.vue'
 import EditUserRoles from './views/EditUserRoles.vue'
-
+import ProfileForm from './views/ProfileForm.vue'
 Vue.use(Router)
 
 const router = new Router({
@@ -24,6 +24,14 @@ const router = new Router({
       path: "/login",
       name: "login",
       component: Login,
+      meta: {
+        requiresAuth: false
+      }
+    },
+    {
+      path: "/profileForm",
+      name: "profileForm",
+      component: ProfileForm,
       meta: {
         requiresAuth: false
       }

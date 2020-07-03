@@ -7,7 +7,7 @@ Vue.config.productionTip = false
 
 Vue.use(Cloudinary, {
   configuration: {
-    cloudName: ''
+    cloudName: 'goshorn'
   }
 })
 

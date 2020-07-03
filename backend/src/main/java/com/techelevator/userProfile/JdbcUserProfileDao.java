@@ -17,11 +17,13 @@ public class JdbcUserProfileDao implements UserProfileDao {
 	}
 	
 	public void createUserProfile(UserProfile newProfile, String email) {
+		LocalDate start = newProfile.makeDate(newProfile.getStartDate());
+		System.out.println("inside dao to create profile  "+email+"  "+start);
 		String insertSql = "INSERT INTO user_profile "
-						 + "(profile_id, firstname, lastname, role, start_date, end_date, profile_pic) "
-						 + "VALUES ((SELECT id from users where email = '"+ email +"'),?,?,?,?,?,?) ";
-		myJdbcTemplate.update(insertSql,newProfile.getProfileId(),newProfile.getFirstName(),newProfile.getLastName(),
-				   newProfile.getRole(),newProfile.getStartDate(),newProfile.getEndDate(),newProfile.getProfilePic());
+						 + "(profile_id, firstname, lastname, role, start_date,end_date, profile_pic) "
+						 + "VALUES ((SELECT id from users where email = '"+ email +"'),?,?,?,?,null,?) ";
+		myJdbcTemplate.update(insertSql,newProfile.getFirstName(),newProfile.getLastName(),
+				   newProfile.getRole(),start,newProfile.getProfilePic());
 		
 		
 	}
