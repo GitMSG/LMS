@@ -52,12 +52,19 @@ public class ApiController {
       @RequestMapping(path = "/createProfile", method = RequestMethod.POST) 
       public void addUserProfile(@RequestBody UserProfile aUserProfile) {
     	  String email = authProvider.getCurrentUser().getEmail();
-    	  System.out.println("inside /createProfile endpoint  "+email);
-           UserProfile newProfile = new UserProfile( aUserProfile.getFirstName(),
-            aUserProfile.getLastName(),aUserProfile.getRole(),aUserProfile.getStartDate(),
-            aUserProfile.getEndDate(),aUserProfile.getProfilePic()); 
+           UserProfile newProfile = new UserProfile( 
+        		   aUserProfile.getFirstName(),aUserProfile.getLastName()
+        		   ,aUserProfile.getRole(),aUserProfile.getStartDate()
+        		   ,aUserProfile.getEndDate(),aUserProfile.getProfilePic()); 
         userProfileDao.createUserProfile( newProfile , email );   
 	  }
+      
+      @RequestMapping(path = "/profile", method = RequestMethod.GET)
+      public UserProfile getProfileById() {
+    	  int id = (int) authProvider.getCurrentUser().getId();
+    	  UserProfile aProfile = userProfileDao.getProfileById(id);
+    	  return aProfile;
+      }
 	 
     @RequestMapping(path = "/", method = RequestMethod.GET)
     public String authorizedOnly() throws UnauthorizedException {

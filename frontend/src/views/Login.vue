@@ -66,6 +66,7 @@ export default {
       })
         .then((response) => {
           if (response.ok) {
+            
             return response.text();
           } else {
             this.invalidCredentials = true;
@@ -89,8 +90,8 @@ export default {
 
 <style>
 #login-page{
-   width:100vw;
-  height:100vh;
+   width:90vw;
+  height:90vh;
 }
 #login {
   

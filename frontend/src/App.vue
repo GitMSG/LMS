@@ -1,6 +1,6 @@
 <template>
   <body>
-  <nav-bar/>
+  <nav-bar v-if="aUser != null" />
   <admin-nav v-if="this.userRole == 'admin'" />
   <div class='app' > 
     <router-view/>

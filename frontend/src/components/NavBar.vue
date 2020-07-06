@@ -2,9 +2,10 @@
      <div id="nav" class="nav">
       <router-link :to="{ name: 'home' }" class="baritem">Home</router-link>
       <router-link :to="{ name: 'profileForm'}" class="baritem">Profile Form</router-link>
+      <router-link :to="{ name: 'profile' }" class="baritem">Profile</router-link>
       
-      <h3 id="user-acct" v-if="aUser"> {{aUser}}, Logged in as {{userRole}}</h3>
-      <logout />
+      <!-- <h3 id="user-acct" v-if="aUser"> {{aUser}}, Logged in as {{userRole}}</h3> -->
+      <logout id="logout"/>
     </div>
 </template>
 <script>
@@ -29,11 +30,14 @@ export default {
 .nav{
   display: flex;
   list-style-type: none;
-  overflow: hidden;
-  background-color: #202124;
+  /* background-color: #202124; */
+  background-color:rgba(37,38,38,1);
   box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14),0 1px 10px 0 rgba(0, 0, 0, 0.12);
  
  
+}
+#logout{
+  float:right;
 }
 .baritem{
   color: white;

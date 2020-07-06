@@ -90,7 +90,11 @@ REFERENCES cert_period(cert_id);
 COMMIT;
 
 Delete from user_profile
-where profile_id = 2;
+where profile_id = 2
+
+update user_profile
+set profile_pic = 'https://res.cloudinary.com/goshorn/image/upload/v1593971293/lms_test/yskdldqgqnvu7jieywyr.jpg'
+
 
 
 

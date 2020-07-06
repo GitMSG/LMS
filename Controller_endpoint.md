@@ -5,7 +5,7 @@
 
 ```java
  @RequestMapping(path = "/register", method = RequestMethod.POST)
-     public String register(@Valid @RequestBody User user, BindingResult result) throws UserCreationException {
+    public String register(@Valid @RequestBody User user, BindingResult result) throws UserCreationException {
         if (result.hasErrors()) {
             String errorMessages = "";
             for (ObjectError error : result.getAllErrors()) {
@@ -20,13 +20,11 @@
 
 ```java
 @RequestMapping(path = "/changeUserPermission", method = RequestMethod.POST)
- public void changeUserPermission(@RequestBody User user) {                     
+    public void changeUserPermission(@RequestBody User user) {                     
     	userDao.changePermission(user.getEmail(), user.getPermission());
     } 
 ``` 
  
-
-
 ```java
 @RequestMapping(path = "/users", method = RequestMethod.GET)
     public List<User> getAllUsers(){
@@ -50,7 +48,7 @@
 
 ```java
 @RequestMapping(path = "/login", method = RequestMethod.POST)
- public String login(@RequestBody User user, RedirectAttributes flash) throws UnauthorizedException {
+    public String login(@RequestBody User user, RedirectAttributes flash) throws UnauthorizedException {
         if (auth.signIn(user.getEmail(), user.getPassword())) {
             User currentUser = auth.getCurrentUser();
             return tokenHandler.createToken(user.getEmail(), currentUser.getPermission());
@@ -63,14 +61,23 @@
 
 ## userProfile ##
 
-`@RequestMapping(path = "/userProfile/{id}", method = RequestMethod.GET)` *Get a userProfile by id*
+```java
+@RequestMapping(path = "/profile", method = RequestMethod.GET)
+    public UserProfile getProfileById() {
+    	  int id = (int) authProvider.getCurrentUser().getId();
+    	  UserProfile aProfile = userProfileDao.getProfileById(id);
+    	  return aProfile;
+      }
+```      
 
 ```java
 @RequestMapping(path = "/createProfile", method = RequestMethod.POST) 
-      public void addUserProfile(@RequestBody UserProfile aUserProfile, String email) {
-           UserProfile newProfile = new UserProfile( aUserProfile.getFirstName(),
-            aUserProfile.getLastName(),aUserProfile.getRole(),aUserProfile.getStartDate(),
-            aUserProfile.getEndDate(),aUserProfile.getProfilePic()); 
+    public void addUserProfile(@RequestBody UserProfile aUserProfile, String email) {
+        UserProfile newProfile = new UserProfile( 
+                    aUserProfile.getFirstName(),aUserProfile.getLastName()
+                    ,aUserProfile.getRole(),aUserProfile.getStartDate()
+                    ,aUserProfile.getEndDate(),aUserProfile.getProfilePic());
+                     
         userProfileDao.createUserProfile( newProfile , email );   
 	  }
 ```  

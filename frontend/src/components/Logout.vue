@@ -22,12 +22,10 @@ export default {
  
  <style scoped>
  .logout-button{
-  background-color: #336699;
+  background-color: rgba(36,104,143,1);
   color: black;
   padding: 5px 20px;
-  text-align: center;
   text-decoration: none;
-  display: block;
   font-size: 16px;
   border-radius: 4px;
  
@@ -38,7 +36,6 @@ export default {
   cursor:pointer;
 }
  .logout{
-  margin:auto;
-}
-
+   margin:auto;
+ }
  </style>

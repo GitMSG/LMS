@@ -1,9 +1,9 @@
 <template>
-    <div>
+    <div id="profile-form">
+    <h1>Creat Your Profile</h1>
     <form class="new-profile-form" @submit.prevent="createProfile">
-        <div class="profile-form">
-            <div class="row">
-                <div class="column-one">
+        <div class="profile-card">
+           
                     <div class="profileInput">
                         <span class="label">First Name: </span><input type="text" v-model="profile.firstName">
                     </div>
@@ -16,11 +16,6 @@
                     <div class="profileInput">
                         <span class="label">Start Date: </span><input type="text" v-model="profile.startDate">
                     </div>
-                   <!--  <div class="profileInput">
-                        <span class="label">End Date: </span><input type="text" v-model="profile.endDate">
-                    </div> -->
-                </div>
-                <div class="imageDiv">
                     <div class="profileInput">
                         <span class="label">Profile Picture: </span>
                         <vue-dropzone id="dropzone" 
@@ -30,8 +25,6 @@
                                     v-model="profile.profilePic">
                         </vue-dropzone>
                     </div>
-                </div>
-            </div>
         </div>
         <button class="profile-button" type="submit" >Add Profile</button>
     </form>
@@ -55,13 +48,12 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
                     lastName: '',
                     role: '',
                     startDate: '',
-                    //endDate: '',
                     profilePic: '',
                     
                     
                 },
                 dropzoneOptions: {
-                    url: `${process.env.CLOUDINARY_BASE}/image/upload` /*this came with dropzone example --> 'https://httpbin.org/post'*/,
+                    url: `https://api.cloudinary.com/v1_1/goshorn/image/upload` ,
                     thumbnailWidth: 150,
                     maxFilesize: 2.0,
                     acceptedFiles: ".jpg, .jpeg, .png, .gif"
@@ -112,5 +104,21 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
 </script>
 
 <style scoped>
+#profile-form{
+    width:90vw;
+    height:90vh;
+    color:white;
+    padding-top:50px;
+    }
+.profile-card{
+    border:1px solid black;
+    display: block;
+    max-width:450px;
+    margin:auto;
+}    
+#dropzone{
+    width:200px;
+    height:200px;
+}
 
 </style>

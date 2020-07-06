@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 	public class UserProfile {
 	
-	private long profileId;
+	private int profileId;
 	private String firstName;
 	private String lastName;
 	private String role;
@@ -38,7 +38,7 @@ import java.time.LocalDate;
 		return profileId;
 	}
 
-	public void setProfileId(long profileId) {
+	public void setProfileId(int profileId) {
 		this.profileId = profileId;
 	}
 

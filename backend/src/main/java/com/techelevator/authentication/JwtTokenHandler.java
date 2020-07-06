@@ -30,7 +30,7 @@ public class JwtTokenHandler {
     @Autowired
     private UserDao dao;
 
-    public String createToken(String email, String permission) {
+    public String createToken( String email,String permission) {
         Date now = new Date();
 
         // We will sign our JWT with our ApiKey secret
@@ -45,7 +45,7 @@ public class JwtTokenHandler {
 
         long expMillis = System.currentTimeMillis() + 21600000;
         Date exp = new Date(expMillis);
-        System.out.println("Token for user "+email + " expiration: " + exp);
+        System.out.println(" Token for user "+email + " expiration: " + exp);
         builder.setExpiration(exp);
 
         // Builds the JWT and serializes it to a compact, URL-safe string

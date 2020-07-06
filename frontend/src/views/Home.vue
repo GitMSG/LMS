@@ -14,8 +14,12 @@ export default {
   name: 'home',
   data() {
     return {
-     
+     email: auth.getUser().sub,
+          
     }
+  },
+  created(){
+   
   },
   methods: {
     logout(){
@@ -28,14 +32,14 @@ export default {
 
 <style >
 .home{
-    width:100vw;
-  height:100vh;
+    width:90vw;
+  height:90vh;
 }
 
 .home-header{
   font-size: 50px;
   font-weight:lighter;
-  color: #add8e6;
+  color: white;
   
 }
 

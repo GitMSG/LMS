@@ -6,6 +6,6 @@ public interface UserProfileDao {
 	
 	public void createUserProfile(UserProfile newProfile, String email);
 	
-	
+	public UserProfile getProfileById(int id);
 
 }
