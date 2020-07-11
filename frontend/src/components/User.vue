@@ -1,7 +1,6 @@
 <template>
-    <div id="userInfo">
-        <span>
         <form @submit.prevent="changeUserpermission" class="permission-form">
+         <button v-on:click="deleteUser" class="delete-button">Delete User</button>
                 <span class="permission-email">{{email}}</span>
                 <select v-model="user.permission" class="permission-select">
                     <option value="user" v-if="this.$props.currentpermission != 'user'">User</option>
@@ -9,8 +8,6 @@
                 </select>
             <button type="submit" class="permission-submit">Submit Change</button>
         </form>
-        </span>
-    </div>
 </template>
 
 <script>
@@ -32,6 +29,23 @@ export default {
         }
     },
     methods: {
+        deleteUser(){
+             fetch(`${process.env.VUE_APP_REMOTE_API}/api/deleteUser/${this.id}`, {
+            method: 'DELETE',
+            headers: {
+            Authorization: 'Bearer ' + auth.getToken(),
+            },
+            credentials: 'same-origin',
+            })
+            .then((response) => {
+            if(response.ok) {
+                    this.$router.push({name: 'editUserRoles'});
+                    this.$router.go();
+                    }
+            
+            })
+            .catch((err) => console.error(err));
+        },
         changeUserpermission(){
             fetch(`${process.env.VUE_APP_REMOTE_API}/api/changeUserPermission`, {
                 method: 'POST',
@@ -43,7 +57,8 @@ export default {
                 })
                 .then((response) => {
                     if(response.ok) {
-                        this.$router.push({name: 'confirmation', params: {confirmationObject: 'User'}});
+                         this.$router.push({name: 'editUserRoles'}); 
+                         this.$router.go();
                     }
                     // return response.json();
                 })

@@ -98,6 +98,12 @@ public class JdbcUserDao implements UserDao {
             return null;
         }
     }
+    @Override
+    public void deleteUser(int id) {
+    	String sql = "DELETE FROM user_profile WHERE profile_id = ?; "
+    					 + "DELETE FROM users WHERE id = ?";
+    	jdbcTemplate.update(sql, id,id);
+    }
 
 	@Override
 	public void changePermission(String email, String permission) {

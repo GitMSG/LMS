@@ -32,6 +32,15 @@
     	return allUsers;
     }
 ```
+
+```java
+ @RequestMapping(path = "/allProfiles", method = RequestMethod.GET)
+    public List<UserProfile> getProfiles(){
+    	List<UserProfile> allProfiles = userProfileDao.getAllProfiles();
+    	return allProfiles;
+    }
+```
+
 `@RequestMapping(path = "/userProfile/{id}", method = RequestMethod.GET)`  *Serches userProfiles for a specific user*
 
 `@RequestMapping(path = "/trainingByDate/{date}", method = RequestMethod.GET)`  *Serches all training by specified date*
@@ -40,8 +49,12 @@
 
 `@RequestMapping(path = "/makeUserInactive/{id}", method = RequestMethod.PUT)`  *Update users profile with end date*
 
-`@RequestMapping(path = "/deleteUser/{id}", method = RequestMethod.DELETE)`  *Delete a user*
-
+```java
+@RequestMapping(path = "/deleteUser/{id}", method = RequestMethod.DELETE)
+    public void deleteUser(@PathVariable int id) {
+    	userDao.deleteUser(id);
+    }
+```
 ----
 
 ## user ##

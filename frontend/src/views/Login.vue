@@ -7,9 +7,9 @@
       <div class="alert alert-danger" role="alert" v-if="invalidCredentials">
         Invalid email and password!
       </div>
-      <div class="alert alert-success" role="alert" v-if="this.$route.query.registration">
+     <!--  <div class="alert alert-success" role="alert" v-if="this.$route.query.registration">
         Thank you for registering, please sign in.
-      </div>
+      </div> -->
      
       <label for="email" class="label">Email</label>
       <input
@@ -31,7 +31,6 @@
         v-model="user.password"
         required
       />
-      <!-- <router-link :to="{ name: 'register' }" class="new-account-router">Need an account?</router-link> -->
       <button type="submit" class="login-submit">Sign In</button>
       
     </form>
@@ -78,7 +77,7 @@ export default {
               token = token.replace(/"/g, '');
             }
             auth.saveToken(token);
-            this.$router.push('/');
+            this.$router.push('/profile');
             this.$router.go();
           }
         })
@@ -94,7 +93,6 @@ export default {
   height:90vh;
 }
 #login {
-  
   min-width:415px;
   max-width:50%;
   display: flex;
@@ -125,7 +123,7 @@ input {
 .login-tag{
   
   font-weight:lighter;
-  color: #202124;
+  color: white;
   padding-top: 5px;
 }
 

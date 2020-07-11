@@ -1,32 +1,32 @@
 <template>
-    <div id="profile-form">
-    <h1>Create Your Profile</h1>
-    <form class="new-profile-form" @submit.prevent="createProfile">
-        <div class="profile-card">
+    <div id="training-form">
+    <h1>Add Training</h1>
+    <form class="new-training-form" @submit.prevent="createTraining">
+        <div class="training-card">
            
-                    <!-- <div class="profileInput"> -->
-                        <span class="label">First Name </span><input type="text" v-model="profile.firstName"><br/>
-                  <!--   </div>
-                    <div class="profileInput"> -->
-                        <span class="label">Last Name </span><input type="text" v-model="profile.lastName"><br/>
-                  <!--   </div>
-                    <div class="profileInput"> -->
-                        <span class="label">Role </span><input type="text" v-model="profile.role"><br/>
-                  <!--   </div>
-                    <div class="profileInput"> -->
-                        <span class="label">Start Date </span><input type="text" v-model="profile.startDate"><br/>
-                   <!--  </div> -->
+                        <span class="label">Name </span><input type="text" v-model="training.name"><br/>
+                  
+                        <span class="label">Provider </span><input type="text" v-model="training.provider"><br/>
+                  
+                        <span class="label">Topic/Description </span><input type="text" v-model="training.topic"><br/>
+                 
+                        <span class="label">Date </span><input type="date" v-model="training.date"><br/>
+
+                        <span class="label">Compliance </span><input type="checkbox" v-model="training.isCompliance" id="isCompliance"><br/>
+                  
+                        <span class="label">Hours</span><input  :bind="training.minutes" @input="handleInput($event.target.value)"><br/>
+                  
                     <div class="dropzone-div">
-                        <span class="profile-label">Profile Picture </span>
+                        <span class="training-label">Enter Image of Certificate </span>
                         <vue-dropzone id="dropzone" 
                                     :options="dropzoneOptions" 
                                     v-on:vdropzone-sending="addFormData" 
                                     @vdropzone-success="getSuccess" 
-                                    v-model="profile.profilePic">
+                                    v-model="training.proof">
                         </vue-dropzone>
                     </div>
         </div>
-        <button class="profile-button" type="submit" >Add Profile</button>
+        <button class="training-button" type="submit" >Add</button>
     </form>
 
     </div>
@@ -43,15 +43,16 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
         data() {
             return {
                 
-                profile: {
-                    firstName: '',
-                    lastName: '',
-                    role: '',
-                    startDate: '',
-                    profilePic: '',
-                    
-                    
+                training: {
+                    name: '',
+                    provider: '',
+                    topic: '',
+                    date: '',
+                    isCompliance: false,
+                    proof: '',
+                    minutes: null,
                 },
+                
                 dropzoneOptions: {
                     url: `https://api.cloudinary.com/v1_1/goshorn/image/upload` ,
                     thumbnailWidth: 150,
@@ -59,28 +60,32 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
                     acceptedFiles: ".jpg, .jpeg, .png, .gif"
                 },
                 post: {
-                    profilePic: '',
+                    proof: '',
                     
                 },
                              
             }
         },
         methods:{
-            createProfile() {
-               
-            fetch(`${process.env.VUE_APP_REMOTE_API}/api/createProfile`, {
+            handleInput(value){
+                this.training.minutes = value * 60;
+            },
+            createTraining() {
+              
+            fetch(`${process.env.VUE_APP_REMOTE_API}/api/addTraining`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: 'Bearer ' + auth.getToken(),     
                 },
-                body: JSON.stringify(this.profile)
+                body: JSON.stringify(this.training)
                       
                 })
                 .then((response) => {
                     if(response.ok) {
                        
                         this.$router.push({name: 'profile'/* , params: {confirmationObject: 'Brewery'} */});
+                        this.$router.go();
                     }
                     //return response.json();
                 })
@@ -93,7 +98,7 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
                 formData.append("tags", "vue-app");
             },
             getSuccess(file, response) {
-                this.profile.profilePic = response.secure_url;
+                this.training.proof = response.secure_url;
             }
         },
         created(){
@@ -104,14 +109,14 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
 </script>
 
 <style scoped>
-#profile-form{
+#training-form{
     
     height:80vh;
     color:white;
     padding:30px;
     /* font-family: 'roboto condensed'; */
     }
-.profile-card{
+.training-card{
     display: block;
     max-width:500px;
     margin:auto;
@@ -142,7 +147,7 @@ input{
 h1{
     font-weight:lighter;
 }
-.profile-button{
+.training-button{
     padding:5px;
     margin:5px;
 }

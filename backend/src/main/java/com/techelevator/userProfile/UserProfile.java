@@ -1,6 +1,7 @@
 package com.techelevator.userProfile;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 	public class UserProfile {
 	
@@ -8,16 +9,15 @@ import java.time.LocalDate;
 	private String firstName;
 	private String lastName;
 	private String role;
-	private String startDate;
-	private String endDate;
+	private Date startDate;
+	private Date endDate;
 	private String profilePic;
 	
 	public UserProfile() {
 		
 	}
-	public UserProfile( String firstName, String lastName, String role, String startDate, String endDate, String profilePic) {
+	public UserProfile( String firstName, String lastName, String role, Date startDate, Date endDate, String profilePic) {
 		super();
-	
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.role = role;
@@ -25,10 +25,7 @@ import java.time.LocalDate;
 		this.endDate =  endDate;
 		this.profilePic = profilePic;
 	}
-	public LocalDate makeDate(String date) {
-		LocalDate newDate = LocalDate.parse(date);
-		return newDate;
-	}
+	
 	@Override
 	public String toString() {
 		return "UserProfile [firstName=" + firstName + ", lastName=" + lastName + ", role=" + role + ", startDate="
@@ -66,23 +63,19 @@ import java.time.LocalDate;
 		this.role = role;
 	}
 
-	public String getStartDate() {
+	public Date getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(String startDate) {
+	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
 
-	public String getEndDate() {
-		if (endDate == "") {
-		return	 endDate = null;
-		}	else {
+	public Date getEndDate() {
 			return endDate;
-		}
 	}
 
-	public void setEndDate(String endDate) {
+	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
 

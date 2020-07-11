@@ -69,7 +69,12 @@ INSERT INTO user_profile (profile_id, firstname, lastname, role, start_date, end
 
 INSERT INTO training_cert_period (train_id, cert_period_id)
         VALUES ((SELECT train_id FROM training WHERE training.train_name='LEARNING HOW TO TEACH'), 1);
-
+        
+        
+   SELECT * FROM training 
+        JOIN training_cert_period ON training.train_id = training_cert_period.train_id
+        JOIN cert_period ON training_cert_period.cert_period_id = cert_period.cert_id
+    WHERE cert_period.profile_id = 1;
 
 ALTER TABLE user_profile
 ADD FOREIGN KEY(profile_id)
@@ -92,8 +97,20 @@ COMMIT;
 Delete from user_profile
 where profile_id = 2
 
+
+delete from user_profile
+where profile_id = 3;
+delete from users
+where id = 3;
+
+DELETE  FROM training_cert_period;
+DELETE  FROM training;
+
+
 update user_profile
-set profile_pic = 'https://res.cloudinary.com/goshorn/image/upload/v1593971293/lms_test/yskdldqgqnvu7jieywyr.jpg'
+--set profile_pic = 'https://res.cloudinary.com/goshorn/image/upload/v1593971293/lms_test/yskdldqgqnvu7jieywyr.jpg' --my image
+--set profile_pic = 'https://res.cloudinary.com/goshorn/image/upload/v1594063575/lms_test/lbwlhmexahogdgupwczw.jpg'-- bobs image
+--                  'https://res.cloudinary.com/goshorn/image/upload/v1594131446/lms_test/yxk4g9xnsmmxpeo7mxjo.jpg'-- bill's image
 
 
 

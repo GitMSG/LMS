@@ -10,26 +10,21 @@ import org.hibernate.validator.constraints.NotBlank;
 public class User {
     @NotBlank(message = "Email is required")
     private String email;
-
     private String permission;
     private long id;
 
     @NotBlank(message = "Password is required")
     private String password;
     private String confirmPassword;
+//    private boolean passwordMatching;
     
-    private String picture;
+//    private String picture;
 
-    public String getPicture() {
-		return picture;
-	}
-
-	public void setPicture(String picture) {
-		this.picture = picture;
-	}
-
-
-	private boolean passwordMatching;
+	/*
+	 * public String getPicture() { return picture; }
+	 * 
+	 * public void setPicture(String picture) { this.picture = picture; }
+	 */
 
     @AssertTrue(message = "Passwords must match")
     public boolean isPasswordMatching() {

@@ -29,7 +29,7 @@ export default {
 
 <style>
 body {
- 
+  
   text-align:center;
   margin:0;
   font-family: 'Roboto Condensed', sans-serif;
@@ -37,6 +37,7 @@ body {
 }
 .app {
   padding:20px;
+  height:100%;
 }
 
 

@@ -7,6 +7,7 @@ import Register from './views/Register.vue'
 import EditUserRoles from './views/EditUserRoles.vue'
 import ProfileForm from './views/ProfileForm.vue'
 import Profile from './views/Profile.vue'
+import AllProfiles from './views/AllProfiles.vue'
 
 Vue.use(Router)
 
@@ -34,6 +35,14 @@ const router = new Router({
       path: '/profile',
       name: 'profile',
       component: Profile,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/allProfiles',
+      name: 'allProfiles',
+      component: AllProfiles,
       meta: {
         requiresAuth: true
       }

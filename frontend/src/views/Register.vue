@@ -34,14 +34,14 @@
         v-model="user.confirmPassword"
         required
       />
-     <!--  <router-link :to="{ name: 'login' }" class="login-router">
-        Have an account?
-      </router-link> -->
       <button class="register-submit" type="submit">
         Create Account
       </button>
     </form>
     </div>
+     <div class="alert-success" role="alert" v-if="this.$route.query.registration">
+        Thank you for registering a user!! Register another one!!
+      </div>
   </div>
 </template>
 
@@ -71,7 +71,8 @@ export default {
       })
         .then((response) => {
           if (response.ok) {
-            this.$router.push({ path: '/login', query: { registration: 'success' } });
+            this.$router.push({ path: '/register', query: { registration: 'success' } });
+            this.$router.go();
           } else {
             this.registrationErrors = true;
           }
@@ -138,6 +139,10 @@ export default {
     background-color: white;
     border: 1px solid #336699;
     color:#336699;
+}
+.alert-success{
+  font-size:24px;
+  color:#1C9A2F;
 }
 
 </style>
