@@ -62,13 +62,13 @@ INSERT INTO training (train_name, train_provider, train_topic, train_date, is_co
         VALUES('LEARNING HOW TO TEACH', 'YMCA', 'We teach people how to teach, its very educational.', '2020-02-13',true, null, 90);
 
 INSERT INTO cert_period (profile_id, cert_start_date) 
-        VALUES ((SELECT id FROM users WHERE users.email ='matt.goshorn@techelevator.com'), '2019-10-01');
+        VALUES ((SELECT id FROM users WHERE users.email ='matt.goshorn@techelevator.com'), '2018-10-01');
 
 INSERT INTO user_profile (profile_id, firstname, lastname, role, start_date, end_date, profile_pic) 
         VALUES ((SELECT id FROM users WHERE email = 'matt.goshorn@techelevator.com' ),'Matt','Goshorn', 'Instructor', '2020-01-13', null, null);
 
 INSERT INTO training_cert_period (train_id, cert_period_id)
-        VALUES ((SELECT train_id FROM training WHERE training.train_name='LEARNING HOW TO TEACH'), 1);
+        VALUES ((SELECT train_id FROM training WHERE training.train_name='LEARNING HOW TO TEACH'), 5);
         
         
    SELECT * FROM training 
@@ -105,6 +105,7 @@ where id = 3;
 
 DELETE  FROM training_cert_period;
 DELETE  FROM training;
+DELETE  FROM cert_period;
 
 
 update user_profile

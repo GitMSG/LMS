@@ -27,7 +27,7 @@
                     </div>
         </div>
         <button class="training-button" type="submit" >Add</button>
-        <button class="cancel-button" v-on="close()" >Cancel</button>
+        <!-- <button class="cancel-button" v-on="close()" >Cancel</button> -->
     </form>
 
     </div>
@@ -71,9 +71,9 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
             handleInput(value){
                 this.training.minutes = value * 60;
             },
-            close(){
+           /*  close(){
                 this.$emit(this.formMode = false)
-            },
+            }, */
             createTraining() {
               
             fetch(`${process.env.VUE_APP_REMOTE_API}/api/addTraining`, {
@@ -87,7 +87,7 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
                 })
                 .then((response) => {
                     if(response.ok) {
-                       close()
+                      /*  close() */
                        // this.$router.push({name: 'profile'});
                         this.$router.go();
                     }

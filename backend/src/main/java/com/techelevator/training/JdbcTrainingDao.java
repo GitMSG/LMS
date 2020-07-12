@@ -27,7 +27,7 @@ public class JdbcTrainingDao implements TrainingDao {
 		LocalDate certStartDate =  new CertPeriod().getCertStart();
 		try {
 			LocalDate myCertDate = (LocalDate)myJdbcTemplate.queryForObject("SELECT cert_start_date FROM cert_period WHERE profile_id = '"+id+"'", LocalDate.class);
-			if(myCertDate != null) {
+			if(myCertDate != null && myCertDate != certStartDate) {
 				int certId = (int)myJdbcTemplate.queryForObject("SELECT cert_id FROM cert_period WHERE profile_id = '"+id+"'", int.class);
 				int sqlTrain= myJdbcTemplate.queryForObject( "INSERT INTO training " 
 						+ "(train_name, train_provider, train_topic, train_date, is_compliance, train_proof, minutes) "
