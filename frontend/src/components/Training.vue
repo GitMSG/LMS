@@ -3,15 +3,15 @@
     <h1>{{fName}}'s Training</h1>
     <ul class="training-list">
             <li v-for="aTrain in training" v-bind:key="aTrain.trainingId" class="training-item">
+            <div class="compliance-div" >
+                <h2 class="compliance" v-if="aTrain.isCompliance === true" >Compliance</h2>
+                <h2 class="elective" v-if="aTrain.isCompliance === false" >Elective</h2>
+            </div>
                <h2><span class="label">Training Name: </span><span class="var">{{aTrain.name}}</span></h2>
                <h2><span class="label">Training Provider: </span><span class="var">{{aTrain.provider}}</span></h2>
                <h2><span class="label">Training Date: </span><span class="var">{{aTrain.date}}</span></h2>
                <h2><span class="label">Training Time: </span><span class="var">{{aTrain.minutes/60}} hrs</span></h2>
                <h3><span class="label">Training Description: </span><span class="var">{{aTrain.topic}}</span></h3>
-               <div class="compliance-div" >
-                <h2 class="compliance" v-if="aTrain.isCompliance === true" >Compliance</h2>
-                <h2 class="elective" v-if="aTrain.isCompliance === false" >Elective</h2>
-               </div>
                <hr class="training-seperator" />
             </li>
         </ul> 
@@ -31,25 +31,27 @@ import auth from '@/auth.js'
                
             }
         },
-        created(){
+        mounted(){
             fetch(`${process.env.VUE_APP_REMOTE_API}/api/training`, {
                 method: 'GET',
                 headers: {
                 Authorization: 'Bearer ' + auth.getToken(),
-                },
+                    },
                 credentials: 'same-origin',
                 })
-                .then ((response) => {   
+            .then ((response) => {   
                     return response.json()
                     })  
-                .then ((theData) => {   
+            .then ((theData) => {   
                 this.training = theData; 
                 console.log(this.training)
                     })
                     .catch((err) => {
                     console.log(err);
-                    })
-        }
+            })
+            
+                
+            }
         
     }
 </script>

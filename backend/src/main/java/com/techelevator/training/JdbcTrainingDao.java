@@ -25,12 +25,10 @@ public class JdbcTrainingDao implements TrainingDao {
 	}
 	public void createTraining(Training newTraining, int id) {
 		LocalDate certStartDate =  new CertPeriod().getCertStart();
-		CertPeriod myCertPeriod = new CertPeriod();
 		try {
 			LocalDate myCertDate = (LocalDate)myJdbcTemplate.queryForObject("SELECT cert_start_date FROM cert_period WHERE profile_id = '"+id+"'", LocalDate.class);
 			if(myCertDate != null) {
 				int certId = (int)myJdbcTemplate.queryForObject("SELECT cert_id FROM cert_period WHERE profile_id = '"+id+"'", int.class);
-				
 				int sqlTrain= myJdbcTemplate.queryForObject( "INSERT INTO training " 
 						+ "(train_name, train_provider, train_topic, train_date, is_compliance, train_proof, minutes) "
 					    + "VALUES(?,?,?,?,?,?,?) RETURNING train_id", int.class, newTraining.getName(),newTraining.getProvider(),newTraining.getTopic()
@@ -40,7 +38,6 @@ public class JdbcTrainingDao implements TrainingDao {
 			}
 		} catch(EmptyResultDataAccessException e ) {
 			int certId = myJdbcTemplate.queryForObject( "INSERT INTO cert_period (profile_id, cert_start_date) VALUES('"+id+"', '"+certStartDate+"' ) RETURNING cert_id",int.class );
-			
 			int sqlTrain= myJdbcTemplate.queryForObject( "INSERT INTO training " 
 					+ "(train_name, train_provider, train_topic, train_date, is_compliance, train_proof, minutes) "
 				    + "VALUES(?,?,?,?,?,?,?) RETURNING train_id", int.class, newTraining.getName(),newTraining.getProvider(),newTraining.getTopic()

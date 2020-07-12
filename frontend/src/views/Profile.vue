@@ -5,6 +5,7 @@
             <h1> {{profile.firstName+" "+profile.lastName}} </h1>
             <h2><span class="label">Position</span>{{profile.role}}</h2>
             <h2><span class="label">Start Date</span>  {{profile.startDate}}</h2>
+            <h3>Compliance Total{{}}</h3>
             <button v-if="!this.formMode" 
                     v-on:click="toggleFormMode" 
                     class="form-button">Add Training</button>
@@ -47,10 +48,15 @@ import TrainingForm from "@/components/TrainingForm.vue"
                 if(!this.formMode){
                     this.formMode = true;
                 }
-            }
+                else if(this.formMode){
+                    this.formMode = false;
+                }
+            },
+           
+            
         },
-        created() {
-        fetch(`${process.env.VUE_APP_REMOTE_API}/api/profile`, {
+        mounted() {
+            fetch(`${process.env.VUE_APP_REMOTE_API}/api/profile`, {
                     method: 'GET',
                     headers: {
                     Authorization: 'Bearer ' + auth.getToken(),
@@ -68,10 +74,9 @@ import TrainingForm from "@/components/TrainingForm.vue"
                     })
                     .catch((err) => {
                     console.log(err);
-                    })
-       
-            
-    }
+            })
+             
+        },
         
     }
 </script>

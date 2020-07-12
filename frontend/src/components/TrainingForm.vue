@@ -27,6 +27,7 @@
                     </div>
         </div>
         <button class="training-button" type="submit" >Add</button>
+        <button class="cancel-button" v-on="close()" >Cancel</button>
     </form>
 
     </div>
@@ -70,6 +71,9 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
             handleInput(value){
                 this.training.minutes = value * 60;
             },
+            close(){
+                this.$emit(this.formMode = false)
+            },
             createTraining() {
               
             fetch(`${process.env.VUE_APP_REMOTE_API}/api/addTraining`, {
@@ -83,8 +87,8 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
                 })
                 .then((response) => {
                     if(response.ok) {
-                       
-                        this.$router.push({name: 'profile'/* , params: {confirmationObject: 'Brewery'} */});
+                       close()
+                       // this.$router.push({name: 'profile'});
                         this.$router.go();
                     }
                     //return response.json();
@@ -101,9 +105,7 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
                 this.training.proof = response.secure_url;
             }
         },
-        created(){
-           
-        }
+        
         
     }
 </script>
