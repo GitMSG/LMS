@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
-import * as Cloudinary from 'cloudinary-vue';
+import * as Cloudinary from 'cloudinary-vue'
 
 Vue.config.productionTip = false
 

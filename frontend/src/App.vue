@@ -1,5 +1,5 @@
 <template>
-  <body>
+  <body :style="image">
   <nav-bar v-if="aUser != null" />
   <admin-nav v-if="this.userRole == 'admin'" />
   <div class='app' > 
@@ -20,7 +20,14 @@ export default {
   data() {
     return {
         aUser: auth.getUser().sub,
-        userRole: auth.getUser().rol
+        userRole: auth.getUser().rol,
+        image: {
+              background: `url(${require('@/assets/TEjust.png')})` ,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              //height: "100%", 
+              maxWidth: "100%"
+            }
     }
   }
   
@@ -32,12 +39,15 @@ body {
   
   text-align:center;
   margin:0;
-  font-family: 'Roboto Condensed', sans-serif;
-  background: radial-gradient(circle, rgba(36,104,143,1) 20%, rgba(37,38,38,1) 100%);
+  font-family: 'Roboto Condensed', sans-serif; 
+  /* background: radial-gradient(circle, rgba(36,104,143,1) 20%, rgba(37,38,38,1) 100%); */
+  background: linear-gradient(180deg, rgba(184,187,189,1) 0%, rgba(86,89,86,1) 98%);
+
+
 }
 .app {
   padding:20px;
-  height:100%;
+  height:100vh;
 }
 
 

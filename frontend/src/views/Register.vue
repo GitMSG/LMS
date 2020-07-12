@@ -1,6 +1,6 @@
 <template>
   <div id="register" class="register-text-center">
-   <h1 class="register-tag">Create Account</h1>
+  <!--  <h1 class="register-tag">Create Account</h1> -->
    <div class="form-register">
     <form  @submit.prevent="register">
       <div class="alert alert-danger" role="alert" v-if="registrationErrors">
@@ -87,8 +87,8 @@ export default {
 <style>
 
 #register{
-  width:100vw;
-  height:100vh;
+  height:99vh;
+  display:flex;
 }
 .register-form-control{
   align-content:center;
@@ -99,23 +99,22 @@ export default {
   text-align:center;
 }
 .form-register{
-   min-width:450px;
-  max-width:50%;
+  min-width:450px;
+  max-width:35%;
   display: flex;
   justify-content:center;
   align-items:center;
   margin:auto;
   color:white;
-  background-color:#202124;
+  background-color:rgba(32, 33, 36, .70 );
   border-radius:4px;
   box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14),0 1px 10px 0 rgba(0, 0, 0, 0.12);
   text-align:right;
   padding:20px;
 }
-.register-tag{
-  font-weight:lighter;
-  color: #202124;
-  padding-top: 5px;
+form{
+ max-width:50%;
+ text-align:center;
 }
 .label {
   padding:20px;

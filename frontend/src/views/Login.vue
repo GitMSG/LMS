@@ -1,6 +1,6 @@
 <template>
-<div id="login-page" >
-<h1 class="login-tag">Sign In</h1>
+<div id="login-page" :style="image" >
+<!-- <h1 class="login-tag">Sign In</h1> -->
   <div id="login" class="login-text-center">
     <form @submit.prevent="login">
       
@@ -50,8 +50,14 @@ export default {
         email: '',
         password: '',
       },
+      image: {
+              background: `url(${require('@/assets/TEjust.png')}) ` ,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              //maxWidth: "100%"
+            },
       invalidCredentials: false,
-    };
+    }
   },
   methods: {
     login() {
@@ -89,23 +95,24 @@ export default {
 
 <style>
 #login-page{
-   width:90vw;
-  height:90vh;
+  height:99vh;
+  display:flex;
 }
 #login {
   min-width:415px;
-  max-width:50%;
+  max-width:35%;
   display: flex;
   justify-content:center;
   align-items:center;
   margin:auto;
   color:white;
-  background-color:#202124;
+  background-color:rgba(32, 33, 36, .6 );
   border-radius:4px;
   box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14),0 1px 10px 0 rgba(0, 0, 0, 0.12);
   text-align:right;
   padding:20px;
 }
+
 .label {
   padding:20px;
 }
