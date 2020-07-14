@@ -1,5 +1,6 @@
 <template>
     <div id="profile" >
+        <div id="detail-container">
         <div id="profile-detail">
             <div id="image-div" >
                 <img :src="profile.profilePic" class="profilePic" height="200px"/>
@@ -12,13 +13,15 @@
             <div class="time-div" >
                 <p>Compliance Total:<span class="compliance" > {{compSum/60}}</span></p>
                 <p>Elective Total:    <span class="elective" >    {{elecSum/60}}</span></p>
-                <p>Combined:    <span class="total" >    {{elecSum/60 + compSum/60}}</span></p>
+                <p>Total:    <span class="total" >    {{elecSum/60 + compSum/60}}</span></p>
             </div>
         </div>
             <button v-if="!this.formMode" 
                     v-on:click="toggleFormMode" 
-                    class="form-button">Add Training</button>
-            <hr/>
+                    class="form-button">Add Training
+            </button>
+            </div>
+           
       
     <div id="training">
           <training v-if="!this.formMode" :training="trainingArr" :firstName="profile.firstName" />
@@ -126,18 +129,18 @@ import TrainingForm from "@/components/TrainingForm.vue"
 
 <style scoped>
 #profile{
-    height: 100%;
-    padding:0px 5px;
-    color:rgba(37,38,38,1);
+    height: 100vh;
+    padding:20px;
+    border-radius:3px;
+    color:silver;
 }
-#image-div{
-    margin:20px;
-
-    float:left;
+#detail-container{
+    background-color:rgba(233, 235, 241, 0.9);
+    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14),0 1px 10px 0 rgba(0, 0, 0, 0.12);
 }
 #profile-detail{
     display: flex;
-    justify-content:space-between;
+    justify-content:space-around;
     padding:5px 0px;
 }
 .profilePic{
@@ -146,6 +149,8 @@ import TrainingForm from "@/components/TrainingForm.vue"
     border: 1px solid #1c9a2f;
 }
 #profile-text{
+    background-color:rgba(32, 33, 36, .80 );
+    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14),0 1px 10px 0 rgba(0, 0, 0, 0.12);
     align-self:center;
 }
 .time-div{
@@ -153,15 +158,26 @@ import TrainingForm from "@/components/TrainingForm.vue"
     box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14),0 1px 10px 0 rgba(0, 0, 0, 0.12);
     align-self:center;
     text-align:right;
-    margin:0px 10px;
     padding:10px;
 }
 p{
     color:silver;
+    
+}
+.form-button{
+  background-color: rgba(36,104,143,1);
+  color:white;
+  padding: 5px 20px;
+  text-decoration: none;
+  font-size: 16px;
+  border-radius: 4px;
+  border:none;
+  margin:10px;
+  cursor:pointer
 }
 .label{
     font-weight:lighter;
-    
 }
+
 
 </style>

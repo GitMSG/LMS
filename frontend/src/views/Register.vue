@@ -1,8 +1,12 @@
 <template>
   <div id="register" class="register-text-center">
   <!--  <h1 class="register-tag">Create Account</h1> -->
+      
    <div class="form-register">
     <form  @submit.prevent="register">
+      <div class="alert-success" role="alert" v-if="this.$route.query.registration">
+        Success!! 
+      </div>
       <div class="alert alert-danger" role="alert" v-if="registrationErrors">
         There were problems registering this user.
       </div>
@@ -38,10 +42,9 @@
         Create Account
       </button>
     </form>
+    
     </div>
-     <div class="alert-success" role="alert" v-if="this.$route.query.registration">
-        Thank you for registering a user!! Register another one!!
-      </div>
+    
   </div>
 </template>
 
@@ -89,6 +92,7 @@ export default {
 #register{
   height:99vh;
   display:flex;
+  flex-direction: column;
 }
 .register-form-control{
   align-content:center;

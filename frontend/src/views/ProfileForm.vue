@@ -1,7 +1,8 @@
 <template>
     <div id="profile-form">
-    <h1>Create Your Profile</h1>
+    
     <form class="new-profile-form" @submit.prevent="createProfile">
+        <h1>Create Your Profile</h1>
         <div class="profile-card">
            
                     <!-- <div class="profileInput"> -->
@@ -14,7 +15,7 @@
                         <span class="label">Role </span><input type="text" v-model="profile.role"><br/>
                   <!--   </div>
                     <div class="profileInput"> -->
-                        <span class="label">Start Date </span><input type="text" v-model="profile.startDate"><br/>
+                        <span class="label">Start Date </span><input type="date" v-model="profile.startDate"><br/>
                    <!--  </div> -->
                     <div class="dropzone-div">
                         <span class="profile-label">Profile Picture </span>
@@ -104,17 +105,25 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
 </script>
 
 <style scoped>
-#profile-form{
-    
-    height:80vh;
+.new-profile-form{
+    margin:auto;
+    height:100vh;
     color:white;
     padding:30px;
-    /* font-family: 'roboto condensed'; */
+   
     }
-.profile-card{
-    display: block;
-    max-width:500px;
+#profile-form{
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
     margin:auto;
+
+}
+.profile-card{
+    margin:auto;
+    max-width:500px;
+    background-color:rgba(32, 33, 36, .7 );
+    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14),0 1px 10px 0 rgba(0, 0, 0, 0.12);
     text-align:right;
 }
 .dropzone-div{

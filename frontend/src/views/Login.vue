@@ -2,6 +2,7 @@
 <div id="login-page" :style="image" >
 
   <div id="login" class="login-text-center">
+    
     <form @submit.prevent="login">
       
       <div class="alert alert-danger" role="alert" v-if="invalidCredentials">
@@ -47,10 +48,10 @@ export default {
         password: '',
       },
       image: {
-              background: `url(${require('@/assets/TEjust.png')}) no-repeat` ,
-              backgroundSize: "fit",
+              background: `url(${require('@/assets/TE_LMS.png')}) no-repeat` ,
+              backgroundSize: "cover",
               backgroundPosition: "center",
-             // backgroundOpacity:.5,
+            
             },
       invalidCredentials: false,
     }

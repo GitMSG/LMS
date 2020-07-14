@@ -109,7 +109,8 @@ DELETE  FROM cert_period;
 
 
 update user_profile
---set profile_pic = 'https://res.cloudinary.com/goshorn/image/upload/v1593971293/lms_test/yskdldqgqnvu7jieywyr.jpg' --my image
+set profile_pic = 'https://res.cloudinary.com/goshorn/image/upload/v1593971293/lms_test/yskdldqgqnvu7jieywyr.jpg' --my image
+where profile_id = 1;
 --set profile_pic = 'https://res.cloudinary.com/goshorn/image/upload/v1594063575/lms_test/lbwlhmexahogdgupwczw.jpg'-- bobs image
 --                  'https://res.cloudinary.com/goshorn/image/upload/v1594131446/lms_test/yxk4g9xnsmmxpeo7mxjo.jpg'-- bill's image
 

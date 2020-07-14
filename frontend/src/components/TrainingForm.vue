@@ -111,18 +111,24 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
 </script>
 
 <style scoped>
-#training-form{
+.new-training-form{
+     margin:auto;
     
-    height:80vh;
     color:white;
     padding:30px;
-    /* font-family: 'roboto condensed'; */
+}
+#training-form{
+    
+    color:white;
+    padding:30px;
     }
 .training-card{
     display: block;
     max-width:500px;
     margin:auto;
     text-align:right;
+    background-color:rgba(32, 33, 36, .7 );
+    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14),0 1px 10px 0 rgba(0, 0, 0, 0.12);
 }
 .dropzone-div{
     text-align:center;

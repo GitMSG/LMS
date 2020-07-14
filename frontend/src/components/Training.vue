@@ -58,13 +58,16 @@
 }
 .compliance{
     color:#1C9A2F;
+    font-size: 20px;
 }
 .elective{
     color:#CB9908;
+    font-size: 20px;
   
 }
 .total{
-    color:#B53A0F
+    color:#1b86c4;
+    font-size: 20px;
 }
 .compliance-div{
     text-align:center;
@@ -72,7 +75,9 @@
     margin:10px;
     padding:10px;
 }
-
+ul{
+    padding:0;
+}
 h2{
     margin:10px;
 }

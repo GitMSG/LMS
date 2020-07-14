@@ -23,17 +23,22 @@ import auth from '@/auth.js'
 #admin-nav{
     display:flex;
     height:50px;
-    background:none;
+    background:rgba(32,133,47,1);
     border-bottom: 2px solid rgba(32,133,47,1);
-    border-radius: 4px;
+    
     /* background: linear-gradient(0deg, rgba(31,66,34,1) 0%, rgba(32,133,47,1) 98%); */
     
     box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14),0 1px 10px 0 rgba(0, 0, 0, 0.12);
 }
 .admin-item{
     color: white;
+    font-weight: lighter;
     padding: 14px 16px;
     text-decoration: none;
+}
+.admin-item:hover{
+    font-weight:bolder;
+    
 }
 
 </style>
