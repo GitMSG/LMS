@@ -1,16 +1,12 @@
 <template>
 <div id="login-page" :style="image" >
-<!-- <h1 class="login-tag">Sign In</h1> -->
+
   <div id="login" class="login-text-center">
     <form @submit.prevent="login">
       
       <div class="alert alert-danger" role="alert" v-if="invalidCredentials">
         Invalid email and password!
-      </div>
-     <!--  <div class="alert alert-success" role="alert" v-if="this.$route.query.registration">
-        Thank you for registering, please sign in.
-      </div> -->
-     
+      </div>     
       <label for="email" class="label">Email</label>
       <input
         type="text"
@@ -51,10 +47,10 @@ export default {
         password: '',
       },
       image: {
-              background: `url(${require('@/assets/TEjust.png')}) ` ,
-              backgroundSize: "cover",
+              background: `url(${require('@/assets/TEjust.png')}) no-repeat` ,
+              backgroundSize: "fit",
               backgroundPosition: "center",
-              //maxWidth: "100%"
+             // backgroundOpacity:.5,
             },
       invalidCredentials: false,
     }
@@ -94,8 +90,9 @@ export default {
 </script>
 
 <style>
+
 #login-page{
-  height:99vh;
+  height:100vh;
   display:flex;
 }
 #login {
@@ -106,7 +103,7 @@ export default {
   align-items:center;
   margin:auto;
   color:white;
-  background-color:rgba(32, 33, 36, .6 );
+  background-color:rgba(32, 33, 36, .8 );
   border-radius:4px;
   box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14),0 1px 10px 0 rgba(0, 0, 0, 0.12);
   text-align:right;

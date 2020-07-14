@@ -55,8 +55,7 @@ import auth from "@/auth.js"
 
 <style scoped>
 #profile{
-   
-    height:85vh;
+    height:100%;
     padding:0px 10px;
     color:white;
 }
@@ -74,9 +73,9 @@ import auth from "@/auth.js"
 .list{
     display:flex;
     justify-content:space-evenly;
-    margin:20px;
+    margin:0px 20px 20px 20px;
     padding:10px;
-    background-color:rgba(32, 33, 36, .5 );
+    background-color:rgba(32, 33, 36, .9 );
     box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14),0 1px 10px 0 rgba(0, 0, 0, 0.12);
     border: 1px solid #1C9A2F;
     border-radius:3px;

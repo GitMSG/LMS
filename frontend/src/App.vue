@@ -22,11 +22,10 @@ export default {
         aUser: auth.getUser().sub,
         userRole: auth.getUser().rol,
         image: {
-              background: `url(${require('@/assets/TEjust.png')})` ,
+              background: `url(${require('@/assets/TEjust.png')})no-repeat` ,
               backgroundSize: "cover",
               backgroundPosition: "center",
-              //height: "100%", 
-              maxWidth: "100%"
+              
             }
     }
   }
@@ -41,13 +40,14 @@ body {
   margin:0;
   font-family: 'Roboto Condensed', sans-serif; 
   /* background: radial-gradient(circle, rgba(36,104,143,1) 20%, rgba(37,38,38,1) 100%); */
-  background: linear-gradient(180deg, rgba(184,187,189,1) 0%, rgba(86,89,86,1) 98%);
+ /*  background: linear-gradient(180deg, rgba(184,187,189,1) 0%, rgba(86,89,86,1) 98%); */
+  background: linear-gradient(0deg, rgba(37,85,112,1) 20%, rgba(70,74,74,1) 100%);
 
 
 }
 .app {
-  padding:20px;
-  height:100vh;
+  /* padding:20px; */
+  
 }
 
 

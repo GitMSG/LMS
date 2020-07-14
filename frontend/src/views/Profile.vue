@@ -1,5 +1,5 @@
 <template>
-    <div id="profile">
+    <div id="profile" >
         <div id="profile-detail">
             <div id="image-div" >
                 <img :src="profile.profilePic" class="profilePic" height="200px"/>
@@ -50,7 +50,8 @@ import TrainingForm from "@/components/TrainingForm.vue"
                 },
                 trainingArr:[],
                 compSum: 0,
-                elecSum: 0
+                elecSum: 0,
+
            }
 
         },
@@ -125,11 +126,13 @@ import TrainingForm from "@/components/TrainingForm.vue"
 
 <style scoped>
 #profile{
+    height: 100%;
     padding:0px 5px;
     color:rgba(37,38,38,1);
 }
 #image-div{
-    margin-top:20px;
+    margin:20px;
+
     float:left;
 }
 #profile-detail{
@@ -140,7 +143,7 @@ import TrainingForm from "@/components/TrainingForm.vue"
 .profilePic{
     float:left;
     border-radius:50%;
-    border: 1px solid #1C9A2F;
+    border: 1px solid #1c9a2f;
 }
 #profile-text{
     align-self:center;
@@ -150,6 +153,7 @@ import TrainingForm from "@/components/TrainingForm.vue"
     box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14),0 1px 10px 0 rgba(0, 0, 0, 0.12);
     align-self:center;
     text-align:right;
+    margin:0px 10px;
     padding:10px;
 }
 p{

@@ -1,6 +1,6 @@
 <template>
     <div>
-   <!--  <h1>{{firstName}}'s Training</h1> -->
+  
     <ul class="training-list">
             <li v-for="aTrain in training" v-bind:key="aTrain.trainingId" class="training-item">
             <div class="compliance-div" >
@@ -27,7 +27,6 @@
         },
         data(){
             return{
-                //training: [],
                
             }
         },
@@ -36,9 +35,7 @@
 </script>
 
 <style>
-.training-list{
-   
-}
+
 .training-item{
     background-color:rgba(32, 33, 36, .80 );
     border-radius:4px;
@@ -75,9 +72,7 @@
     margin:10px;
     padding:10px;
 }
-.training-seperator{
-   width:75%;
-}
+
 h2{
     margin:10px;
 }
