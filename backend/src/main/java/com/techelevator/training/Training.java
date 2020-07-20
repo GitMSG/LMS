@@ -12,12 +12,13 @@ public class Training {
 	private boolean isCompliance;
 	private String proof;
 	private int minutes;
+	private boolean approved;
 	
 	public Training() {
 		
 	}
 	
-	public Training(String name, String provider,String topic, Date date, boolean isCompliance,String proof, int minutes){
+	public Training(String name, String provider,String topic, Date date, boolean isCompliance,String proof, int minutes, boolean approved){
 		super();
 		this.name=name;
 		this.provider=provider;
@@ -26,6 +27,7 @@ public class Training {
 		this.isCompliance=isCompliance;
 		this.proof=proof;
 		this.minutes=minutes;
+		this.approved=approved;
 	}
 	
 
@@ -98,6 +100,14 @@ public class Training {
 
 	public void setMinutes(int minutes) {
 		this.minutes = minutes;
+	}
+
+	public boolean getIsApproved() {
+		return approved;
+	}
+
+	public void setApproved(boolean approved) {
+		this.approved = approved;
 	}
 	
 	

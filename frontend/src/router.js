@@ -8,6 +8,7 @@ import EditUserRoles from './views/EditUserRoles.vue'
 import ProfileForm from './views/ProfileForm.vue'
 import Profile from './views/Profile.vue'
 import AllProfiles from './views/AllProfiles.vue'
+import UnApprovedList from './views/UnApprovedList.vue'
 
 Vue.use(Router)
 
@@ -35,6 +36,14 @@ const router = new Router({
       path: '/profile',
       name: 'profile',
       component: Profile,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/unapprovedlist',
+      name: 'unApprovedList',
+      component: UnApprovedList,
       meta: {
         requiresAuth: true
       }

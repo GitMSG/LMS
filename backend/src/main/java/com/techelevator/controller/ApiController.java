@@ -8,6 +8,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -53,11 +54,11 @@ public class ApiController {
       @RequestMapping(path = "/createProfile", method = RequestMethod.POST) 
       public void addUserProfile(@RequestBody UserProfile aUserProfile) {
     	  String email = authProvider.getCurrentUser().getEmail();
-			UserProfile newProfile = new UserProfile( 	aUserProfile.getFirstName(),aUserProfile.getLastName()
-																				   ,aUserProfile.getRole(),aUserProfile.getStartDate()
-																				   ,aUserProfile.getEndDate(),aUserProfile.getProfilePic()
-	        		   															); 
-        userProfileDao.createUserProfile( newProfile , email );   
+//			UserProfile newProfile = new UserProfile( 	aUserProfile.getFirstName(),aUserProfile.getLastName()
+//																				   ,aUserProfile.getRole(),aUserProfile.getStartDate()
+//																				   ,aUserProfile.getEndDate(),aUserProfile.getProfilePic()
+//	        		   															); 
+        userProfileDao.createUserProfile( aUserProfile , email );   
 	  }
       
       @RequestMapping(path = "/profile", method = RequestMethod.GET)
@@ -84,9 +85,8 @@ public class ApiController {
     @RequestMapping(path = "/addTraining", method = RequestMethod.POST) 
     public void addTraining(@RequestBody Training newTraining) {
   	  int id = (int) authProvider.getCurrentUser().getId();
-			Training aTraining = new Training( 	newTraining.getName(),newTraining.getProvider(),newTraining.getTopic()
-							,newTraining.getDate(),newTraining.getIsCompliance(),newTraining.getProof(),newTraining.getMinutes() ); 
-			trainingDao.createTraining( newTraining , id );   
+  	  String permission = authProvider.getCurrentUser().getPermission();
+			trainingDao.createTraining( newTraining , id, permission );   
 	  }
     
     @RequestMapping(path = "/training", method = RequestMethod.GET)
@@ -94,6 +94,18 @@ public class ApiController {
     	 int id = (int) authProvider.getCurrentUser().getId();
     	List<Training> usersTraining = trainingDao.getAUsersTraining(id);
     	return usersTraining;
+    }
+    
+    @RequestMapping(path = "/needApproval", method = RequestMethod.GET)
+    public List<Training> getUnApproved() throws UnauthorizedException {
+    	String permission = authProvider.getCurrentUser().getPermission();
+    	if(permission.equals("admin")) {
+    		
+    		List<Training> unApprovedList = trainingDao.getUnApproved();	
+    		return unApprovedList;
+    	}else{
+    		throw new UnauthorizedException();
+    	}
     }
     
     @RequestMapping(path = "/users", method = RequestMethod.GET)

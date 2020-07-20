@@ -69,12 +69,12 @@ import TrainingForm from "@/components/TrainingForm.vue"
                let compTimeArr= []
                let elecTimeArr= []
                  arr.filter( (o)=>{
-                  if(o.isCompliance === true){
+                  if(o.isCompliance === true && o.isApproved === true){
                     compTimeArr.push(o.minutes)   
                        this.compSum = compTimeArr.reduce( (tot, val)=>{
                         return tot+val
                     },0)
-                  } else{
+                  } else if(o.isApproved === true){
                        elecTimeArr.push(o.minutes)   
                        this.elecSum = elecTimeArr.reduce( (tot, val)=>{
                         return tot+val

@@ -16,6 +16,15 @@ CREATE TABLE users(
     CONSTRAINT pk_users_id PRIMARY KEY (id)
 );
 
+CREATE TABLE campus(
+    campus_id serial,
+    short_name varchar(64) NOT NULL,
+    city varchar(64) NOT NULL,
+    state varchar(64) NOT NULL,
+    cert_length integer NOT NULL,
+    CONSTRAINT pk_campus_campus_id PRIMARY KEY (campus_id)
+);
+
 CREATE TABLE user_profile(
     profile_id integer NOT NULL,
     firstname varchar(32) NOT NULL,
@@ -24,6 +33,7 @@ CREATE TABLE user_profile(
     start_date date NOT NULL,
     end_date date,
     profile_pic varchar(255),
+    campus_id integer NOT NULL,
     CONSTRAINT uq_user_profile_profile_id UNIQUE (profile_id)
 );
 
@@ -36,6 +46,7 @@ CREATE TABLE training(
     is_compliance boolean NOT NULL,
     train_proof varchar(255),
     minutes integer NOT NULL,
+    approved boolean NOT NULL,
     CONSTRAINT pk_training_train_id PRIMARY KEY (train_id)
 );
 
@@ -58,27 +69,45 @@ INSERT INTO users (email, password, salt, permission)
         VALUES ('matt.goshorn@techelevator.com','FjZDm+sndmsdEDwNtfr6NA==',
                 'kidcasB0te7i0jK0fmRIGHSm0mYhdLTaiGkEAiEvLp7dAEHWnuT8n/5bd2V/mqjstQ198iImm1xCmEFu+BHyOz1Mf7vm4LILcrr17y7Ws40Xyx4FOCt8jD03G+jEafpuVJnPiDmaZQXJEpEfekGOvhKGOCtBnT5uatjKEuVWuDA=','admin');
 
-INSERT INTO training (train_name, train_provider, train_topic, train_date, is_compliance, train_proof, minutes) 
-        VALUES('LEARNING HOW TO TEACH', 'YMCA', 'We teach people how to teach, its very educational.', '2020-02-13',true, null, 90);
+INSERT INTO training (train_name, train_provider, train_topic, train_date, is_compliance, train_proof, minutes, approved) 
+        VALUES('LEARNING HOW TO TEACH', 'YMCA', 'We teach people how to teach, its very educational.', '2020-02-13',true, null, 90, true);
+        
+INSERT INTO campus (short_name, city, state, cert_length)
+        VALUES('CLE', 'Cleveland', 'Ohio', 2);
 
 INSERT INTO cert_period (profile_id, cert_start_date) 
         VALUES ((SELECT id FROM users WHERE users.email ='matt.goshorn@techelevator.com'), '2018-10-01');
 
-INSERT INTO user_profile (profile_id, firstname, lastname, role, start_date, end_date, profile_pic) 
-        VALUES ((SELECT id FROM users WHERE email = 'matt.goshorn@techelevator.com' ),'Matt','Goshorn', 'Instructor', '2020-01-13', null, null);
+INSERT INTO user_profile (profile_id, firstname, lastname, role, start_date, end_date, profile_pic,campus_id) 
+        VALUES ((SELECT id FROM users WHERE email = 'matt.goshorn@techelevator.com' ),'Matt','Goshorn', 'Instructor', '2020-01-13', null, null,
+                (SELECT campus_id FROM campus WHERE campus.short_name = 'CLE'));
 
 INSERT INTO training_cert_period (train_id, cert_period_id)
-        VALUES ((SELECT train_id FROM training WHERE training.train_name='LEARNING HOW TO TEACH'), 5);
+        VALUES ((SELECT train_id FROM training WHERE training.train_name='LEARNING HOW TO TEACH'), 1);
         
         
-   SELECT * FROM training 
+   SELECT training.*, user_profile.firstname, user_profile.lastname, user_profile.profile_pic
+   FROM training
         JOIN training_cert_period ON training.train_id = training_cert_period.train_id
         JOIN cert_period ON training_cert_period.cert_period_id = cert_period.cert_id
-    WHERE cert_period.profile_id = 1;
+        JOIN user_profile ON cert_period.profile_id = user_profile.profile_id
+        JOIN campus ON user_profile.campus_id = campus.campus_id
+    WHERE training.approved = false AND campus.campus_id = 1;
+    
+  ALTER TABLE campus
+  ADD COLUMN cert_length integer NOT NULL DEFAULT 2;
+  
+  UPDATE campus
+  SET cert_length = 2
+  WHERE city = 'Cleveland';
 
 ALTER TABLE user_profile
 ADD FOREIGN KEY(profile_id)
 REFERENCES users(id);
+
+ALTER TABLE user_profile
+ADD FOREIGN KEY(campus_id)
+REFERENCES campus(campus_id);
 
 ALTER TABLE cert_period
 ADD FOREIGN KEY(profile_id)
