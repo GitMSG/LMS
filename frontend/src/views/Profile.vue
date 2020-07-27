@@ -7,6 +7,7 @@
             </div>
             <div id="profile-text" >
                 <h1> {{profile.firstName+" "+profile.lastName}} </h1>
+                <h2><span class="label">Location</span>{{profile.campusShortCode}}</h2>
                 <h2><span class="label">Position</span>{{profile.role}}</h2>
                 <h2><span class="label">Start Date</span>  {{profile.startDate}}</h2>
             </div>
@@ -47,6 +48,7 @@ import TrainingForm from "@/components/TrainingForm.vue"
                      profileId: '',
                      firstName: '',
                      lastName: '',
+                     campusShortCode: '',
                      role: '',
                      startDate: '',
                      profilePic: '',

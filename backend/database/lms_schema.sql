@@ -6,6 +6,7 @@ DROP TABLE IF EXISTS user_profile               cascade;
 DROP TABLE IF EXISTS training                   cascade;
 DROP TABLE IF EXISTS cert_period                cascade;
 DROP TABLE IF EXISTS training_cert_period       cascade;
+DROP TABLE IF EXISTS campus                     cascade;
 
 CREATE TABLE users(
     id serial ,
@@ -17,12 +18,11 @@ CREATE TABLE users(
 );
 
 CREATE TABLE campus(
-    campus_id serial,
-    short_name varchar(64) NOT NULL,
+    short_code varchar(64) NOT NULL,
     city varchar(64) NOT NULL,
     state varchar(64) NOT NULL,
     cert_length integer NOT NULL,
-    CONSTRAINT pk_campus_campus_id PRIMARY KEY (campus_id)
+    CONSTRAINT pk_campus_short_code PRIMARY KEY (short_code)
 );
 
 CREATE TABLE user_profile(
@@ -33,7 +33,7 @@ CREATE TABLE user_profile(
     start_date date NOT NULL,
     end_date date,
     profile_pic varchar(255),
-    campus_id integer NOT NULL,
+    campus_short_code varchar(64) NOT NULL,
     CONSTRAINT uq_user_profile_profile_id UNIQUE (profile_id)
 );
 
@@ -72,15 +72,14 @@ INSERT INTO users (email, password, salt, permission)
 INSERT INTO training (train_name, train_provider, train_topic, train_date, is_compliance, train_proof, minutes, approved) 
         VALUES('LEARNING HOW TO TEACH', 'YMCA', 'We teach people how to teach, its very educational.', '2020-02-13',true, null, 90, true);
         
-INSERT INTO campus (short_name, city, state, cert_length)
+INSERT INTO campus (short_code, city, state, cert_length)
         VALUES('CLE', 'Cleveland', 'Ohio', 2);
 
 INSERT INTO cert_period (profile_id, cert_start_date) 
         VALUES ((SELECT id FROM users WHERE users.email ='matt.goshorn@techelevator.com'), '2018-10-01');
 
-INSERT INTO user_profile (profile_id, firstname, lastname, role, start_date, end_date, profile_pic,campus_id) 
-        VALUES ((SELECT id FROM users WHERE email = 'matt.goshorn@techelevator.com' ),'Matt','Goshorn', 'Instructor', '2020-01-13', null, null,
-                (SELECT campus_id FROM campus WHERE campus.short_name = 'CLE'));
+INSERT INTO user_profile (profile_id, firstname, lastname, role, start_date, end_date, profile_pic,campus_short_code) 
+        VALUES ((SELECT id FROM users WHERE email = 'matt.goshorn@techelevator.com' ),'Matt','Goshorn', 'Instructor', '2020-01-13', null, null,'CLE' );
 
 INSERT INTO training_cert_period (train_id, cert_period_id)
         VALUES ((SELECT train_id FROM training WHERE training.train_name='LEARNING HOW TO TEACH'), 1);
@@ -94,20 +93,15 @@ INSERT INTO training_cert_period (train_id, cert_period_id)
         JOIN campus ON user_profile.campus_id = campus.campus_id
     WHERE training.approved = false AND campus.campus_id = 1;
     
-  ALTER TABLE campus
-  ADD COLUMN cert_length integer NOT NULL DEFAULT 2;
-  
-  UPDATE campus
-  SET cert_length = 2
-  WHERE city = 'Cleveland';
+ 
 
 ALTER TABLE user_profile
 ADD FOREIGN KEY(profile_id)
 REFERENCES users(id);
 
 ALTER TABLE user_profile
-ADD FOREIGN KEY(campus_id)
-REFERENCES campus(campus_id);
+ADD FOREIGN KEY(campus_short_code)
+REFERENCES campus(short_code);
 
 ALTER TABLE cert_period
 ADD FOREIGN KEY(profile_id)

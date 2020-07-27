@@ -5,18 +5,21 @@
         <h1>Create Your Profile</h1>
         <div class="profile-card">
            
-                    <!-- <div class="profileInput"> -->
+                    
                         <span class="label">First Name </span><input type="text" v-model="profile.firstName"><br/>
-                  <!--   </div>
-                    <div class="profileInput"> -->
+                  
                         <span class="label">Last Name </span><input type="text" v-model="profile.lastName"><br/>
-                  <!--   </div>
-                    <div class="profileInput"> -->
+
+                         <span class="label">Select Location </span>
+                        <select v-model="profile.campusShortCode" class="dropdown">
+                        <!-- <option disabled value="">Select Location</option> -->
+                        <option value="CLE" >CLE</option>
+                        </select><br/>
+                 
                         <span class="label">Role </span><input type="text" v-model="profile.role"><br/>
-                  <!--   </div>
-                    <div class="profileInput"> -->
+                  
                         <span class="label">Start Date </span><input type="date" v-model="profile.startDate"><br/>
-                   <!--  </div> -->
+                  
                     <div class="dropzone-div">
                         <span class="profile-label">Profile Picture </span>
                         <vue-dropzone id="dropzone" 
@@ -47,6 +50,7 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
                 profile: {
                     firstName: '',
                     lastName: '',
+                    campusShortCode: '',
                     role: '',
                     startDate: '',
                     profilePic: '',
@@ -147,6 +151,12 @@ input{
     margin:10px;
     border:none;
     border-radius:2px;    
+}
+.dropdown{
+    padding:5px;
+    margin:10px;
+    border:none;
+    border-radius:2px;   
 }
 h1{
     font-weight:lighter;

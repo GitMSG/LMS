@@ -12,11 +12,12 @@ import java.util.Date;
 	private Date startDate;
 	private Date endDate;
 	private String profilePic;
+	private String campusShortCode;
 	
 	public UserProfile() {
 		
 	}
-	public UserProfile( String firstName, String lastName, String role, Date startDate, Date endDate, String profilePic) {
+	public UserProfile( String firstName, String lastName, String role, Date startDate, Date endDate, String profilePic, String campusShortCode) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -24,13 +25,10 @@ import java.util.Date;
 		this.startDate =  startDate; 
 		this.endDate =  endDate;
 		this.profilePic = profilePic;
-	}
+		this.campusShortCode= campusShortCode;
+		}
 	
-	@Override
-	public String toString() {
-		return "UserProfile [firstName=" + firstName + ", lastName=" + lastName + ", role=" + role + ", startDate="
-				+ startDate + ", endDate=" + endDate + ", profilePic=" + profilePic + "]";
-	}
+	
 	public long getProfileId() {
 		return profileId;
 	}
@@ -85,6 +83,12 @@ import java.util.Date;
 
 	public void setProfilePic(String profilePic) {
 		this.profilePic = profilePic;
+	}
+	public String getCampusShortCode() {
+		return campusShortCode;
+	}
+	public void setCampusShortCode(String campusShortCode) {
+		this.campusShortCode = campusShortCode;
 	}
 
 	

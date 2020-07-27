@@ -20,28 +20,28 @@ public class JdbcUserProfileDao implements UserProfileDao {
 		this.myJdbcTemplate = new JdbcTemplate(myDataSource);
 	}
 	
+	@Override
 	public void createUserProfile(UserProfile newProfile, String email) {
 		String insertSql = "INSERT INTO user_profile "
-						 + "(profile_id, firstname, lastname, role, start_date,end_date, profile_pic) "
-						 + "VALUES ((SELECT id from users where email = '"+ email +"'),?,?,?,?,null,?) ";
-		
+						 + "(profile_id, firstname, lastname, role, start_date,end_date, profile_pic, campus_short_code) "
+						 + "VALUES ((SELECT id from users where email = '"+ email +"'),?,?,?,?,null,?,?) ";
 		myJdbcTemplate.update(insertSql,newProfile.getFirstName(),newProfile.getLastName(),
-				   newProfile.getRole(),newProfile.getStartDate(),newProfile.getProfilePic());
+		newProfile.getRole(),newProfile.getStartDate(),newProfile.getProfilePic(),newProfile.getCampusShortCode());
 	}
+	
 	 @Override
 	    public List<UserProfile> getAllProfiles() {
 	        List<UserProfile> profiles = new ArrayList<UserProfile>();
-	        String sqlSelectAllUsers = "SELECT profile_id, firstname, lastname, role, start_date, profile_pic FROM user_profile";
+	        String sqlSelectAllUsers = "SELECT profile_id, firstname, lastname, role, start_date, profile_pic, campus_short_code FROM user_profile";
 	        SqlRowSet results = myJdbcTemplate.queryForRowSet(sqlSelectAllUsers);
-
 	        while (results.next()) {
 	            UserProfile aProfile = mapRowToProfile(results);
 	            profiles.add(aProfile);
 	        }
-
 	        return profiles;
 	    }
-	
+	 
+	@Override
 	public UserProfile getProfileById(int id) {
 		UserProfile myProfile = new UserProfile();
 		String sqlProfile = "SELECT * FROM user_profile WHERE profile_id = '" + id + "' ";
@@ -50,8 +50,8 @@ public class JdbcUserProfileDao implements UserProfileDao {
 			myProfile = mapRowToProfile(sqlResult);
 		}
 		return myProfile;
-		
 	}
+	
 	private UserProfile mapRowToProfile(SqlRowSet result) {
 		UserProfile newProfile = new UserProfile();
 		newProfile.setProfileId(result.getInt("profile_id"));
@@ -60,6 +60,7 @@ public class JdbcUserProfileDao implements UserProfileDao {
 		newProfile.setRole(result.getString("role"));
 		newProfile.setStartDate(result.getDate("start_date"));
 		newProfile.setProfilePic(result.getString("profile_pic"));
+		newProfile.setCampusShortCode(result.getString("campus_short_code"));
 		return newProfile;
 	}
 
