@@ -29,6 +29,10 @@
 
 *13. Figure out how to send the Admin a once a week email with link to 'un-approved' trainings*
 
+*14. Add functionality to update employee profile* 
+
+*15. Add functionality to update a training*
+
 
 
 
