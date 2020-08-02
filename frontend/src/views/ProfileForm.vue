@@ -11,6 +11,10 @@
                         <span class="label">Select Location </span>
                         <select v-model="profile.campusShortCode" class="dropdown">
                         <option value="CLE" >CLE</option>
+                        <option value="CBUS" >CBUS</option>
+                        <option value="CINCY" >CINCY</option>
+                        <option value="PHG" >PGH</option>
+                        <option value="PHL" >PHL</option>
                         </select><br/>
                  
                         <span class="label">Role </span><input type="text" v-model="profile.role"><br/>
