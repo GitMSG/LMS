@@ -4,15 +4,12 @@
     <form class="new-profile-form" @submit.prevent="createProfile">
         <h1>Create Your Profile</h1>
         <div class="profile-card">
-           
-                    
                         <span class="label">First Name </span><input type="text" v-model="profile.firstName"><br/>
                   
                         <span class="label">Last Name </span><input type="text" v-model="profile.lastName"><br/>
 
-                         <span class="label">Select Location </span>
+                        <span class="label">Select Location </span>
                         <select v-model="profile.campusShortCode" class="dropdown">
-                        <!-- <option disabled value="">Select Location</option> -->
                         <option value="CLE" >CLE</option>
                         </select><br/>
                  
@@ -72,38 +69,31 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
         },
         methods:{
             createProfile() {
-               
-            fetch(`${process.env.VUE_APP_REMOTE_API}/api/createProfile`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: 'Bearer ' + auth.getToken(),     
+                    fetch(`${process.env.VUE_APP_REMOTE_API}/api/createProfile`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: 'Bearer ' + auth.getToken(),     
+                        },
+                        body: JSON.stringify(this.profile)    
+                        })
+                        .then((response) => {
+                            if(response.ok) {
+                                this.$router.push({name: 'profile'});
+                            }
+                        })
+                        .catch((err) => console.error(err));
+                    },
+                addFormData(file, xhr, formData) {
+                    formData.append("api_key", `${process.env.CLOUD_KEY}`);
+                    formData.append("upload_preset", "goshornpreset"); // my upload preset
+                    formData.append("timestamp", (Date.now() / 1000) | 0);
+                    formData.append("tags", "vue-app");
                 },
-                body: JSON.stringify(this.profile)
-                      
-                })
-                .then((response) => {
-                    if(response.ok) {
-                       
-                        this.$router.push({name: 'profile'/* , params: {confirmationObject: 'Brewery'} */});
-                    }
-                    //return response.json();
-                })
-                .catch((err) => console.error(err));
-            },
-             addFormData(file, xhr, formData) {
-                formData.append("api_key", `${process.env.CLOUD_KEY}`);
-                formData.append("upload_preset", "goshornpreset"); // my upload preset
-                formData.append("timestamp", (Date.now() / 1000) | 0);
-                formData.append("tags", "vue-app");
-            },
-            getSuccess(file, response) {
-                this.profile.profilePic = response.secure_url;
-            }
+                getSuccess(file, response) {
+                    this.profile.profilePic = response.secure_url;
+                }
         },
-        created(){
-           
-        }
         
     }
 </script>

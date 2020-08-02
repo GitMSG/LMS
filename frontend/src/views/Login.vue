@@ -80,6 +80,7 @@ export default {
               token = token.replace(/"/g, '');
             }
             auth.saveToken(token);
+            console.log("pushing to profile")
             this.$router.push('/profile');
             this.$router.go();
           }

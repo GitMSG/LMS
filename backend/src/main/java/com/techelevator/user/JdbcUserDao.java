@@ -16,109 +16,121 @@ import com.techelevator.authentication.PasswordHasher;
 @Component
 public class JdbcUserDao implements UserDao {
 
-    private JdbcTemplate jdbcTemplate;
-    private PasswordHasher passwordHasher;
+	private JdbcTemplate jdbcTemplate;
+	private PasswordHasher passwordHasher;
 
-    
-    @Autowired
-    public JdbcUserDao(DataSource dataSource, PasswordHasher passwordHasher) {
-        this.jdbcTemplate = new JdbcTemplate(dataSource);
-        this.passwordHasher = passwordHasher;
-    }
+	@Autowired
+	public JdbcUserDao(DataSource dataSource, PasswordHasher passwordHasher) {
+		this.jdbcTemplate = new JdbcTemplate(dataSource);
+		this.passwordHasher = passwordHasher;
+	}
 
-   
-    @Override
-    public User saveUser(String email, String password, String permission) {
-        byte[] salt = passwordHasher.generateRandomSalt();
-        String hashedPassword = passwordHasher.computeHash(password, salt);
-        String saltString = new String(Base64.encode(salt));
-        long newId = jdbcTemplate.queryForObject(
-                "INSERT INTO users(email, password, salt, permission) VALUES (?, ?, ?, ?) RETURNING id", Long.class,
-                email, hashedPassword, saltString, permission);
+	@Override
+	public User saveUser(String email, String password, String permission) { 			// Only creates a login for the user and
+		byte[] salt = passwordHasher.generateRandomSalt();										// adds defaults into some columns
+		String hashedPassword = passwordHasher.computeHash(password, salt);
+		String saltString = new String(Base64.encode(salt));
+		String defaultFirst = "TEFirstname";
+		String defaultLast = "TELastname";
+		String defaultPic = "https://res.cloudinary.com/goshorn/image/upload/v1596286167/lms_test/TE_bur_z3zvc4.png";
 
-        User newUser = new User();
-        newUser.setId(newId);
-        newUser.setEmail(email);
-        newUser.setPermission(permission);
+		long newId = jdbcTemplate.queryForObject(
+				"INSERT INTO users(email,firstname,lastname,profile_pic, password, salt, permission) VALUES (?, ?, ?, ?, ?, ?, ?) RETURNING id",
+				Long.class, email, defaultFirst, defaultLast, defaultPic, hashedPassword, saltString, permission);
 
-        return newUser;
-    }
+		User newUser = new User();
+		newUser.setId(newId);
+		newUser.setEmail(email);
+		newUser.setPermission(permission);
 
-    @Override
-    public void changePassword(User user, String newPassword) {
-        byte[] salt = passwordHasher.generateRandomSalt();
-        String hashedPassword = passwordHasher.computeHash(newPassword, salt);
-        String saltString = new String(Base64.encode(salt));
+		return newUser;
+	}
 
-        jdbcTemplate.update("UPDATE users SET password=?, salt=? WHERE id=?", hashedPassword, saltString, user.getId());
-    }
+//	@Override
+//	public long createUser(User aUser, String email) {
+//
+//		long userId = jdbcTemplate.queryForObject(
+//				"UPDATE users SET firstname = ?,lastname = ?,profile_pic = ? WHERE email = '" + email+ "' RETURNING id",
+//				Long.class, aUser.getFirstName(), aUser.getLastName(), aUser.getProfilePic());
+//
+//		return userId;
+//	}
 
- 
-    @Override
-    public User getValidUserWithPassword(String email, String password) {
-        String sqlSearchForUser = "SELECT * FROM users WHERE UPPER(email) = ?";
+	@Override
+	public void changePassword(User user, String newPassword) {
+		byte[] salt = passwordHasher.generateRandomSalt();
+		String hashedPassword = passwordHasher.computeHash(newPassword, salt);
+		String saltString = new String(Base64.encode(salt));
 
-        SqlRowSet results = jdbcTemplate.queryForRowSet(sqlSearchForUser, email.toUpperCase());
-        if (results.next()) {
-            String storedSalt = results.getString("salt");
-            String storedPassword = results.getString("password");
-            String hashedPassword = passwordHasher.computeHash(password, Base64.decode(storedSalt));
-            if (storedPassword.equals(hashedPassword)) {
-                return mapResultToUser(results);
-            } else {
-                return null;
-            }
-        } else {
-            return null;
-        }
-    }
+		jdbcTemplate.update("UPDATE users SET password=?, salt=? WHERE id=?", hashedPassword, saltString, user.getId());
+	}
 
-    @Override
-    public List<User> getAllUsers() {
-        List<User> users = new ArrayList<User>();
-        String sqlSelectAllUsers = "SELECT id, email, permission FROM users";
-        SqlRowSet results = jdbcTemplate.queryForRowSet(sqlSelectAllUsers);
+	@Override
+	public User getValidUserWithPassword(String email, String password) {
+		String sqlSearchForUser = "SELECT * FROM users WHERE UPPER(email) = ?";
 
-        while (results.next()) {
-            User user = mapResultToUser(results);
-            users.add(user);
-        }
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlSearchForUser, email.toUpperCase());
+		if (results.next()) {
+			String storedSalt = results.getString("salt");
+			String storedPassword = results.getString("password");
+			String hashedPassword = passwordHasher.computeHash(password, Base64.decode(storedSalt));
+			if (storedPassword.equals(hashedPassword)) {
+				return mapResultToUser(results);
+			} else {
+				return null;
+			}
+		} else {
+			return null;
+		}
+	}
 
-        return users;
-    }
-    
-    @Override
-    public User getUserByEmail(String email) {
-        String sqlSelectUserByEmail = "SELECT id, email, permission FROM users WHERE email = ?";
-        SqlRowSet results = jdbcTemplate.queryForRowSet(sqlSelectUserByEmail, email);
+	@Override
+	public List<User> getAllUsers() {
+		List<User> users = new ArrayList<User>();
+		String sqlSelectAllUsers = "SELECT id, email, permission FROM users";
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlSelectAllUsers);
 
-        if (results.next()) {
-            return mapResultToUser(results);
-        } else {
-            return null;
-        }
-    }
-    @Override
-    public void deleteUser(int id) {
-    	String sql = "DELETE FROM user_profile WHERE profile_id = ?; "
-    					 + "DELETE FROM users WHERE id = ?";
-    	jdbcTemplate.update(sql, id,id);
-    }
+		while (results.next()) {
+			User user = mapResultToUser(results);
+			users.add(user);
+		}
+
+		return users;
+	}
+
+	@Override
+	public User getUserByEmail(String email) {
+		String sqlSelectUserByEmail = "SELECT id, email, permission FROM users WHERE email = ?";
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlSelectUserByEmail, email);
+
+		if (results.next()) {
+			return mapResultToUser(results);
+		} else {
+			return null;
+		}
+	}
+
+	@Override
+	public void deleteUser(int id) {
+		String sql = "DELETE FROM employee_profile WHERE user_id = ?; " + "DELETE FROM users WHERE id = ?";
+		jdbcTemplate.update(sql, id, id);
+	}
 
 	@Override
 	public void changePermission(String email, String permission) {
 		// TODO Auto-generated method stub
-		 jdbcTemplate.update("UPDATE users SET permission = ? WHERE email = ?", permission, email);
+		jdbcTemplate.update("UPDATE users SET permission = ? WHERE email = ?", permission, email);
 	}
-    
-    private User mapResultToUser(SqlRowSet results) {
-        User user = new User();
-        user.setId(results.getLong("id"));
-        user.setEmail(results.getString("email"));
-        user.setPermission(results.getString("permission"));
-        return user;
-    }
 
-   
+	private User mapResultToUser(SqlRowSet results) {
+		User user = new User();
+		user.setId(results.getLong("id"));
+		user.setEmail(results.getString("email"));
+		user.setPermission(results.getString("permission"));
+//		user.setFirstName(results.getString("firstname"));
+//		user.setLastName(results.getString("lastname"));
+//		user.setProfilePic(results.getString("profile_pic"));
+		return user;
+	}
 
 }

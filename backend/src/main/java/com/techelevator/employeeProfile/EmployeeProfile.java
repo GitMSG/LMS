@@ -1,34 +1,35 @@
-package com.techelevator.userProfile;
+package com.techelevator.employeeProfile;
 
 import java.time.LocalDate;
 import java.util.Date;
 
-	public class UserProfile {
-	
+public class EmployeeProfile {
+
 	private int profileId;
+	private int userId;
 	private String firstName;
 	private String lastName;
+	private String profilePic;
 	private String role;
 	private Date startDate;
 	private Date endDate;
-	private String profilePic;
 	private String campusShortCode;
-	
-	public UserProfile() {
-		
+
+	public EmployeeProfile() {
+
 	}
-	public UserProfile( String firstName, String lastName, String role, Date startDate, Date endDate, String profilePic, String campusShortCode) {
+
+	public EmployeeProfile(String role, Date startDate, String campusShortCode,String firstName,String lastName,String profilePic) {
 		super();
-		this.firstName = firstName;
-		this.lastName = lastName;
+		this.firstName=firstName;
+		this.lastName=lastName;
+		this.profilePic=profilePic;
 		this.role = role;
-		this.startDate =  startDate; 
-		this.endDate =  endDate;
-		this.profilePic = profilePic;
-		this.campusShortCode= campusShortCode;
-		}
+		this.startDate = startDate;
+		this.campusShortCode = campusShortCode;
+	}
 	
-	
+
 	public long getProfileId() {
 		return profileId;
 	}
@@ -53,6 +54,22 @@ import java.util.Date;
 		this.lastName = lastName;
 	}
 
+	public String getProfilePic() {
+		return profilePic;
+	}
+
+	public void setProfilePic(String profilePic) {
+		this.profilePic = profilePic;
+	}
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
 	public String getRole() {
 		return role;
 	}
@@ -70,26 +87,19 @@ import java.util.Date;
 	}
 
 	public Date getEndDate() {
-			return endDate;
+		return endDate;
 	}
 
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
 
-	public String getProfilePic() {
-		return profilePic;
-	}
-
-	public void setProfilePic(String profilePic) {
-		this.profilePic = profilePic;
-	}
 	public String getCampusShortCode() {
 		return campusShortCode;
 	}
+
 	public void setCampusShortCode(String campusShortCode) {
 		this.campusShortCode = campusShortCode;
 	}
 
-	
 }

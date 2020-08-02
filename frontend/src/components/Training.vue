@@ -36,16 +36,37 @@
 </template>
 
 <script>
+import auth from "@/auth.js"
     export default {
         props:{
             firstName: String,
             training: Array,
+            profileId: Number,
         },
         data(){
             return{
                
             }
         },
+        created(){console.log(this.profileId)
+            fetch(`${process.env.VUE_APP_REMOTE_API}/api/training/${this.profileId}`, {
+                method: 'GET',
+                headers: {
+                Authorization: 'Bearer ' + auth.getToken(),
+                    },
+                credentials: 'same-origin',
+                })
+            .then ((response) => {   
+                    return response.json()
+                    })  
+            .then ((theData) => {   
+                this.trainingArr = theData; 
+                //this.getTotals(this.trainingArr);           
+                    })
+                    .catch((err) => {
+                    console.log(err);
+            })   
+        }
         
     }
 </script>

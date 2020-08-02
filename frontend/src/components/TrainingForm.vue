@@ -27,7 +27,7 @@
                     </div>
         </div>
         <button class="training-button" type="submit" >Add</button>
-        <!-- <button class="cancel-button" v-on="close()" >Cancel</button> -->
+        
     </form>
 
     </div>
@@ -38,6 +38,9 @@ import auth from '@/auth.js'
 import vue2Dropzone from 'vue2-dropzone'
 import 'vue2-dropzone/dist/vue2Dropzone.min.css'
     export default {
+        props:{
+            profileId:Number,
+        },
          components: {
         vueDropzone: vue2Dropzone
         },
@@ -71,12 +74,9 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
             handleInput(value){
                 this.training.minutes = value * 60;
             },
-           /*  close(){
-                this.$emit(this.formMode = false)
-            }, */
             createTraining() {
               
-            fetch(`${process.env.VUE_APP_REMOTE_API}/api/addTraining`, {
+            fetch(`${process.env.VUE_APP_REMOTE_API}/api/addTraining/${this.profileId}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

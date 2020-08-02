@@ -2,7 +2,7 @@
 BEGIN TRANSACTION;
 
 DROP TABLE IF EXISTS users                      cascade;
-DROP TABLE IF EXISTS user_profile               cascade;
+DROP TABLE IF EXISTS employee_profile           cascade;
 DROP TABLE IF EXISTS training                   cascade;
 DROP TABLE IF EXISTS cert_period                cascade;
 DROP TABLE IF EXISTS training_cert_period       cascade;
@@ -11,6 +11,9 @@ DROP TABLE IF EXISTS campus                     cascade;
 CREATE TABLE users(
     id serial ,
     email varchar(64) NOT NULL UNIQUE,
+    firstname varchar(32),
+    lastname varchar(32),
+    profile_pic varchar(255),
     password varchar(32) NOT NULL,
     salt varchar(256) NOT NULL,
     permission varchar(32),
@@ -25,16 +28,14 @@ CREATE TABLE campus(
     CONSTRAINT pk_campus_short_code PRIMARY KEY (short_code)
 );
 
-CREATE TABLE user_profile(
-    profile_id integer NOT NULL,
-    firstname varchar(32) NOT NULL,
-    lastname varchar(32) NOT NULL,
+CREATE TABLE employee_profile(
+    emp_id serial NOT NULL,
+    user_id integer NOT NULL,
     role varchar(255) NOT NULL,
     start_date date NOT NULL,
     end_date date,
-    profile_pic varchar(255),
-    campus_short_code varchar(64) NOT NULL,
-    CONSTRAINT uq_user_profile_profile_id UNIQUE (profile_id)
+    campus_short varchar(64) NOT NULL,
+    CONSTRAINT pk_employee_profile_emp_id PRIMARY KEY (emp_id)
 );
 
 CREATE TABLE training(
@@ -52,7 +53,7 @@ CREATE TABLE training(
 
 CREATE TABLE cert_period(
     cert_id serial,
-    profile_id integer NOT NULL,
+    emp_id integer NOT NULL,
     cert_start_date date NOT NULL,
     CONSTRAINT pk_cert_period_cert_id PRIMARY KEY (cert_id)
 );
@@ -65,8 +66,8 @@ CREATE TABLE training_cert_period (
 
 -- Password is 'greatwall'
 BEGIN TRANSACTION;
-INSERT INTO users (email, password, salt, permission) 
-        VALUES ('matt.goshorn@techelevator.com','FjZDm+sndmsdEDwNtfr6NA==',
+INSERT INTO users (email, firstname, lastname, profile_pic, password, salt, permission) 
+        VALUES ('matt@gmail.com','Matt','Goshorn','https://res.cloudinary.com/goshorn/image/upload/v1593971293/lms_test/yskdldqgqnvu7jieywyr.jpg','FjZDm+sndmsdEDwNtfr6NA==',
                 'kidcasB0te7i0jK0fmRIGHSm0mYhdLTaiGkEAiEvLp7dAEHWnuT8n/5bd2V/mqjstQ198iImm1xCmEFu+BHyOz1Mf7vm4LILcrr17y7Ws40Xyx4FOCt8jD03G+jEafpuVJnPiDmaZQXJEpEfekGOvhKGOCtBnT5uatjKEuVWuDA=','admin');
 
 INSERT INTO training (train_name, train_provider, train_topic, train_date, is_compliance, train_proof, minutes, approved) 
@@ -75,11 +76,11 @@ INSERT INTO training (train_name, train_provider, train_topic, train_date, is_co
 INSERT INTO campus (short_code, city, state, cert_length)
         VALUES('CLE', 'Cleveland', 'Ohio', 2);
 
-INSERT INTO cert_period (profile_id, cert_start_date) 
-        VALUES ((SELECT id FROM users WHERE users.email ='matt.goshorn@techelevator.com'), '2018-10-01');
+INSERT INTO cert_period (emp_id, cert_start_date) 
+        VALUES ((SELECT id FROM users WHERE users.email ='matt@gmail.com'), '2018-10-01');
 
-INSERT INTO user_profile (profile_id, firstname, lastname, role, start_date, end_date, profile_pic,campus_short_code) 
-        VALUES ((SELECT id FROM users WHERE email = 'matt.goshorn@techelevator.com' ),'Matt','Goshorn', 'Instructor', '2020-01-13', null, null,'CLE' );
+INSERT INTO employee_profile (user_id,  role, start_date, end_date, campus_short) 
+        VALUES ((SELECT id FROM users WHERE email = 'matt@gmail.com' ), 'Instructor', '2020-01-13', null,'CLE' );
 
 INSERT INTO training_cert_period (train_id, cert_period_id)
         VALUES ((SELECT train_id FROM training WHERE training.train_name='LEARNING HOW TO TEACH'), 1);
@@ -93,19 +94,23 @@ INSERT INTO training_cert_period (train_id, cert_period_id)
         JOIN campus ON user_profile.campus_id = campus.campus_id
     WHERE training.approved = false AND campus.campus_id = 1;
     
+    SELECT employee_profile.*, users.email, users.firstname, users.lastname, users.profile_pic
+    FROM employee_profile
+        JOIN users ON employee_profile.user_id = users.id;
+    WHERE users.id = '"+id+"';
  
 
-ALTER TABLE user_profile
-ADD FOREIGN KEY(profile_id)
+ALTER TABLE employee_profile
+ADD FOREIGN KEY(user_id)
 REFERENCES users(id);
 
-ALTER TABLE user_profile
-ADD FOREIGN KEY(campus_short_code)
+ALTER TABLE employee_profile
+ADD FOREIGN KEY(campus_short)
 REFERENCES campus(short_code);
 
 ALTER TABLE cert_period
-ADD FOREIGN KEY(profile_id)
-REFERENCES user_profile(profile_id);
+ADD FOREIGN KEY(emp_id)
+REFERENCES employee_profile(emp_id);
 
 ALTER TABLE training_cert_period 
 ADD FOREIGN KEY(train_id)
@@ -121,23 +126,25 @@ Delete from user_profile
 where profile_id = 2
 
 
-delete from user_profile
-where profile_id = 3;
+delete from employee_profile
+where emp_id = 2;
 delete from users
-where id = 3;
+where id = 2;
 
 DELETE  FROM training_cert_period;
 DELETE  FROM training;
 DELETE  FROM cert_period;
 
-
-update user_profile
-set profile_pic = 'https://res.cloudinary.com/goshorn/image/upload/v1593971293/lms_test/yskdldqgqnvu7jieywyr.jpg' --my image
-where profile_id = 1;
---set profile_pic = 'https://res.cloudinary.com/goshorn/image/upload/v1594063575/lms_test/lbwlhmexahogdgupwczw.jpg'-- bobs image
---                  'https://res.cloudinary.com/goshorn/image/upload/v1594131446/lms_test/yxk4g9xnsmmxpeo7mxjo.jpg'-- bill's image
-
-
-
-
+            --         'https://res.cloudinary.com/goshorn/image/upload/v1596050794/lms_test/wgc3a23t3fia1wjcska9.jpg'           Wierd Guy
+            --         'https://res.cloudinary.com/goshorn/image/upload/v1593971293/lms_test/yskdldqgqnvu7jieywyr.jpg'           Matt Photo
+            --         'https://res.cloudinary.com/goshorn/image/upload/v1596286167/lms_test/TE_bur_z3zvc4.png'                  TE logo
+            --         'https://res.cloudinary.com/goshorn/image/upload/v1594733918/lms_test/m5dk9epbzckoohjh4zgv.jpg'           Lady model
+update users
+set email =  'matt@gmail.com'
+where users.id = 1; 
+--set profile_pic = 
+         
+update users
+set profile_pic = 'https://res.cloudinary.com/goshorn/image/upload/v1594733918/lms_test/m5dk9epbzckoohjh4zgv.jpg'
+where users.id = 6
 

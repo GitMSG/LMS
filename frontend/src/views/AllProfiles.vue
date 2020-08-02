@@ -7,7 +7,7 @@
             </div>
             <div id="profile-detail">
                 <h1> {{aProfile.firstName+" "+aProfile.lastName}} </h1>
-                
+                <h2><span class="label">Location</span>{{aProfile.campusShortCode}}</h2>
                 <h2><span class="label">Position</span>{{aProfile.role}}</h2>
                 <h2><span class="label">Start Date</span>  {{aProfile.startDate}}</h2>
             </div>
@@ -56,23 +56,21 @@ import auth from "@/auth.js"
            }
         },
         created() {
-            fetch(`${process.env.VUE_APP_REMOTE_API}/api/allProfiles`,
-            {
-            method: 'GET',
-            headers: {
-            Authorization: 'Bearer ' + auth.getToken(),
-            },
-            credentials: 'same-origin',
-            })
+            fetch(`${process.env.VUE_APP_REMOTE_API}/api/allProfiles`,{
+                method: 'GET',
+                headers: {
+                Authorization: 'Bearer ' + auth.getToken(),
+                    },
+                credentials: 'same-origin',
+                })
             .then ((response) => {   
                 return response.json()
                 })  
             .then ((theData) => {   
             this.profiles = theData;
-           
-            })
+                })
             .catch((err) => {
-            console.log(err);
+                console.log(err);
             })
             fetch(`${process.env.VUE_APP_REMOTE_API}/api/training`, {
                 method: 'GET',

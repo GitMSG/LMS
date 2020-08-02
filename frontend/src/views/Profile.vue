@@ -25,8 +25,8 @@
            
       
     <div id="training">
-          <training v-if="!this.formMode" :training="trainingArr" :firstName="profile.firstName" />
-          <training-form v-if="this.formMode" />
+          <training v-if="!this.formMode" :profileId="profile.profileId" :training="trainingArr" :firstName="profile.firstName" />
+          <training-form v-if="this.formMode" :profileId="profile.profileId"/>
     </div>
     </div>
 </template>
@@ -43,6 +43,8 @@ import TrainingForm from "@/components/TrainingForm.vue"
         },
         data(){
            return{
+                
+                email: auth.getUser().sub,
                 formMode: false,
                 profile:{
                      profileId: '',
@@ -67,6 +69,7 @@ import TrainingForm from "@/components/TrainingForm.vue"
                 }
               
             },
+            
            getTotals(arr){
                let compTimeArr= []
                let elecTimeArr= []
@@ -86,7 +89,7 @@ import TrainingForm from "@/components/TrainingForm.vue"
                    
            }
         },
-        mounted() {
+        created() {
             fetch(`${process.env.VUE_APP_REMOTE_API}/api/profile`, {
                     method: 'GET',
                     headers: {
@@ -95,18 +98,22 @@ import TrainingForm from "@/components/TrainingForm.vue"
                     credentials: 'same-origin',
                     })
                 .then ((response) => {   
+                    
                         return response.json()
+                       
                         })  
                 .then ((theData) => {   
                     this.profile = theData;
-                if(this.profile.firstName === null){
+                      if(this.profile.firstName === null){
                     this.$router.push('/profileForm')
+                    this.$router.go()
                 }   
+                
                     })
                     .catch((err) => {
                     console.log(err);
-            }),
-            fetch(`${process.env.VUE_APP_REMOTE_API}/api/training`, {
+            })
+            /* fetch(`${process.env.VUE_APP_REMOTE_API}/api/training/${profileId}`, {
                 method: 'GET',
                 headers: {
                 Authorization: 'Bearer ' + auth.getToken(),
@@ -122,10 +129,8 @@ import TrainingForm from "@/components/TrainingForm.vue"
                     })
                     .catch((err) => {
                     console.log(err);
-            })
-             
-        },
-        
+            })    */
+        }
     }
 </script>
 

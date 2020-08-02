@@ -19,34 +19,34 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  */
 @RestController
 public class AccountController {
-    @Autowired
-    private AuthProvider auth;
+	@Autowired
+	private AuthProvider auth;
 
-    @Autowired
-    private JwtTokenHandler tokenHandler;
+	@Autowired
+	private JwtTokenHandler tokenHandler;
 
-    @RequestMapping(path = "/login", method = RequestMethod.POST)
-    public String login(@RequestBody User user, RedirectAttributes flash) throws UnauthorizedException {
-        if (auth.signIn(user.getEmail(), user.getPassword())) {
-            User currentUser = auth.getCurrentUser();
-           
-            return  tokenHandler.createToken(user.getEmail(), currentUser.getPermission());
-        } else {
-            throw new UnauthorizedException();
-        }
-    }
+	@RequestMapping(path = "/login", method = RequestMethod.POST)
+	public String login(@RequestBody User user, RedirectAttributes flash) throws UnauthorizedException {
+		if (auth.signIn(user.getEmail(), user.getPassword())) {
+			User currentUser = auth.getCurrentUser();
 
-    @RequestMapping(path = "/register", method = RequestMethod.POST)
-    public String register(@Valid @RequestBody User user, BindingResult result) throws UserCreationException {
-        if (result.hasErrors()) {
-            String errorMessages = "";
-            for (ObjectError error : result.getAllErrors()) {
-                errorMessages += error.getDefaultMessage() + "\n";
-            }
-            throw new UserCreationException(errorMessages);
-        }
-        auth.register(user.getEmail(), user.getPassword(), user.getPermission());
-        return "{\"success\":true}";
-    }
+			return tokenHandler.createToken(user.getEmail(), currentUser.getPermission());
+		} else {
+			throw new UnauthorizedException();
+		}
+	}
+
+	@RequestMapping(path = "/register", method = RequestMethod.POST)
+	public String register(@Valid @RequestBody User user, BindingResult result) throws UserCreationException {
+		if (result.hasErrors()) {
+			String errorMessages = "";
+			for (ObjectError error : result.getAllErrors()) {
+				errorMessages += error.getDefaultMessage() + "\n";
+			}
+			throw new UserCreationException(errorMessages);
+		}
+		auth.register(user.getEmail(), user.getPassword(), user.getPermission());
+		return "{\"success\":true}";
+	}
 
 }
