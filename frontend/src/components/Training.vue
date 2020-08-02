@@ -36,20 +36,21 @@
 </template>
 
 <script>
-import auth from "@/auth.js"
+/* import auth from "@/auth.js" */
     export default {
         props:{
             firstName: String,
             training: Array,
-            profileId: Number,
+            //profileId: Number,
         },
         data(){
             return{
-               
+             
             }
         },
-        created(){console.log(this.profileId)
-            fetch(`${process.env.VUE_APP_REMOTE_API}/api/training/${this.profileId}`, {
+       /*  mounted(){console.log(this.$props.profileId)
+            
+                fetch(`${process.env.VUE_APP_REMOTE_API}/api/training/${this.$props.profileId}`, {
                 method: 'GET',
                 headers: {
                 Authorization: 'Bearer ' + auth.getToken(),
@@ -65,8 +66,11 @@ import auth from "@/auth.js"
                     })
                     .catch((err) => {
                     console.log(err);
-            })   
-        }
+            })
+            
+        
+            
+        } */
         
     }
 </script>

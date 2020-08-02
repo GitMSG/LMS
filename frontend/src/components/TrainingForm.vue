@@ -87,8 +87,8 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
                 })
                 .then((response) => {
                     if(response.ok) {
-                      /*  close() */
-                       // this.$router.push({name: 'profile'});
+                        //close() 
+                        this.$router.push({name: 'profile'}); 
                         this.$router.go();
                     }
                     //return response.json();

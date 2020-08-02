@@ -78,14 +78,12 @@ public class ApiController {
 
 	@RequestMapping(path = "/addTraining/{id}", method = RequestMethod.POST)
 	public void addTraining(@RequestBody Training newTraining, @PathVariable int id) {
-		//int id = (int) authProvider.getCurrentUser().getId();
 		String permission = authProvider.getCurrentUser().getPermission();
 		trainingDao.createTraining(newTraining, id, permission);
 	}
 
 	@RequestMapping(path = "/training/{id}", method = RequestMethod.GET)
-	public List<Training> getTraining(@PathVariable int id) {
-		//int id = (int) authProvider.getCurrentUser().getId();
+	public List<Training> getTraining( @PathVariable  int id ) {
 		List<Training> usersTraining = trainingDao.getAUsersTraining(id);
 		return usersTraining;
 	}

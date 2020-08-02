@@ -21,6 +21,10 @@
                     v-on:click="toggleFormMode" 
                     class="form-button">Add Training
             </button>
+            <button v-if="!this.formMode" 
+                    v-on:click="showTraining" 
+                    class="form-button">Show Training
+            </button>
             </div>
            
       
@@ -69,7 +73,25 @@ import TrainingForm from "@/components/TrainingForm.vue"
                 }
               
             },
-            
+            showTraining(){
+                 fetch(`${process.env.VUE_APP_REMOTE_API}/api/training/${this.profile.profileId}`, {
+                method: 'GET',
+                headers: {
+                Authorization: 'Bearer ' + auth.getToken(),
+                    },
+                credentials: 'same-origin',
+                })
+            .then ((response) => {   
+                    return response.json()
+                    })  
+            .then ((theData) => {   
+                this.trainingArr = theData; 
+                this.getTotals(this.trainingArr);           
+                    })
+                    .catch((err) => {
+                    console.log(err);
+            })   
+            },
            getTotals(arr){
                let compTimeArr= []
                let elecTimeArr= []
@@ -113,7 +135,10 @@ import TrainingForm from "@/components/TrainingForm.vue"
                     .catch((err) => {
                     console.log(err);
             })
-            /* fetch(`${process.env.VUE_APP_REMOTE_API}/api/training/${profileId}`, {
+            
+        },
+        mounted(){
+           /*  fetch(`${process.env.VUE_APP_REMOTE_API}/api/training/${this.profile.profileId}`, {
                 method: 'GET',
                 headers: {
                 Authorization: 'Bearer ' + auth.getToken(),

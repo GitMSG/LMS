@@ -72,7 +72,7 @@ import auth from "@/auth.js"
             .catch((err) => {
                 console.log(err);
             })
-            fetch(`${process.env.VUE_APP_REMOTE_API}/api/training`, {
+            /* fetch(`${process.env.VUE_APP_REMOTE_API}/api/training`, {
                 method: 'GET',
                 headers: {
                 Authorization: 'Bearer ' + auth.getToken(),
@@ -88,7 +88,7 @@ import auth from "@/auth.js"
                     })
                     .catch((err) => {
                     console.log(err);
-            })
+            }) */
             
     }
         
