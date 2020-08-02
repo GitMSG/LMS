@@ -75,6 +75,10 @@ INSERT INTO training (train_name, train_provider, train_topic, train_date, is_co
         
 INSERT INTO campus (short_code, city, state, cert_length)
         VALUES('CLE', 'Cleveland', 'Ohio', 2);
+        VALUES('CBUS', 'Columbus','Ohio', 2);
+        VALUES('CINCY','Cincinnati','Ohio', 2);
+        VALUES('PGH','Pittsburgh','Pennsylvania', 2);
+        VALUES('PHL','Philadelphia','Pennsylvania', 2);
 
 INSERT INTO cert_period (emp_id, cert_start_date) 
         VALUES ((SELECT id FROM users WHERE users.email ='matt@gmail.com'), '2018-10-01');
@@ -121,6 +125,7 @@ ADD FOREIGN KEY(cert_period_id)
 REFERENCES cert_period(cert_id);
 
 COMMIT;
+
 
 Delete from user_profile
 where profile_id = 2
