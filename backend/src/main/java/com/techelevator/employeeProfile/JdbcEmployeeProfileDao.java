@@ -30,25 +30,21 @@ public class JdbcEmployeeProfileDao implements EmployeeProfileDao {
 		}else {
 			profilePic = newProfile.getProfilePic();
 		}
-		String insertSql = "INSERT INTO employee_profile "
-						 + "(user_id, role, start_date,end_date, campus_short) "
-						 + "VALUES ((SELECT id from users where email = '"+ email +"'),?,?,null,?) ;" + "UPDATE users SET firstname = ?,lastname = ?,profile_pic = ? WHERE email = '" + email+ "'";
+		String insertSql = 	"UPDATE employee_profile "
+               							+	"SET role = ?,start_date = ?, end_date = null, campus_short = ? "
+               							+	"FROM users "  
+               						+	"WHERE employee_profile.user_id = users.id AND users.email = '"+email+"';"
+									+ "UPDATE users SET firstname = ?,lastname = ?,profile_pic = ? WHERE email = '" + email+ "'";
 		myJdbcTemplate.update(insertSql,newProfile.getRole(),newProfile.getStartDate(),newProfile.getCampusShortCode(),newProfile.getFirstName(), newProfile.getLastName(), profilePic);
 	}
-//	public void createUserProfile(EmployeeProfile newProfile, String email) {
-//		String insertSql = "INSERT INTO user_profile "
-//						 + "(profile_id, firstname, lastname, role, start_date,end_date, profile_pic, campus_short_code) "
-//						 + "VALUES ((SELECT id from users where email = '"+ email +"'),?,?,?,?,null,?,?) ";
-//		myJdbcTemplate.update(insertSql,newProfile.getFirstName(),newProfile.getLastName(),
-//		newProfile.getRole(),newProfile.getStartDate(),newProfile.getProfilePic(),newProfile.getCampusShortCode());
-//	}
 	
 	 @Override
 	    public List<EmployeeProfile> getAllProfiles() {
 	        List<EmployeeProfile> profiles = new ArrayList<EmployeeProfile>();
 	        String sqlAllProfiles =	"SELECT employee_profile.*,users.email, users.firstname, users.lastname, users.profile_pic "
 					 							+  		"FROM employee_profile "
-					 							+		"JOIN users ON employee_profile.user_id = users.id ";
+					 							+		"JOIN users ON employee_profile.user_id = users.id "
+					 							+  "WHERE  users.firstname NOT LIKE 'TE Firstname' AND employee_profile.end_date is NULL";
 	        SqlRowSet results = myJdbcTemplate.queryForRowSet(sqlAllProfiles);
 	        while (results.next()) {
 	            EmployeeProfile aProfile = mapRowToProfile(results);
@@ -58,17 +54,24 @@ public class JdbcEmployeeProfileDao implements EmployeeProfileDao {
 	    }
 	 
 	@Override
-	public EmployeeProfile getProfileById(int id) {
+	public EmployeeProfile getProfileById(String email) {
 		EmployeeProfile aProfile = new EmployeeProfile();
-		String sqlProfile =	"SELECT employee_profile.*,users.email, users.firstname, users.lastname, users.profile_pic "
+
+//		int count = myJdbcTemplate.queryForObject("SELECT count(*) FROM employee_profile WHERE user_id = '"+id+"'", int.class);
+//		if(count == 0 ) {
+//			System.out.println("No User Id found in employee profile");
+//			return null;
+//		}else if(count ==1) {
+							String sqlProfile =	"SELECT employee_profile.*,users.email, users.firstname, users.lastname, users.profile_pic "
 									 +  	"FROM employee_profile "
 									 +		"JOIN users ON employee_profile.user_id = users.id "
-		        					 +	"WHERE users.id = '"+ id +"'";
-		SqlRowSet sqlResult = myJdbcTemplate.queryForRowSet(sqlProfile);
-		while(sqlResult.next()) {
-			aProfile = mapRowToProfile(sqlResult);
-		}
-			
+									 +	"WHERE users.email = '"+ email +"'";
+				SqlRowSet sqlResult = myJdbcTemplate.queryForRowSet(sqlProfile);
+				while(sqlResult.next()) {
+				aProfile = mapRowToProfile(sqlResult);
+//				}	
+						}
+					
 					return aProfile;
 	}
 	

@@ -81,7 +81,7 @@ export default {
             }
             auth.saveToken(token);
             console.log("pushing to profile")
-            this.$router.push('/profile');
+            this.$router.push({path:'/profile',params:this.email});
             this.$router.go();
           }
         })

@@ -1,5 +1,7 @@
 package com.techelevator.user;
 
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,13 +32,17 @@ public class JdbcUserDao implements UserDao {
 		byte[] salt = passwordHasher.generateRandomSalt();										// adds defaults into some columns
 		String hashedPassword = passwordHasher.computeHash(password, salt);
 		String saltString = new String(Base64.encode(salt));
-		String defaultFirst = "TEFirstname";
-		String defaultLast = "TELastname";
+		String defaultFirst = "TE Firstname";
+		String defaultLast = "TE Lastname";
+		String defaultRole = "TE Instructor";
+		LocalDate defaultDate = LocalDate.of(2016, Month.JANUARY, 1);
+		String defaultCampus = "CLE";
 		String defaultPic = "https://res.cloudinary.com/goshorn/image/upload/v1596286167/lms_test/TE_bur_z3zvc4.png";
 
 		long newId = jdbcTemplate.queryForObject(
 				"INSERT INTO users(email,firstname,lastname,profile_pic, password, salt, permission) VALUES (?, ?, ?, ?, ?, ?, ?) RETURNING id",
 				Long.class, email, defaultFirst, defaultLast, defaultPic, hashedPassword, saltString, permission);
+		jdbcTemplate.update("INSERT INTO employee_profile(user_id,role,start_date,end_date,campus_short)VALUES ('"+newId+"','"+defaultRole+"','"+defaultDate+"',null,'"+defaultCampus+"')");
 
 		User newUser = new User();
 		newUser.setId(newId);

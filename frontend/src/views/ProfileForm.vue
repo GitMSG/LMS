@@ -13,7 +13,7 @@
                         <option value="CLE" >CLE</option>
                         <option value="CBUS" >CBUS</option>
                         <option value="CINCY" >CINCY</option>
-                        <option value="PHG" >PGH</option>
+                        <option value="PGH" >PGH</option>
                         <option value="PHL" >PHL</option>
                         </select><br/>
                  

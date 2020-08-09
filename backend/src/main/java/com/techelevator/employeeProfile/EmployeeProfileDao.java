@@ -9,7 +9,7 @@ public interface EmployeeProfileDao {
 	
 	public void createUserProfile(EmployeeProfile newProfile, String email);
 	
-	public EmployeeProfile getProfileById(int id);
+	public EmployeeProfile getProfileById(String email);
 	
 	public List<EmployeeProfile> getAllProfiles();
 

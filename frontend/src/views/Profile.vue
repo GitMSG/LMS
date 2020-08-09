@@ -21,10 +21,6 @@
                     v-on:click="toggleFormMode" 
                     class="form-button">Add Training
             </button>
-            <button v-if="!this.formMode" 
-                    v-on:click="showTraining" 
-                    class="form-button">Show Training
-            </button>
             </div>
            
       
@@ -48,7 +44,6 @@ import TrainingForm from "@/components/TrainingForm.vue"
         data(){
            return{
                 
-                email: auth.getUser().sub,
                 formMode: false,
                 profile:{
                      profileId: '',
@@ -126,19 +121,18 @@ import TrainingForm from "@/components/TrainingForm.vue"
                         })  
                 .then ((theData) => {   
                     this.profile = theData;
-                      if(this.profile.firstName === null){
+                    this.showTraining();
+                      if(this.profile.firstName === "TE Firstname"){
                     this.$router.push('/profileForm')
                     this.$router.go()
                 }   
+                
                 
                     })
                     .catch((err) => {
                     console.log(err);
             })
-            
-        },
-        mounted(){
-           /*  fetch(`${process.env.VUE_APP_REMOTE_API}/api/training/${this.profile.profileId}`, {
+            /*  fetch(`${process.env.VUE_APP_REMOTE_API}/api/training/${this.profile.profileId}`, {
                 method: 'GET',
                 headers: {
                 Authorization: 'Bearer ' + auth.getToken(),
@@ -155,6 +149,7 @@ import TrainingForm from "@/components/TrainingForm.vue"
                     .catch((err) => {
                     console.log(err);
             })    */
+            
         }
     }
 </script>
