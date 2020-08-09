@@ -10,6 +10,8 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,7 @@ import com.techelevator.authentication.AuthProvider;
 import com.techelevator.authentication.UnauthorizedException;
 import com.techelevator.employeeProfile.EmployeeProfile;
 import com.techelevator.employeeProfile.EmployeeProfileDao;
+import com.techelevator.profileDto.ProfileDTO;
 import com.techelevator.training.Training;
 import com.techelevator.training.TrainingDao;
 import com.techelevator.user.User;
@@ -71,9 +74,15 @@ public class ApiController {
 		return "Success";
 	}
 
+//	@RequestMapping(path = "/allProfiles", method = RequestMethod.GET)
+//	public List<EmployeeProfile> getProfiles() {
+//		List<EmployeeProfile> allProfiles = employeeProfileDao.getAllProfiles();
+//		return allProfiles;
+//	}
 	@RequestMapping(path = "/allProfiles", method = RequestMethod.GET)
-	public List<EmployeeProfile> getProfiles() {
-		List<EmployeeProfile> allProfiles = employeeProfileDao.getAllProfiles();
+	public List<ProfileDTO> getProfiles() {
+		List<ProfileDTO> allProfiles = employeeProfileDao.getAllProfiles();
+		
 		return allProfiles;
 	}
 

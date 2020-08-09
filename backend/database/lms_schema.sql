@@ -120,13 +120,34 @@ where users.id = 2
 --------------------------------------------------------------------------------------------------------------------- 
 ----------------------------------Testing sql queries before using in DAO---------------------------------------------     
         
-   SELECT training.*, user_profile.firstname, user_profile.lastname, user_profile.profile_pic
+   SELECT employee_profile.emp_id,employee_profile.role,employee_profile.campus_short, 
+             users.firstname, users.lastname,training.is_compliance, sum(training.minutes)training.minutes, users.profile_pic
    FROM training
         JOIN training_cert_period ON training.train_id = training_cert_period.train_id
         JOIN cert_period ON training_cert_period.cert_period_id = cert_period.cert_id
-        JOIN user_profile ON cert_period.profile_id = user_profile.profile_id
-        JOIN campus ON user_profile.campus_id = campus.campus_id
-    WHERE training.approved = false AND campus.campus_id = 1;
+        JOIN employee_profile ON cert_period.emp_id = employee_profile.emp_id
+        JOIN users ON employee_profile.user_id = users.id
+    WHERE  users.firstname NOT LIKE 'TE Firstname' AND employee_profile.end_date is NULL
+    GROUP BY employee_profile.emp_id,users.firstname, users.lastname,training.is_compliance;
+  ----------------------------------------------------------------------------------------------------  
+  ----------------------------------------------------------------------------------------------------
+    --Trying to aggregate profile data with training time totals (compliance and elective). I need to 'GROUP BY' employee id.
+    --I would like to only return one row per employee and use 'is_compliance' in some kind of a sql 'if' statement to aggregate minutes.
+    --Like IF is_compliance = true THEN sum(t.minutes) as compliance, IF is_compliance = false THEN sum(t.minutes) as elective.
+    
+    SELECT ep.emp_id,ep.role,ep.campus_short,u.firstname,u.lastname,
+           t.is_compliance,sum(t.minutes)minutes,u.profile_pic
+    FROM training t
+        JOIN training_cert_period tcp ON t.train_id = tcp.train_id
+        JOIN cert_period cp ON tcp.cert_period_id = cp.cert_id
+        JOIN employee_profile ep ON cp.emp_id = ep.emp_id
+        JOIN users u ON ep.user_id = u.id
+    WHERE  u.firstname NOT LIKE 'TE Firstname' AND ep.end_date is NULL
+    GROUP BY ep.emp_id,ep.role, ep.campus_short,t.is_compliance,
+             u.firstname, u.lastname, u.profile_pic
+    
+   ------------------------------------------------------------------------------------------------------------ 
+   ------------------------------------------------------------------------------------------------------------- 
     
     SELECT employee_profile.*, users.email, users.firstname, users.lastname, users.profile_pic
     FROM employee_profile

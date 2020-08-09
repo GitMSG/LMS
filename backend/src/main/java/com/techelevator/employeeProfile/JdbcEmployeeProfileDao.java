@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
+import com.techelevator.profileDto.ProfileDTO;
 import com.techelevator.user.User;
 
 @Component
@@ -38,16 +39,37 @@ public class JdbcEmployeeProfileDao implements EmployeeProfileDao {
 		myJdbcTemplate.update(insertSql,newProfile.getRole(),newProfile.getStartDate(),newProfile.getCampusShortCode(),newProfile.getFirstName(), newProfile.getLastName(), profilePic);
 	}
 	
+//	 @Override
+//	    public List<EmployeeProfile> getAllProfiles() {
+//	        List<EmployeeProfile> profiles = new ArrayList<EmployeeProfile>();
+//	        String sqlAllProfiles =	"SELECT employee_profile.*,users.email, users.firstname, users.lastname, users.profile_pic "
+//					 							+  		"FROM employee_profile "
+//					 							+		"JOIN users ON employee_profile.user_id = users.id "
+//					 							+  "WHERE  users.firstname NOT LIKE 'TE Firstname' AND employee_profile.end_date is NULL";
+//	        SqlRowSet results = myJdbcTemplate.queryForRowSet(sqlAllProfiles);
+//	        while (results.next()) {
+//	            EmployeeProfile aProfile = mapRowToProfile(results);
+//	            profiles.add(aProfile);
+//	        }
+//	        return profiles;
+//	    }
 	 @Override
-	    public List<EmployeeProfile> getAllProfiles() {
-	        List<EmployeeProfile> profiles = new ArrayList<EmployeeProfile>();
-	        String sqlAllProfiles =	"SELECT employee_profile.*,users.email, users.firstname, users.lastname, users.profile_pic "
-					 							+  		"FROM employee_profile "
-					 							+		"JOIN users ON employee_profile.user_id = users.id "
-					 							+  "WHERE  users.firstname NOT LIKE 'TE Firstname' AND employee_profile.end_date is NULL";
+	    public List<ProfileDTO> getAllProfiles() {
+	        List<ProfileDTO> profiles = new ArrayList<>();
+	        String sqlAllProfiles =	 "SELECT employee_profile.emp_id,employee_profile.role,employee_profile.campus_short, " 
+	        											+ "users.firstname, users.lastname,training.is_compliance,sum(training.minutes)minutes, users.profile_pic "
+	        											+ "FROM training "
+	        											+ 		"JOIN training_cert_period ON training.train_id = training_cert_period.train_id "
+	        											+ 		"JOIN cert_period ON training_cert_period.cert_period_id = cert_period.cert_id "
+	        											+ 		"JOIN employee_profile ON cert_period.emp_id = employee_profile.emp_id "
+	        											+ 		"JOIN users ON employee_profile.user_id = users.id "
+	        											+ "WHERE  users.firstname NOT LIKE 'TE Firstname' AND employee_profile.end_date is NULL "
+	        											+ "GROUP BY employee_profile.emp_id,employee_profile.role, "
+	        											+ 					"employee_profile.campus_short,training.is_compliance, "
+	        											+ 					"users.firstname, users.lastname, users.profile_pic";
 	        SqlRowSet results = myJdbcTemplate.queryForRowSet(sqlAllProfiles);
 	        while (results.next()) {
-	            EmployeeProfile aProfile = mapRowToProfile(results);
+	            ProfileDTO aProfile = mapRowToProfileDto(results);
 	            profiles.add(aProfile);
 	        }
 	        return profiles;
@@ -56,12 +78,6 @@ public class JdbcEmployeeProfileDao implements EmployeeProfileDao {
 	@Override
 	public EmployeeProfile getProfileById(String email) {
 		EmployeeProfile aProfile = new EmployeeProfile();
-
-//		int count = myJdbcTemplate.queryForObject("SELECT count(*) FROM employee_profile WHERE user_id = '"+id+"'", int.class);
-//		if(count == 0 ) {
-//			System.out.println("No User Id found in employee profile");
-//			return null;
-//		}else if(count ==1) {
 							String sqlProfile =	"SELECT employee_profile.*,users.email, users.firstname, users.lastname, users.profile_pic "
 									 +  	"FROM employee_profile "
 									 +		"JOIN users ON employee_profile.user_id = users.id "
@@ -69,10 +85,20 @@ public class JdbcEmployeeProfileDao implements EmployeeProfileDao {
 				SqlRowSet sqlResult = myJdbcTemplate.queryForRowSet(sqlProfile);
 				while(sqlResult.next()) {
 				aProfile = mapRowToProfile(sqlResult);
-//				}	
 						}
-					
 					return aProfile;
+	}
+	private ProfileDTO mapRowToProfileDto(SqlRowSet result) {
+		ProfileDTO newProfile = new ProfileDTO();
+		newProfile.setProfileId(result.getInt("emp_id"));
+		newProfile.setFirstname(result.getString("firstname"));
+		newProfile.setLastname(result.getString("lastname"));
+		newProfile.setProfilePic(result.getString("profile_pic"));
+		newProfile.setRole(result.getString("role"));
+		newProfile.setCampusShortCode(result.getString("campus_short"));
+		newProfile.setTrainComp(result.getBoolean("is_compliance"));
+		newProfile.setTrainMinutes(result.getInt("minutes"));
+		return newProfile;
 	}
 	
 	private EmployeeProfile mapRowToProfile(SqlRowSet result) {

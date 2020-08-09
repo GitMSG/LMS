@@ -6,7 +6,7 @@
                 <img :src="aProfile.profilePic" class="profilePic" height="200px"/>
             </div>
             <div id="profile-detail">
-                <h1> {{aProfile.firstName+" "+aProfile.lastName}} </h1>
+                <h1> {{aProfile.firstname+" "+aProfile.lastname}} </h1>
                 <h2><span class="label">Location</span>{{aProfile.campusShortCode}}</h2>
                 <h2><span class="label">Position</span>{{aProfile.role}}</h2>
                 <h2><span class="label">Start Date</span>  {{aProfile.startDate}}</h2>
@@ -37,22 +37,55 @@ import auth from "@/auth.js"
         },
         methods:{
             getTotals(arr){
-               let compTimeArr= []
-               let elecTimeArr= []
-                 arr.filter( (o)=>{
-                  if(o.isCompliance === true){
-                    compTimeArr.push(o.minutes)   
+                
+                let compTimeArr= []
+                let elecTimeArr= []
+                if(this.arr.length() > 1){
+                     arr.filter( (o)=>{
+                  if(o.trainComp === true){
+                    compTimeArr.push(o.trainMinutes)   
                        this.compSum = compTimeArr.reduce( (tot, val)=>{
                         return tot+val
                     },0)
                   } else{
-                       elecTimeArr.push(o.minutes)   
+                       elecTimeArr.push(o.trainMinutes)   
                        this.elecSum = elecTimeArr.reduce( (tot, val)=>{
                         return tot+val
                     },0)
                   } 
               })
+                }else{
+                     if(this.profiles.trainComp === true){
+                    compTimeArr.push(this.profiles.trainMinutes)   
+                       this.compSum = compTimeArr.reduce( (tot, val)=>{
+                        return tot+val
+                    },0)
+                  } else{
+                       elecTimeArr.push(this.profiles.trainMinutes)   
+                       this.elecSum = elecTimeArr.reduce( (tot, val)=>{
+                        return tot+val
+                    },0)
+                  } 
+                }
+                /*  arr.filter( (o)=>{
+                  if(o.trainComp === true){
+                    compTimeArr.push(o.trainMinutes)   
+                       this.compSum = compTimeArr.reduce( (tot, val)=>{
+                        return tot+val
+                    },0)
+                  } else{
+                       elecTimeArr.push(o.trainMinutes)   
+                       this.elecSum = elecTimeArr.reduce( (tot, val)=>{
+                        return tot+val
+                    },0)
+                  } 
+              }) */   
                    
+           },
+           sortProfiles(arr){
+    
+
+               console.log(arr)
            }
         },
         created() {
@@ -68,7 +101,9 @@ import auth from "@/auth.js"
                 })  
             .then ((theData) => {   
             this.profiles = theData;
-                })
+              this.sortProfiles(this.profiles)
+                      
+                    })
             .catch((err) => {
                 console.log(err);
             })
