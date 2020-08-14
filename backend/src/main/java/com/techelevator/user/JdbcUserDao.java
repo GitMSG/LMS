@@ -118,8 +118,16 @@ public class JdbcUserDao implements UserDao {
 
 	@Override
 	public void deleteUser(int id) {
-		String sql = "DELETE FROM employee_profile WHERE user_id = ?; " + "DELETE FROM users WHERE id = ?";
-		jdbcTemplate.update(sql, id, id);
+		String sql = "DELETE  FROM training t "
+						+		"WHERE t.train_id IN  ( SELECT tcp.train_id " 
+                 		+    	    "FROM training_cert_period tcp "
+                        +			"JOIN cert_period cp ON cp.cert_id = tcp.cert_period_id "
+                        + 		"WHERE cp.emp_id IN (SELECT ep.emp_id " 
+                        + 			"FROM employee_profile ep "
+                        +			"JOIN users u ON ep.user_id = u.id  AND u.id = ? )); "
+                        +	"DELETE FROM employee_profile WHERE user_id =? ; " 
+                      	+	"DELETE FROM users WHERE id = ?";
+		jdbcTemplate.update(sql, id, id,id);
 	}
 
 	@Override

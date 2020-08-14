@@ -8,8 +8,8 @@ public class ProfileDTO {
 	private String profilePic;
 	private String role;
 	private String campusShortCode;
-	private boolean trainComp;
-	private int trainMinutes;
+	private int complianceTime;
+	private int electiveTime;
 	
 	
 	public int getProfileId() {
@@ -48,17 +48,17 @@ public class ProfileDTO {
 	public void setCampusShortCode(String campusShortCode) {
 		this.campusShortCode = campusShortCode;
 	}
-	public boolean getTrainComp() {
-		return trainComp;
+	public int getComplianceTime() {
+		return complianceTime;
 	}
-	public void setTrainComp(boolean trainComp) {
-		this.trainComp = trainComp;
+	public void setComplianceTime(int compliance) {
+		this.complianceTime = compliance;
 	}
-	public int getTrainMinutes() {
-		return trainMinutes;
+	public int getElectiveTime() {
+		return electiveTime;
 	}
-	public void setTrainMinutes(int trainMinutes) {
-		this.trainMinutes = trainMinutes;
+	public void setElectiveTime(int elective) {
+		this.electiveTime = elective;
 	}
 	
 	

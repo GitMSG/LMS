@@ -44,9 +44,9 @@ CREATE TABLE training(
     train_provider varchar(255) NOT NULL,
     train_topic varchar(800) NOT NULL,
     train_date date NOT NULL,
-    is_compliance boolean NOT NULL,
+    compliance_time integer,
+    elective_time integer,
     train_proof varchar(255),
-    minutes integer NOT NULL,
     approved boolean NOT NULL,
     CONSTRAINT pk_training_train_id PRIMARY KEY (train_id)
 );
@@ -70,8 +70,8 @@ INSERT INTO users (email, firstname, lastname, profile_pic, password, salt, perm
         VALUES ('matt@gmail.com','Matt','Goshorn','https://res.cloudinary.com/goshorn/image/upload/v1593971293/lms_test/yskdldqgqnvu7jieywyr.jpg','FjZDm+sndmsdEDwNtfr6NA==',
                 'kidcasB0te7i0jK0fmRIGHSm0mYhdLTaiGkEAiEvLp7dAEHWnuT8n/5bd2V/mqjstQ198iImm1xCmEFu+BHyOz1Mf7vm4LILcrr17y7Ws40Xyx4FOCt8jD03G+jEafpuVJnPiDmaZQXJEpEfekGOvhKGOCtBnT5uatjKEuVWuDA=','admin');
 
-INSERT INTO training (train_name, train_provider, train_topic, train_date, is_compliance, train_proof, minutes, approved) 
-        VALUES('LEARNING HOW TO TEACH', 'YMCA', 'We teach people how to teach, its very educational.', '2020-02-13',true, null, 90, true);
+INSERT INTO training (train_name, train_provider, train_topic, train_date, compliance_time, elective_time, train_proof, approved) 
+        VALUES('LEARNING HOW TO TEACH', 'YMCA', 'We teach people how to teach, its very educational.', '2020-02-13',null, 90, null, true);
         
 INSERT INTO campus (short_code, city, state, cert_length)
         --VALUES('CLE', 'Cleveland', 'Ohio', 2);
@@ -115,8 +115,13 @@ REFERENCES cert_period(cert_id)ON DELETE CASCADE;
             --         'https://res.cloudinary.com/goshorn/image/upload/v1594733918/lms_test/m5dk9epbzckoohjh4zgv.jpg'           Lady model
          
 update users
-set profile_pic = 'https://res.cloudinary.com/goshorn/image/upload/v1596050794/lms_test/wgc3a23t3fia1wjcska9.jpg'
-where users.id = 2
+set profile_pic = 'https://res.cloudinary.com/goshorn/image/upload/v1594733918/lms_test/m5dk9epbzckoohjh4zgv.jpg'
+where users.id = 3
+
+delete from training_cert_period
+where train_id = 2;
+delete from training 
+where train_id = 2;
 --------------------------------------------------------------------------------------------------------------------- 
 ----------------------------------Testing sql queries before using in DAO---------------------------------------------     
         
@@ -134,16 +139,17 @@ where users.id = 2
     --Trying to aggregate profile data with training time totals (compliance and elective). I need to 'GROUP BY' employee id.
     --I would like to only return one row per employee and use 'is_compliance' in some kind of a sql 'if' statement to aggregate minutes.
     --Like IF is_compliance = true THEN sum(t.minutes) as compliance, IF is_compliance = false THEN sum(t.minutes) as elective.
+   
     
     SELECT ep.emp_id,ep.role,ep.campus_short,u.firstname,u.lastname,
-           t.is_compliance,sum(t.minutes)minutes,u.profile_pic
+           sum(t.compliance_time)compliance_time,sum(t.elective_time)elective_time,u.profile_pic
     FROM training t
         JOIN training_cert_period tcp ON t.train_id = tcp.train_id
         JOIN cert_period cp ON tcp.cert_period_id = cp.cert_id
         JOIN employee_profile ep ON cp.emp_id = ep.emp_id
         JOIN users u ON ep.user_id = u.id
     WHERE  u.firstname NOT LIKE 'TE Firstname' AND ep.end_date is NULL
-    GROUP BY ep.emp_id,ep.role, ep.campus_short,t.is_compliance,
+    GROUP BY ep.emp_id,ep.role, ep.campus_short,
              u.firstname, u.lastname, u.profile_pic
     
    ------------------------------------------------------------------------------------------------------------ 

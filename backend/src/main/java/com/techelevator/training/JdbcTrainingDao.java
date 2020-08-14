@@ -35,10 +35,10 @@ public class JdbcTrainingDao implements TrainingDao {
 				int certId = (int) myJdbcTemplate
 						.queryForObject("SELECT cert_id FROM cert_period WHERE emp_id = '" + id + "'", int.class);
 				int sqlTrain = myJdbcTemplate.queryForObject("INSERT INTO training "
-						+ "(train_name, train_provider, train_topic, train_date, is_compliance, train_proof, minutes, approved) "
+						+ "(train_name, train_provider, train_topic, train_date, compliance_time,  elective_time,train_proof, approved) "
 						+ "VALUES(?,?,?,?,?,?,?,'" + preApproved + "') RETURNING train_id", int.class,
 						newTraining.getName(), newTraining.getProvider(), newTraining.getTopic(), newTraining.getDate(),
-						newTraining.getIsCompliance(), newTraining.getProof(), newTraining.getMinutes());
+						newTraining.getComplianceTime(), newTraining.getElectiveTime(), newTraining.getProof());
 				String sql = "INSERT INTO training_cert_period (train_id, cert_period_id) VALUES ('" + sqlTrain + "','"
 						+ certId + "')";
 				myJdbcTemplate.update(sql);
@@ -47,10 +47,10 @@ public class JdbcTrainingDao implements TrainingDao {
 			int certId = myJdbcTemplate.queryForObject("INSERT INTO cert_period (emp_id, cert_start_date) VALUES('"
 					+ id + "', '" + certStartDate + "' ) RETURNING cert_id", int.class);
 			int sqlTrain = myJdbcTemplate.queryForObject("INSERT INTO training "
-					+ "(train_name, train_provider, train_topic, train_date, is_compliance, train_proof, minutes, approved) "
+					+ "(train_name, train_provider, train_topic, train_date, compliance_time, elective_time,train_proof,  approved) "
 					+ "VALUES(?,?,?,?,?,?,?,'" + preApproved + "') RETURNING train_id", int.class,
 					newTraining.getName(), newTraining.getProvider(), newTraining.getTopic(), newTraining.getDate(),
-					newTraining.getIsCompliance(), newTraining.getProof(), newTraining.getMinutes());
+					newTraining.getComplianceTime() , newTraining.getElectiveTime(),newTraining.getProof());
 			String sql = "INSERT INTO training_cert_period (train_id, cert_period_id) VALUES ('" + sqlTrain + "','"
 					+ certId + "')";
 			myJdbcTemplate.update(sql);
@@ -92,9 +92,9 @@ public class JdbcTrainingDao implements TrainingDao {
 		aTraining.setProvider(result.getString("train_provider"));
 		aTraining.setTopic(result.getString("train_topic"));
 		aTraining.setDate(result.getDate("train_date"));
-		aTraining.setCompliance(result.getBoolean("is_compliance"));
+		aTraining.setComplianceTime(result.getInt("compliance_time"));
 		aTraining.setProof(result.getString("train_proof"));
-		aTraining.setMinutes(result.getInt("minutes"));
+		aTraining.setElectiveTime(result.getInt("elective_time"));
 		aTraining.setApproved(result.getBoolean("approved"));
 
 		return aTraining;

@@ -91,13 +91,13 @@ import TrainingForm from "@/components/TrainingForm.vue"
                let compTimeArr= []
                let elecTimeArr= []
                  arr.filter( (o)=>{
-                  if(o.isCompliance === true && o.isApproved === true){
-                    compTimeArr.push(o.minutes)   
+                  if(o.complianceTime != 0 && o.isApproved === true){
+                    compTimeArr.push(o.complianceTime)   
                        this.compSum = compTimeArr.reduce( (tot, val)=>{
                         return tot+val
                     },0)
-                  } else if(o.isApproved === true){
-                       elecTimeArr.push(o.minutes)   
+                  } else if(o.electiveTime != 0 && o.isApproved === true){
+                       elecTimeArr.push(o.electiveTime)   
                        this.elecSum = elecTimeArr.reduce( (tot, val)=>{
                         return tot+val
                     },0)
@@ -156,7 +156,7 @@ import TrainingForm from "@/components/TrainingForm.vue"
 
 <style scoped>
 #profile{
-    height: 100vh;
+   
     padding:20px;
     border-radius:3px;
     color:silver;

@@ -32,8 +32,8 @@ export default {
 
 <style >
 .home{
-    width:90vw;
-  height:90vh;
+  width:90vw;
+  height:150vh;
 }
 
 .home-header{

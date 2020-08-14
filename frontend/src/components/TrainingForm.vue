@@ -12,9 +12,19 @@
                  
                         <span class="label">Date </span><input type="date" v-model="training.date"><br/>
 
-                        <span class="label">Compliance </span><input type="checkbox" v-model="training.isCompliance" id="isCompliance"><br/>
-                  
-                        <span class="label">Hours</span><input  :bind="training.minutes" @input="handleInput($event.target.value)"><br/>
+                       <!--  <span class="label">Compliance </span><input type="checkbox" v-model="training.isCompliance" id="isCompliance"><br/> -->
+                        <span class="label">Select One </span>
+                        <select v-model="type" class="dropdown" @change="showType($event.target.value)" >
+                        <option value="complianceTime" >Compliance</option>
+                        <option value="electiveTime" >Elective</option>
+                        </select><br/>
+
+                    <div v-if="compliance === true" > <span class="label">Compliance Hours</span>
+                        <input  :bind="training.complianceTime" @input="handleInputCompliance($event.target.value)"><br/>
+                    </div>
+                    <div v-if="compliance === false" > <span class="label">Elective Hours</span>
+                        <input  :bind="training.electiveTime" @input="handleInputElective($event.target.value)"><br/>
+                    </div>
                   
                     <div class="dropzone-div">
                         <span class="training-label">Enter Image of Certificate </span>
@@ -46,15 +56,16 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
         },
         data() {
             return {
-                
+                type: '',
+                compliance:null,
                 training: {
                     name: '',
                     provider: '',
                     topic: '',
                     date: '',
-                    isCompliance: false,
                     proof: '',
-                    minutes: null,
+                    complianceTime: 0,
+                    electiveTime: 0,
                 },
                 
                 dropzoneOptions: {
@@ -71,8 +82,18 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
             }
         },
         methods:{
-            handleInput(value){
-                this.training.minutes = value * 60;
+            showType(t){
+                if(t === 'complianceTime'){
+                    this.compliance = true
+                }else{
+                    this.compliance = false
+                }
+            },
+            handleInputCompliance(value){
+                this.training.complianceTime = value * 60;
+            },
+            handleInputElective(value){
+                this.training.electiveTime = value * 60;
             },
             createTraining() {
               

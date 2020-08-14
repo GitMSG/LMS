@@ -9,24 +9,24 @@ public class Training {
 	private String provider;
 	private String topic;
 	private Date date;
-	private boolean isCompliance;
+	private int complianceTime;
 	private String proof;
-	private int minutes;
+	private int electiveTime;
 	private boolean approved;
 	
 	public Training() {
 		
 	}
 	
-	public Training(String name, String provider,String topic, Date date, boolean isCompliance,String proof, int minutes, boolean approved){
+	public Training(String name, String provider,String topic, Date date, int complianceTime,String proof, int electiveTime, boolean approved){
 		super();
 		this.name=name;
 		this.provider=provider;
 		this.topic=topic;
 		this.date=date;
-		this.isCompliance=isCompliance;
+		this.complianceTime=complianceTime;
 		this.proof=proof;
-		this.minutes=minutes;
+		this.electiveTime=electiveTime;
 		this.approved=approved;
 	}
 	
@@ -34,7 +34,7 @@ public class Training {
 	@Override
 	public String toString() {
 		return "Training [trainingId=" + trainingId + ", name=" + name + ", provider=" + provider + ", topic=" + topic
-				+ ", date=" + date + ", isCompliance=" + isCompliance + ", proof=" + proof + ", minutes=" + minutes
+				+ ", date=" + date + ", complianceTime=" + complianceTime + ", proof=" + proof + ", electiveTime=" + electiveTime
 				+ "]";
 	}
 
@@ -78,12 +78,12 @@ public class Training {
 		this.date = date;
 	}
 
-	public boolean getIsCompliance() {
-		return isCompliance;
+	public int getComplianceTime() {
+		return complianceTime;
 	}
 
-	public void setCompliance(boolean isCompliance) {
-		this.isCompliance = isCompliance;
+	public void setComplianceTime(int complianceTime) {
+		this.complianceTime = complianceTime;
 	}
 
 	public String getProof() {
@@ -94,12 +94,12 @@ public class Training {
 		this.proof = proof;
 	}
 
-	public int getMinutes() {
-		return minutes;
+	public int getElectiveTime() {
+		return electiveTime;
 	}
 
-	public void setMinutes(int minutes) {
-		this.minutes = minutes;
+	public void setElectiveTime(int electiveTime) {
+		this.electiveTime = electiveTime;
 	}
 
 	public boolean getIsApproved() {

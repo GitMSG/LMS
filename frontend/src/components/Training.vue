@@ -6,27 +6,43 @@
             <li v-for="aTrain in training" v-bind:key="aTrain.trainingId" class="training-item"  >
             <div v-if="aTrain.isApproved === false" class="overlay" >
                 <div class="compliance-div" >
-                    <h2 class="compliance" v-if="aTrain.isCompliance === true" >Compliance</h2>
-                    <h2 class="elective" v-if="aTrain.isCompliance === false" >Elective</h2>
+                    <h2 class="compliance" v-if="aTrain.complianceTime != 0" >Compliance</h2>
+                    <h2 class="elective" v-if="aTrain.electiveTime != 0" >Elective</h2>
                 </div>
                <h2><span class="label">Training Name: </span><span class="var">{{aTrain.name}}</span></h2>
                <h2><span class="label">Training Provider: </span><span class="var">{{aTrain.provider}}</span></h2>
                <h2><span class="label">Training Date: </span><span class="var">{{aTrain.date}}</span></h2>
-               <h2><span class="label">Training Time: </span><span class="var">{{aTrain.minutes/60}} hrs</span></h2>
+               <h2>
+                <div v-if="aTrain.complianceTime != 0" ><span class="label">Compliance Time: </span>
+                    <span class="var">{{aTrain.complianceTime/60}} hrs</span>
+                </div> 
+                <div v-if="aTrain.electiveTime != 0" ><span class="label">Elective Time: </span>
+                    <span class="var">{{aTrain.electiveTime/60}} hrs</span>
+                </div> 
+               </h2>
+
                <h3><span class="label">Training Description: </span><span class="var">{{aTrain.topic}}</span></h3>
                <h2 v-if="aTrain.isApproved === false" class="warn">Waiting on Approval</h2>
                 </div>
 
             <div v-else >
                 <div class="compliance-div" >
-                    <h2 class="compliance" v-if="aTrain.isCompliance === true" >Compliance</h2>
-                    <h2 class="elective" v-if="aTrain.isCompliance === false" >Elective</h2>
+                    <h2 class="compliance" v-if="aTrain.complianceTime != 0" >Compliance</h2>
+                    <h2 class="elective" v-if="aTrain.electiveTime != 0" >Elective</h2>
                 </div>
                 <h2><span class="label">Training Name: </span><span class="var">{{aTrain.name}}</span></h2>
                 <h2><span class="label">Training Provider: </span><span class="var">{{aTrain.provider}}</span></h2>
                 <h2><span class="label">Training Date: </span><span class="var">{{aTrain.date}}</span></h2>
-                <h2><span class="label">Training Time: </span><span class="var">{{aTrain.minutes/60}} hrs</span></h2>
+                <h2>
+                    <div v-if="aTrain.complianceTime != 0" ><span class="label">Compliance Time: </span>
+                        <span class="var">{{aTrain.complianceTime/60}} hrs</span>
+                    </div> 
+                    <div v-if="aTrain.electiveTime != 0" ><span class="label">Elective Time: </span>
+                        <span class="var">{{aTrain.electiveTime/60}} hrs</span>
+                    </div> 
+                </h2>
                 <h3><span class="label">Training Description: </span><span class="var">{{aTrain.topic}}</span></h3>              
+                
             </div>
             </li>
            

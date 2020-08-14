@@ -3,7 +3,7 @@
         <h1 class="permission-header">Edit User</h1>
         <ul class="permission-group">
             <li v-for="user in users" v-bind:key="user.id" class="permission-item">
-                <User :email = user.email :currentpermission = user.permission :id = user.id />
+               <!--  <User :email = user.email :currentpermission = user.permission :id = user.id /> -->
             </li>
         </ul>
     </div>
@@ -11,12 +11,12 @@
 
 <script>
 import auth from '@/auth.js'
-import User from '@/components/User.vue'
+
 
 export default {
-    components: {
+   /*  components: {
         User
-    },
+    }, */
     data() {
         return {
             users: []

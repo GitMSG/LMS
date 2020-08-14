@@ -57,7 +57,7 @@ public class JdbcEmployeeProfileDao implements EmployeeProfileDao {
 	    public List<ProfileDTO> getAllProfiles() {
 	        List<ProfileDTO> profiles = new ArrayList<>();
 	        String sqlAllProfiles =	 "SELECT employee_profile.emp_id,employee_profile.role,employee_profile.campus_short, " 
-	        											+ "users.firstname, users.lastname,training.is_compliance,sum(training.minutes)minutes, users.profile_pic "
+	        											+ "users.firstname, users.lastname,sum(training.compliance_time)compliance_time,sum(training.elective_time)elective_time, users.profile_pic "
 	        											+ "FROM training "
 	        											+ 		"JOIN training_cert_period ON training.train_id = training_cert_period.train_id "
 	        											+ 		"JOIN cert_period ON training_cert_period.cert_period_id = cert_period.cert_id "
@@ -65,7 +65,7 @@ public class JdbcEmployeeProfileDao implements EmployeeProfileDao {
 	        											+ 		"JOIN users ON employee_profile.user_id = users.id "
 	        											+ "WHERE  users.firstname NOT LIKE 'TE Firstname' AND employee_profile.end_date is NULL "
 	        											+ "GROUP BY employee_profile.emp_id,employee_profile.role, "
-	        											+ 					"employee_profile.campus_short,training.is_compliance, "
+	        											+ 					"employee_profile.campus_short, "
 	        											+ 					"users.firstname, users.lastname, users.profile_pic";
 	        SqlRowSet results = myJdbcTemplate.queryForRowSet(sqlAllProfiles);
 	        while (results.next()) {
@@ -96,8 +96,8 @@ public class JdbcEmployeeProfileDao implements EmployeeProfileDao {
 		newProfile.setProfilePic(result.getString("profile_pic"));
 		newProfile.setRole(result.getString("role"));
 		newProfile.setCampusShortCode(result.getString("campus_short"));
-		newProfile.setTrainComp(result.getBoolean("is_compliance"));
-		newProfile.setTrainMinutes(result.getInt("minutes"));
+		newProfile.setComplianceTime(result.getInt("compliance_time"));
+		newProfile.setElectiveTime(result.getInt("elective_time"));
 		return newProfile;
 	}
 	

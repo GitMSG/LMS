@@ -2,6 +2,9 @@
     <div id="profile" >
     <ul >
         <li v-for="aProfile in profiles" v-bind:key="aProfile.profileId" class="list" >
+            <div  >
+               <!--  <EditUser :email = auth.getUser().sub :currentpermission = auth.getUser().rol :id = aProfile.profileId /> -->
+            </div>
             <div id='image-div'>
                 <img :src="aProfile.profilePic" class="profilePic" height="200px"/>
             </div>
@@ -9,12 +12,12 @@
                 <h1> {{aProfile.firstname+" "+aProfile.lastname}} </h1>
                 <h2><span class="label">Location</span>{{aProfile.campusShortCode}}</h2>
                 <h2><span class="label">Position</span>{{aProfile.role}}</h2>
-                <h2><span class="label">Start Date</span>  {{aProfile.startDate}}</h2>
+               
             </div>
             <div class="time-div" >
-                <p>Compliance Total:<span class="compliance" > {{compSum/60}}</span></p>
-                <p>Elective Total:    <span class="elective" >    {{elecSum/60}}</span></p>
-                <p>Total:    <span class="total" >    {{elecSum/60 + compSum/60}}</span></p>
+                <p>Compliance Total:<span class="compliance" > {{aProfile.complianceTime/60}}</span></p>
+                <p>Elective Total:    <span class="elective" >    {{aProfile.electiveTime/60}}</span></p>
+                <p>Total:    <span class="total" >    {{aProfile.electiveTime/60 + aProfile.complianceTime/60}}</span></p>
             </div>
         </li>
     </ul>
@@ -23,8 +26,11 @@
 
 <script>
 import auth from "@/auth.js"
-
+//import EditUser from '@/components/EditUser.vue'
     export default {
+        components: {
+        //EditUser
+    },
         name:'allProfiles',
         data(){
            return{
@@ -36,57 +42,8 @@ import auth from "@/auth.js"
 
         },
         methods:{
-            getTotals(arr){
-                
-                let compTimeArr= []
-                let elecTimeArr= []
-                if(this.arr.length() > 1){
-                     arr.filter( (o)=>{
-                  if(o.trainComp === true){
-                    compTimeArr.push(o.trainMinutes)   
-                       this.compSum = compTimeArr.reduce( (tot, val)=>{
-                        return tot+val
-                    },0)
-                  } else{
-                       elecTimeArr.push(o.trainMinutes)   
-                       this.elecSum = elecTimeArr.reduce( (tot, val)=>{
-                        return tot+val
-                    },0)
-                  } 
-              })
-                }else{
-                     if(this.profiles.trainComp === true){
-                    compTimeArr.push(this.profiles.trainMinutes)   
-                       this.compSum = compTimeArr.reduce( (tot, val)=>{
-                        return tot+val
-                    },0)
-                  } else{
-                       elecTimeArr.push(this.profiles.trainMinutes)   
-                       this.elecSum = elecTimeArr.reduce( (tot, val)=>{
-                        return tot+val
-                    },0)
-                  } 
-                }
-                /*  arr.filter( (o)=>{
-                  if(o.trainComp === true){
-                    compTimeArr.push(o.trainMinutes)   
-                       this.compSum = compTimeArr.reduce( (tot, val)=>{
-                        return tot+val
-                    },0)
-                  } else{
-                       elecTimeArr.push(o.trainMinutes)   
-                       this.elecSum = elecTimeArr.reduce( (tot, val)=>{
-                        return tot+val
-                    },0)
-                  } 
-              }) */   
-                   
-           },
-           sortProfiles(arr){
-    
-
-               console.log(arr)
-           }
+            
+           
         },
         created() {
             fetch(`${process.env.VUE_APP_REMOTE_API}/api/allProfiles`,{
@@ -132,7 +89,7 @@ import auth from "@/auth.js"
 
 <style scoped>
 #profile{
-    height:100vh;
+ /*    height:100vh; */
     padding:0px 10px;
     color:white;
 }
