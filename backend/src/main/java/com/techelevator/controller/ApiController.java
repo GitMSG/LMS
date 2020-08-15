@@ -62,7 +62,15 @@ public class ApiController {
 	public EmployeeProfile getProfile()throws UnauthorizedException {
 		EmployeeProfile aProfile = new EmployeeProfile();
 		String email =  authProvider.getCurrentUser().getEmail();
-				aProfile = employeeProfileDao.getProfileById(email);
+				aProfile = employeeProfileDao.getProfileByEmail(email);
+				return aProfile;
+	}
+	
+	@RequestMapping(path = "/profile/{id}", method = RequestMethod.GET)
+	public EmployeeProfile getProfileById(@PathVariable  int id)throws UnauthorizedException {
+		EmployeeProfile aProfile = new EmployeeProfile();
+		//String email =  authProvider.getCurrentUser().getEmail();
+				aProfile = employeeProfileDao.getProfileById(id);
 				return aProfile;
 	}
 

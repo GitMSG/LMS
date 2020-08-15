@@ -1,5 +1,8 @@
 package com.techelevator.profileDto;
 
+import java.sql.Date;
+import java.time.LocalDate;
+
 public class ProfileDTO {
 
 	private int profileId;
@@ -8,6 +11,7 @@ public class ProfileDTO {
 	private String profilePic;
 	private String role;
 	private String campusShortCode;
+	private Date startDate;
 	private int complianceTime;
 	private int electiveTime;
 	
@@ -41,6 +45,13 @@ public class ProfileDTO {
 	}
 	public void setRole(String role) {
 		this.role = role;
+	}
+	
+	public Date getStartDate() {
+		return startDate;
+	}
+	public void setStartDate(Date date) {
+		this.startDate = date;
 	}
 	public String getCampusShortCode() {
 		return campusShortCode;

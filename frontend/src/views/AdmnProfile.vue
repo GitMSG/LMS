@@ -1,8 +1,5 @@
 <template>
     <div id="profile" >
-         <div class="loading" v-if="isLoading">
-            <img src="@/assets/TE_bur.png" />
-        </div>
         <div id="detail-container">
         <div id="profile-detail">
             <div id="image-div" >
@@ -39,23 +36,23 @@ import auth from "@/auth.js"
 import Training from "@/components/Training.vue"
 import TrainingForm from "@/components/TrainingForm.vue"
     export default {
-        name:'profile',
+        name:'admnprofile',
         components:{
             Training,
             TrainingForm,
         },
         data(){
            return{
-                isLoading: true,
+                
                 formMode: false,
                 profile:{
-                     profileId: '',
-                     firstName: '',
-                     lastName: '',
-                     campusShortCode: '',
-                     role: '',
-                     startDate: '',
-                     profilePic: '',
+                     profileId: this.$route.params.profile.profileId,
+                     firstName: this.$route.params.profile.firstname,
+                     lastName: this.$route.params.profile.lastname,
+                     campusShortCode: this.$route.params.profile.campusShortCode,
+                     role: this.$route.params.profile.role,
+                     startDate: this.$route.params.profile.startDate,
+                     profilePic: this.$route.params.profile.profilePic,
                 },
                 trainingArr:[],
                 compSum: 0,
@@ -64,15 +61,8 @@ import TrainingForm from "@/components/TrainingForm.vue"
            }
 
         },
-        methods: {
-            toggleFormMode(){
-                if(!this.formMode){
-                    this.formMode = true;
-                }
-              
-            },
-            showTraining(){
-                 fetch(`${process.env.VUE_APP_REMOTE_API}/api/training/${this.profile.profileId}`, {
+          created() {
+            fetch(`${process.env.VUE_APP_REMOTE_API}/api/training/${this.profile.profileId}`, {
                 method: 'GET',
                 headers: {
                 Authorization: 'Bearer ' + auth.getToken(),
@@ -89,7 +79,16 @@ import TrainingForm from "@/components/TrainingForm.vue"
                     .catch((err) => {
                     console.log(err);
             })   
+            
+        },
+        methods: {
+            toggleFormMode(){
+                if(!this.formMode){
+                    this.formMode = true;
+                }
+              
             },
+          
            getTotals(arr){
                let compTimeArr= []
                let elecTimeArr= []
@@ -109,37 +108,7 @@ import TrainingForm from "@/components/TrainingForm.vue"
                    
            }
         },
-        created() {
-            fetch(`${process.env.VUE_APP_REMOTE_API}/api/profile`, {
-                    method: 'GET',
-                    headers: {
-                    Authorization: 'Bearer ' + auth.getToken(),
-                        },
-                    credentials: 'same-origin',
-                    })
-                .then ((response) => {   
-                        return response.json()
-                        })  
-                .then ((theData) => {   
-                    this.profile = theData;
-                    this.showTraining();
-                      if(this.profile.firstName === "TE Firstname"){
-                    this.$router.push('/profileForm')
-                    this.$router.go()
-                }   
-                    }) 
-                    .catch((err) => {
-                    console.log(err);
-                    })
-                    .finally(() => {
-                        setTimeout(() => {
-                            this.isLoading = false;
-          
-                                }, 500);
-                    })       
-        
-            
-            }
+       
     }
 </script>
 
@@ -151,7 +120,7 @@ import TrainingForm from "@/components/TrainingForm.vue"
     color:silver;
 }
 #detail-container{
-    background-color:rgba(233, 235, 241, 0.6);
+    background-color:rgba(233, 235, 241, 0.9);
     box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14),0 1px 10px 0 rgba(0, 0, 0, 0.12);
 }
 #profile-detail{
@@ -179,14 +148,6 @@ import TrainingForm from "@/components/TrainingForm.vue"
 p{
     color:silver;
     
-}
-.loading {
-  width: 100vw;
-  height: 100vh;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1000;
 }
 .form-button{
   background-color: rgba(36,104,143,1);

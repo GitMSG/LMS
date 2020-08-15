@@ -56,7 +56,7 @@ public class JdbcEmployeeProfileDao implements EmployeeProfileDao {
 	 @Override
 	    public List<ProfileDTO> getAllProfiles() {
 	        List<ProfileDTO> profiles = new ArrayList<>();
-	        String sqlAllProfiles =	 "SELECT employee_profile.emp_id,employee_profile.role,employee_profile.campus_short, " 
+	        String sqlAllProfiles =	 "SELECT employee_profile.emp_id,employee_profile.role,employee_profile.campus_short,employee_profile.start_date, " 
 	        											+ "users.firstname, users.lastname,sum(training.compliance_time)compliance_time,sum(training.elective_time)elective_time, users.profile_pic "
 	        											+ "FROM training "
 	        											+ 		"JOIN training_cert_period ON training.train_id = training_cert_period.train_id "
@@ -65,7 +65,7 @@ public class JdbcEmployeeProfileDao implements EmployeeProfileDao {
 	        											+ 		"JOIN users ON employee_profile.user_id = users.id "
 	        											+ "WHERE  users.firstname NOT LIKE 'TE Firstname' AND employee_profile.end_date is NULL "
 	        											+ "GROUP BY employee_profile.emp_id,employee_profile.role, "
-	        											+ 					"employee_profile.campus_short, "
+	        											+ 					"employee_profile.campus_short,employee_profile.start_date, "
 	        											+ 					"users.firstname, users.lastname, users.profile_pic";
 	        SqlRowSet results = myJdbcTemplate.queryForRowSet(sqlAllProfiles);
 	        while (results.next()) {
@@ -75,8 +75,22 @@ public class JdbcEmployeeProfileDao implements EmployeeProfileDao {
 	        return profiles;
 	    }
 	 
+	 @Override
+		public EmployeeProfile getProfileById(int id) {
+			EmployeeProfile aProfile = new EmployeeProfile();
+								String sqlProfile =	"SELECT employee_profile.*,users.email, users.firstname, users.lastname, users.profile_pic "
+										 +  	"FROM employee_profile "
+										 +		"JOIN users ON employee_profile.user_id = users.id "
+										 +	"WHERE employee_profile.emp_id = '"+ id +"'";
+					SqlRowSet sqlResult = myJdbcTemplate.queryForRowSet(sqlProfile);
+					while(sqlResult.next()) {
+					aProfile = mapRowToProfile(sqlResult);
+							}
+						return aProfile;
+		}
+	 
 	@Override
-	public EmployeeProfile getProfileById(String email) {
+	public EmployeeProfile getProfileByEmail(String email) {
 		EmployeeProfile aProfile = new EmployeeProfile();
 							String sqlProfile =	"SELECT employee_profile.*,users.email, users.firstname, users.lastname, users.profile_pic "
 									 +  	"FROM employee_profile "
@@ -95,6 +109,7 @@ public class JdbcEmployeeProfileDao implements EmployeeProfileDao {
 		newProfile.setLastname(result.getString("lastname"));
 		newProfile.setProfilePic(result.getString("profile_pic"));
 		newProfile.setRole(result.getString("role"));
+		newProfile.setStartDate(result.getDate("start_date"));
 		newProfile.setCampusShortCode(result.getString("campus_short"));
 		newProfile.setComplianceTime(result.getInt("compliance_time"));
 		newProfile.setElectiveTime(result.getInt("elective_time"));

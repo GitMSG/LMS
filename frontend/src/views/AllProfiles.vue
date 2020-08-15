@@ -5,14 +5,17 @@
             <div  >
                <!--  <EditUser :email = auth.getUser().sub :currentpermission = auth.getUser().rol :id = aProfile.profileId /> -->
             </div>
-            <div id='image-div'>
-                <img :src="aProfile.profilePic" class="profilePic" height="200px"/>
-            </div>
+                <router-link v-bind:to="{name: 'admnprofile', params: {profile: aProfile}}">
+                   <div id='image-div'>
+                        <img :src="aProfile.profilePic" class="profilePic" height="200px"   />
+                    </div>
+                     
+                </router-link>
             <div id="profile-detail">
                 <h1> {{aProfile.firstname+" "+aProfile.lastname}} </h1>
                 <h2><span class="label">Location</span>{{aProfile.campusShortCode}}</h2>
                 <h2><span class="label">Position</span>{{aProfile.role}}</h2>
-               
+                 <h2><span class="label">Start Date</span>{{aProfile.startDate}}</h2>
             </div>
             <div class="time-div" >
                 <p>Compliance Total:<span class="compliance" > {{aProfile.complianceTime/60}}</span></p>
@@ -41,10 +44,7 @@ import auth from "@/auth.js"
            }
 
         },
-        methods:{
-            
-           
-        },
+       
         created() {
             fetch(`${process.env.VUE_APP_REMOTE_API}/api/allProfiles`,{
                 method: 'GET',
@@ -58,29 +58,13 @@ import auth from "@/auth.js"
                 })  
             .then ((theData) => {   
             this.profiles = theData;
-              this.sortProfiles(this.profiles)
+             
                       
                     })
             .catch((err) => {
                 console.log(err);
             })
-            /* fetch(`${process.env.VUE_APP_REMOTE_API}/api/training`, {
-                method: 'GET',
-                headers: {
-                Authorization: 'Bearer ' + auth.getToken(),
-                    },
-                credentials: 'same-origin',
-                })
-            .then ((response) => {   
-                    return response.json()
-                    })  
-            .then ((theData) => {   
-                this.trainingArr = theData; 
-                this.getTotals(this.trainingArr);           
-                    })
-                    .catch((err) => {
-                    console.log(err);
-            }) */
+          
             
     }
         
@@ -93,8 +77,9 @@ import auth from "@/auth.js"
     padding:0px 10px;
     color:white;
 }
-#image-div{
-   
+.img-button{
+   background:none;
+   border:none;
 }
 .profilePic{
     border-radius:50%;

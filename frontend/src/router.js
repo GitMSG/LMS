@@ -7,6 +7,7 @@ import Register from './views/Register.vue'
 import EditUserRoles from './views/EditUserRoles.vue'
 import ProfileForm from './views/ProfileForm.vue'
 import Profile from './views/Profile.vue'
+import AdmnProfile from './views/AdmnProfile.vue'
 import AllProfiles from './views/AllProfiles.vue'
 import UnApprovedList from './views/UnApprovedList.vue'
 
@@ -36,6 +37,14 @@ const router = new Router({
       path: '/profile',
       name: 'profile',
       component: Profile,
+      meta: {
+        requiresAuth: false
+      }
+    },
+    {
+      path: '/admnprofile',
+      name: 'admnprofile',
+      component: AdmnProfile,
       meta: {
         requiresAuth: false
       }
