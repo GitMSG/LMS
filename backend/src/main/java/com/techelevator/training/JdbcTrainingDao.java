@@ -83,18 +83,6 @@ public class JdbcTrainingDao implements TrainingDao {
 		myJdbcTemplate.update(sql, id);
 	}
 	
-//	@Override
-//	public List<Training> getUnApproved() {
-//		List<Training> unApproved = new ArrayList<>();
-//		String sql = "SELECT  * FROM training WHERE training.approved = false";
-//		SqlRowSet results = myJdbcTemplate.queryForRowSet(sql);
-//		while (results.next()) {
-//			Training aTraining = mapRowToTraining(results);
-//			unApproved.add(aTraining);
-//		}
-//		return unApproved;
-//	}
-	
 	@Override
 	public List<Training> getAUsersTraining(int id) {
 		List<Training> trainings = new ArrayList<>();

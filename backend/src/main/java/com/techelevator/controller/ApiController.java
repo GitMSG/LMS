@@ -7,7 +7,9 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -108,18 +110,17 @@ public class ApiController {
 	public void updateTrainingApproval(@PathVariable int id) {
 		trainingDao.updateApproval(id);
 	}
-//	@RequestMapping(path = "/needApproval", method = RequestMethod.GET)
-//	public List<Training> getUnApproved() throws UnauthorizedException {
-//		String permission = authProvider.getCurrentUser().getPermission();
-//		if (permission.equals("admin")) {
-//
-//			List<Training> unApprovedList = trainingDao.getUnApproved();
-//			return unApprovedList;
-//		} else {
-//			throw new UnauthorizedException();
-//		}
-//	}
+	@RequestMapping(path = "/deactivateUser/{id}", method = RequestMethod.PUT)
+	public void deactivateUser(@RequestBody Date endDate, @PathVariable int id) {
+		 employeeProfileDao.makeUserInactive(endDate,id);
+		
+	}
 
+	@RequestMapping(path = "/user/{id}", method = RequestMethod.GET)
+	public User getUser(@PathVariable int id) {
+		User user = userDao.getUserById(id);
+		return user;
+	}
 	@RequestMapping(path = "/users", method = RequestMethod.GET)
 	public List<User> getUsers() {
 		List<User> allUsers = userDao.getAllUsers();

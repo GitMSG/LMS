@@ -10,7 +10,6 @@ public interface TrainingDao {
 	
 	public void createTraining(Training myTraining, int id, String permission);
 	
-//	public List<Training>getUnApproved();
 	public Map<String,Training>getUnApproved();
 
 	public void updateApproval(int id);

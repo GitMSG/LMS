@@ -2,10 +2,8 @@
     <div id="profile" >
     <ul >
         <li v-for="aProfile in profiles" v-bind:key="aProfile.profileId" class="list" >
-            <div  >
-               <!--  <EditUser :email = auth.getUser().sub :currentpermission = auth.getUser().rol :id = aProfile.profileId /> -->
-            </div>
-                <router-link v-bind:to="{name: 'admnprofile', params: {profile: aProfile}}">
+                <router-link v-bind:to="{name: 'admnprofile',
+                                        params: {profile: aProfile, currentpermission:permission}}">
                    <div id='image-div'>
                         <img :src="aProfile.profilePic" class="profilePic" height="200px"   />
                     </div>
@@ -37,6 +35,7 @@ import auth from "@/auth.js"
         name:'allProfiles',
         data(){
            return{
+               permission:auth.getUser().rol,
                profiles: [],
                 compSum: 0,
                 elecSum: 0,
@@ -57,9 +56,7 @@ import auth from "@/auth.js"
                 return response.json()
                 })  
             .then ((theData) => {   
-            this.profiles = theData;
-             
-                      
+            this.profiles = theData; 
                     })
             .catch((err) => {
                 console.log(err);

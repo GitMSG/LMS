@@ -115,6 +115,20 @@ public class JdbcUserDao implements UserDao {
 			return null;
 		}
 	}
+	
+	@Override
+	public User getUserById(int id) {
+		String sqlSelectUserByEmail = "SELECT id, email, permission " 
+														+  "FROM users u "
+														+  		"JOIN employee_profile ep ON ep.user_id = u.id "
+														+  "WHERE ep.emp_id = ?";
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlSelectUserByEmail, id);
+		if (results.next()) {
+			return mapResultToUser(results);
+		} else {
+			return null;
+		}
+	}
 
 	@Override
 	public void deleteUser(int id) {
@@ -141,9 +155,6 @@ public class JdbcUserDao implements UserDao {
 		user.setId(results.getLong("id"));
 		user.setEmail(results.getString("email"));
 		user.setPermission(results.getString("permission"));
-//		user.setFirstName(results.getString("firstname"));
-//		user.setLastName(results.getString("lastname"));
-//		user.setProfilePic(results.getString("profile_pic"));
 		return user;
 	}
 

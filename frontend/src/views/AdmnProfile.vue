@@ -2,6 +2,12 @@
     <div id="profile" >
         <div id="detail-container">
         <div id="profile-detail">
+            <button  v-on:click="toggleEditMode" v-if="!editUser" class="edit-button">Edit User</button>
+              
+            <div v-if="editUser" class="edit-div">
+                <button  v-on:click="toggleEditMode" v-if="editUser" class="edit-button">Cancel Edit</button>
+                <EditUser :email = user.email :currentpermission = user.permission :id = profile.profileId />
+            </div>
             <div id="image-div" >
                 <img :src="profile.profilePic" class="profilePic" height="200px"/>
             </div>
@@ -16,7 +22,8 @@
                 <p>Elective Total:    <span class="elective" >    {{elecSum/60}}</span></p>
                 <p>Total:    <span class="total" >    {{elecSum/60 + compSum/60}}</span></p>
             </div>
-        </div>
+        </div> 
+              
             <button v-if="!this.formMode" 
                     v-on:click="toggleFormMode" 
                     class="form-button">Add Training
@@ -35,15 +42,17 @@
 import auth from "@/auth.js"
 import Training from "@/components/Training.vue"
 import TrainingForm from "@/components/TrainingForm.vue"
+import EditUser from '@/components/EditUser.vue'
     export default {
         name:'admnprofile',
         components:{
             Training,
             TrainingForm,
+            EditUser,
         },
         data(){
            return{
-                
+                editUser:false,
                 formMode: false,
                 profile:{
                      profileId: this.$route.params.profile.profileId,
@@ -53,6 +62,11 @@ import TrainingForm from "@/components/TrainingForm.vue"
                      role: this.$route.params.profile.role,
                      startDate: this.$route.params.profile.startDate,
                      profilePic: this.$route.params.profile.profilePic,
+                },
+                user:{
+                    id:'',
+                    email:'',
+                    permission:'',
                 },
                 trainingArr:[],
                 compSum: 0,
@@ -81,6 +95,25 @@ import TrainingForm from "@/components/TrainingForm.vue"
             })   
             
         },
+        mounted(){
+            fetch(`${process.env.VUE_APP_REMOTE_API}/api/user/${this.profile.profileId}`,
+                {
+                    method: 'GET',
+                    headers: {
+                    Authorization: 'Bearer ' + auth.getToken(),
+                    },
+                    credentials: 'same-origin',
+                    })
+                .then ((response) => {     
+                    return response.json()
+                    })  
+                .then ((theData) => {   
+                this.user = theData;
+                 })
+                .catch((err) => {
+                console.log(err);
+                 })
+        },
         methods: {
             toggleFormMode(){
                 if(!this.formMode){
@@ -88,7 +121,14 @@ import TrainingForm from "@/components/TrainingForm.vue"
                 }
               
             },
-          
+             toggleEditMode(){
+                if(!this.editUser){
+                    this.editUser = true;
+                }else{
+                    this.editUser = false;
+                }
+              
+            },   
            getTotals(arr){
                let compTimeArr= []
                let elecTimeArr= []
@@ -154,11 +194,34 @@ p{
   color:white;
   padding: 5px 20px;
   text-decoration: none;
-  font-size: 16px;
+  font-size: 12px;
   border-radius: 4px;
   border:none;
-  margin:10px;
+  margin:5px;
   cursor:pointer
+}
+
+.edit-button{
+  float: left;
+  width:125px;
+  Height:28px;
+  background-color: rgba(36,104,143,1);
+  color:white;
+  padding: 5px 20px;
+  text-decoration: none;
+  font-size: 12px;
+  border-radius: 4px;
+  border:none;
+  margin:5px;
+  cursor:pointer
+}
+.permission-form{
+    margin:0px;
+}
+.edit-div{
+    width:150px;
+    display:flex;
+    flex-direction:column;
 }
 .label{
     font-weight:lighter;

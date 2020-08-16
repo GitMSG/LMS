@@ -42,6 +42,7 @@ import auth from "@/auth.js"
         },
         methods: {
             getUserEmail(u){
+                
                 for(let i=0;i<u.length;i++ )  {
                    let el =  u.shift()     
                        return el 
@@ -49,19 +50,16 @@ import auth from "@/auth.js"
             },
             approveTraining(id){
                 fetch(`${process.env.VUE_APP_REMOTE_API}/api/updateApproval/${id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: 'Bearer ' + auth.getToken(),     
-                },
-                      
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: 'Bearer ' + auth.getToken(),     
+                    },   
                 })
                 .then((response) => {
                     if(response.ok) {
-                      
                         this.$router.go();
                     }
-                   
                 })
                 .catch((err) => console.error(err));
             },
@@ -80,9 +78,11 @@ import auth from "@/auth.js"
                     })  
             .then ((theData) => {   
                 this.trainingArr = theData;
-                console.log(this.trainingArr)
+               
                 if( Object.keys(this.trainingArr).length === 0 ){
                     this.noTrainings = true
+                }else{
+                     this.users = Object.keys(this.trainingArr)
                 }
                      
                     })

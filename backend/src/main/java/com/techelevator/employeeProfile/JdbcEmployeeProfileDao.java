@@ -2,6 +2,7 @@ package com.techelevator.employeeProfile;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -74,6 +75,11 @@ public class JdbcEmployeeProfileDao implements EmployeeProfileDao {
 						}
 					return aProfile;
 	}
+	@Override 
+	public void makeUserInactive(Date endDate, int id) {
+		myJdbcTemplate.update("UPDATE employee_profile SET end_date = ? WHERE emp_id = ?", endDate, id);
+	}
+	
 	private ProfileDTO mapRowToProfileDto(SqlRowSet result) {
 		ProfileDTO newProfile = new ProfileDTO();
 		newProfile.setProfileId(result.getInt("emp_id"));

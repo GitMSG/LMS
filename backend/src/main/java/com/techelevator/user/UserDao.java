@@ -5,8 +5,6 @@ import java.util.List;
 public interface UserDao {
 
     public User saveUser(String email, String password, String permission);
-    
-    //public long createUser(User aUser, String email);
 
     public void changePassword(User user, String newPassword);
 
@@ -15,6 +13,8 @@ public interface UserDao {
     public List<User> getAllUsers();
 
     public User getUserByEmail(String email);
+    
+    public User getUserById(int id);
     
     public void changePermission(String email, String permission);
     
