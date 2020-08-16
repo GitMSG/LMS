@@ -2,6 +2,7 @@ package com.techelevator.training;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public interface TrainingDao {
 	
@@ -9,6 +10,8 @@ public interface TrainingDao {
 	
 	public void createTraining(Training myTraining, int id, String permission);
 	
-	public List<Training>getUnApproved();
+//	public List<Training>getUnApproved();
+	public Map<String,Training>getUnApproved();
 
+	public void updateApproval(int id);
 }

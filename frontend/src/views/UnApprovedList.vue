@@ -1,11 +1,13 @@
 <template>
     <div id="unapproved-page" >
         <ul class="training-list">
-            <li v-for="aTrain in trainingArr" v-bind:key="aTrain.trainingId" class="training-item"  >
+             <h1 class="notraining" v-if="noTrainings == true" >No Trainings need approved </h1>
+            <li v-for="aTrain in trainingArr"  v-bind:key="aTrain.trainingId" class="training-item"  >
                 <div class="compliance-div" >
                     <h2 class="compliance" v-if="aTrain.isCompliance === true" >Compliance</h2>
                     <h2 class="elective" v-if="aTrain.isCompliance === false" >Elective</h2>
                 </div>
+                <h2><span class="label">User: </span><span class="var">{{getUserEmail(users)}}</span></h2>
                <h2><span class="label">Training Name: </span><span class="var">{{aTrain.name}}</span></h2>
                <h2><span class="label">Training Provider: </span><span class="var">{{aTrain.provider}}</span></h2>
                <h2><span class="label">Training Date: </span><span class="var">{{aTrain.date}}</span></h2>
@@ -20,6 +22,8 @@
                </h2>
                <h3><span class="label">Training Description: </span><span class="var">{{aTrain.topic}}</span></h3>
                <h2 v-if="aTrain.isApproved === false" class="warn">Waiting on Approval</h2>
+               
+                <button  v-on:click="approveTraining(aTrain.trainingId)" class="form-button">Approve</button>
             </li>
         </ul> 
     </div>
@@ -29,34 +33,39 @@
 import auth from "@/auth.js"
     export default {
         name: 'unApprovedList',
-      /*   props:{
-            firstName: String,
-            training: Array,
-        }, */
+     
         data(){
             return{
-               trainingArr: []
+               trainingArr: [],
+                noTrainings: false,
             }
         },
         methods: {
-           /*   getTotals(arr){
-               let compTimeArr= []
-               let elecTimeArr= []
-                 arr.filter( (o)=>{
-                  if(o.isCompliance === true && o.isApproved === true){
-                    compTimeArr.push(o.minutes)   
-                       this.compSum = compTimeArr.reduce( (tot, val)=>{
-                        return tot+val
-                    },0)
-                  } else if(o.isApproved === true){
-                       elecTimeArr.push(o.minutes)   
-                       this.elecSum = elecTimeArr.reduce( (tot, val)=>{
-                        return tot+val
-                    },0)
-                  } 
-              })
+            getUserEmail(u){
+                for(let i=0;i<u.length;i++ )  {
+                   let el =  u.shift()     
+                       return el 
+                }
+            },
+            approveTraining(id){
+                fetch(`${process.env.VUE_APP_REMOTE_API}/api/updateApproval/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: 'Bearer ' + auth.getToken(),     
+                },
+                      
+                })
+                .then((response) => {
+                    if(response.ok) {
+                      
+                        this.$router.go();
+                    }
                    
-           } */
+                })
+                .catch((err) => console.error(err));
+            },
+            
         },
         mounted(){
             fetch(`${process.env.VUE_APP_REMOTE_API}/api/needApproval`, {
@@ -70,9 +79,12 @@ import auth from "@/auth.js"
                     return response.json()
                     })  
             .then ((theData) => {   
-                this.trainingArr = theData; 
+                this.trainingArr = theData;
                 console.log(this.trainingArr)
-                /* this.getTotals(this.trainingArr);  */          
+                if( Object.keys(this.trainingArr).length === 0 ){
+                    this.noTrainings = true
+                }
+                     
                     })
                     .catch((err) => {
                     console.log(err);
@@ -105,15 +117,26 @@ import auth from "@/auth.js"
     padding:10px;
     color:rgb(211, 228, 243);
 }
+.form-button{
+  background-color: rgba(36,104,143,1);
+  color:white;
+  padding: 5px 20px;
+  text-decoration: none;
+  font-size: 16px;
+  border-radius: 4px;
+  border:none;
+  margin:10px;
+  cursor:pointer
+}
 
 .var{
     color:silver;
     font-weight:lighter;
     text-align:center;
 }
-.compliance{
+.notraining{
     color:#1C9A2F;
-    font-size: 20px;
+    /* font-size: 20px; */
 }
 .elective{
     color: rgba(36,104,143,1);

@@ -39,20 +39,6 @@ public class JdbcEmployeeProfileDao implements EmployeeProfileDao {
 		myJdbcTemplate.update(insertSql,newProfile.getRole(),newProfile.getStartDate(),newProfile.getCampusShortCode(),newProfile.getFirstName(), newProfile.getLastName(), profilePic);
 	}
 	
-//	 @Override
-//	    public List<EmployeeProfile> getAllProfiles() {
-//	        List<EmployeeProfile> profiles = new ArrayList<EmployeeProfile>();
-//	        String sqlAllProfiles =	"SELECT employee_profile.*,users.email, users.firstname, users.lastname, users.profile_pic "
-//					 							+  		"FROM employee_profile "
-//					 							+		"JOIN users ON employee_profile.user_id = users.id "
-//					 							+  "WHERE  users.firstname NOT LIKE 'TE Firstname' AND employee_profile.end_date is NULL";
-//	        SqlRowSet results = myJdbcTemplate.queryForRowSet(sqlAllProfiles);
-//	        while (results.next()) {
-//	            EmployeeProfile aProfile = mapRowToProfile(results);
-//	            profiles.add(aProfile);
-//	        }
-//	        return profiles;
-//	    }
 	 @Override
 	    public List<ProfileDTO> getAllProfiles() {
 	        List<ProfileDTO> profiles = new ArrayList<>();
@@ -74,20 +60,6 @@ public class JdbcEmployeeProfileDao implements EmployeeProfileDao {
 	        }
 	        return profiles;
 	    }
-	 
-	 @Override
-		public EmployeeProfile getProfileById(int id) {
-			EmployeeProfile aProfile = new EmployeeProfile();
-								String sqlProfile =	"SELECT employee_profile.*,users.email, users.firstname, users.lastname, users.profile_pic "
-										 +  	"FROM employee_profile "
-										 +		"JOIN users ON employee_profile.user_id = users.id "
-										 +	"WHERE employee_profile.emp_id = '"+ id +"'";
-					SqlRowSet sqlResult = myJdbcTemplate.queryForRowSet(sqlProfile);
-					while(sqlResult.next()) {
-					aProfile = mapRowToProfile(sqlResult);
-							}
-						return aProfile;
-		}
 	 
 	@Override
 	public EmployeeProfile getProfileByEmail(String email) {

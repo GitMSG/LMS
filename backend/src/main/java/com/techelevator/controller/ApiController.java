@@ -65,14 +65,6 @@ public class ApiController {
 				aProfile = employeeProfileDao.getProfileByEmail(email);
 				return aProfile;
 	}
-	
-	@RequestMapping(path = "/profile/{id}", method = RequestMethod.GET)
-	public EmployeeProfile getProfileById(@PathVariable  int id)throws UnauthorizedException {
-		EmployeeProfile aProfile = new EmployeeProfile();
-		//String email =  authProvider.getCurrentUser().getEmail();
-				aProfile = employeeProfileDao.getProfileById(id);
-				return aProfile;
-	}
 
 	@RequestMapping(path = "/", method = RequestMethod.GET)
 	public String authorizedOnly() throws UnauthorizedException {
@@ -82,11 +74,6 @@ public class ApiController {
 		return "Success";
 	}
 
-//	@RequestMapping(path = "/allProfiles", method = RequestMethod.GET)
-//	public List<EmployeeProfile> getProfiles() {
-//		List<EmployeeProfile> allProfiles = employeeProfileDao.getAllProfiles();
-//		return allProfiles;
-//	}
 	@RequestMapping(path = "/allProfiles", method = RequestMethod.GET)
 	public List<ProfileDTO> getProfiles() {
 		List<ProfileDTO> allProfiles = employeeProfileDao.getAllProfiles();
@@ -107,16 +94,31 @@ public class ApiController {
 	}
 
 	@RequestMapping(path = "/needApproval", method = RequestMethod.GET)
-	public List<Training> getUnApproved() throws UnauthorizedException {
+	public Map<String,Training> getUnApproved() throws UnauthorizedException {
 		String permission = authProvider.getCurrentUser().getPermission();
 		if (permission.equals("admin")) {
 
-			List<Training> unApprovedList = trainingDao.getUnApproved();
+			Map<String,Training> unApprovedList = trainingDao.getUnApproved();
 			return unApprovedList;
 		} else {
 			throw new UnauthorizedException();
 		}
 	}
+	@RequestMapping(path = "/updateApproval/{id}", method = RequestMethod.PUT)
+	public void updateTrainingApproval(@PathVariable int id) {
+		trainingDao.updateApproval(id);
+	}
+//	@RequestMapping(path = "/needApproval", method = RequestMethod.GET)
+//	public List<Training> getUnApproved() throws UnauthorizedException {
+//		String permission = authProvider.getCurrentUser().getPermission();
+//		if (permission.equals("admin")) {
+//
+//			List<Training> unApprovedList = trainingDao.getUnApproved();
+//			return unApprovedList;
+//		} else {
+//			throw new UnauthorizedException();
+//		}
+//	}
 
 	@RequestMapping(path = "/users", method = RequestMethod.GET)
 	public List<User> getUsers() {

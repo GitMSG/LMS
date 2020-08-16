@@ -3,6 +3,8 @@ package com.techelevator.training;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import javax.sql.DataSource;
 
@@ -56,18 +58,42 @@ public class JdbcTrainingDao implements TrainingDao {
 			myJdbcTemplate.update(sql);
 		}
 	}
-	
 	@Override
-	public List<Training> getUnApproved() {
-		List<Training> unApproved = new ArrayList<>();
-		String sql = "SELECT  * FROM training WHERE training.approved = false";
+	public Map<String,Training> getUnApproved() {
+		Map<String,Training> unApproved = new TreeMap<>();
+		String sql = "SELECT u.email, t.* " + 
+							"FROM training t " + 
+								"JOIN training_cert_period tcp ON t.train_id = tcp.train_id " + 
+								"JOIN cert_period cp ON tcp.cert_period_id = cp.cert_id " + 
+								"JOIN employee_profile ep ON cp.emp_id = ep.emp_id " + 
+								"JOIN users u ON ep.user_id = u.id " + 
+							"WHERE t.approved = false AND ep.end_date is NULL";
 		SqlRowSet results = myJdbcTemplate.queryForRowSet(sql);
 		while (results.next()) {
+			String email = results.getString("email");
 			Training aTraining = mapRowToTraining(results);
-			unApproved.add(aTraining);
+			unApproved.put(email,aTraining);
 		}
 		return unApproved;
 	}
+	
+	@Override
+	public void updateApproval(int id) {
+		String sql = "UPDATE training SET approved = true WHERE train_id = ?";
+		myJdbcTemplate.update(sql, id);
+	}
+	
+//	@Override
+//	public List<Training> getUnApproved() {
+//		List<Training> unApproved = new ArrayList<>();
+//		String sql = "SELECT  * FROM training WHERE training.approved = false";
+//		SqlRowSet results = myJdbcTemplate.queryForRowSet(sql);
+//		while (results.next()) {
+//			Training aTraining = mapRowToTraining(results);
+//			unApproved.add(aTraining);
+//		}
+//		return unApproved;
+//	}
 	
 	@Override
 	public List<Training> getAUsersTraining(int id) {
