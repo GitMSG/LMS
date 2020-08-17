@@ -1,7 +1,7 @@
 <template>
     <div id="profile" >
          <div class="loading" v-if="isLoading">
-            <img src="@/assets/TE_bur.png" />
+            <img class="loading-image" src="@/assets/TE_bur2.gif" />
         </div>
         <div id="detail-container">
         <div id="profile-detail">
@@ -135,7 +135,7 @@ import TrainingForm from "@/components/TrainingForm.vue"
                         setTimeout(() => {
                             this.isLoading = false;
           
-                                }, 500);
+                                }, 1000);
                     })       
         
             
@@ -181,12 +181,16 @@ p{
     
 }
 .loading {
+  background-color:rgba(32, 33, 36, 1 );
+  margin:0px;
   width: 100vw;
   height: 100vh;
   position: absolute;
-  top: 0;
-  left: 0;
   z-index: 1000;
+}
+.loading-image{
+   margin-top:20%;
+   left:50%;
 }
 .form-button{
   background-color: rgba(36,104,143,1);
