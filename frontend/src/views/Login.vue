@@ -1,5 +1,8 @@
 <template>
 <div id="login-page" :style="image" >
+   <div class="loading" v-if="isLoading">
+            <img class="loading-image" src="@/assets/TE_bur2.gif" />
+    </div>
 
   <div id="login" class="login-text-center">
     
@@ -43,19 +46,25 @@ export default {
   components: {},
   data() {
     return {
+      isLoading: true,
       user: {
         email: '',
         password: '',
       },
       image: {
-              background: `url(${require('@/assets/TE_LMS.png')}) no-repeat` ,
-              backgroundSize: "cover",
+              background: `url(${require('@/assets/TE_LMS2.png')}) no-repeat` ,
+              //backgroundSize: "cover",
               backgroundPosition: "center",
             
             },
       invalidCredentials: false,
     }
   },
+  created(){
+            setTimeout(() => {
+              this.isLoading = false;
+            }, 750);                  
+    },
   methods: {
     login() {
       fetch(`${process.env.VUE_APP_REMOTE_API}/login`, {
@@ -85,7 +94,8 @@ export default {
             this.$router.go();
           }
         })
-        .catch((err) => console.error(err));
+        .catch((err) => console.error(err))
+        
     },
   },
 };
@@ -105,7 +115,7 @@ export default {
   align-items:center;
   margin:auto;
   color:white;
-  background-color:rgba(32, 33, 36, .8 );
+  background-color:rgba(32, 33, 36, .9 );
   border-radius:4px;
   box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14),0 1px 10px 0 rgba(0, 0, 0, 0.12);
   text-align:right;
@@ -131,6 +141,18 @@ input {
   font-weight:lighter;
   color: white;
   padding-top: 5px;
+}
+.loading {
+  background-color:rgba(32, 33, 36, 1 );
+  margin:0px;
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  z-index: 1000;
+}
+.loading-image{
+   margin-top:20%;
+   left:50%;
 }
 
 .login-submit{

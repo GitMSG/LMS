@@ -71,7 +71,7 @@ export default {
             })
             .then((response) => {
             if(response.ok) {
-                    this.$router.push({name: 'editUserRoles'});
+                    this.$router.push({name: 'allProfiles'});
                     this.$router.go();
                     }
             
@@ -89,7 +89,7 @@ export default {
                 })
                 .then((response) => {
                     if(response.ok) {
-                         this.$router.push({name: 'editUserRoles'}); 
+                         this.$router.push({name: 'allProfiles'}); 
                          this.$router.go();
                     }
                     // return response.json();
@@ -99,7 +99,9 @@ export default {
     }
 }
 </script>
-<style >
+<style scoped >
+
+
 .delete-button{
   float: left;
   width:125px;

@@ -22,11 +22,12 @@ export default {
         aUser: auth.getUser().sub,
         userRole: auth.getUser().rol,
         image: {
-              background: `url(${require('@/assets/TE_LMS.png')})no-repeat` ,
-              backgroundSize: "cover",
+              background: `url(${require('@/assets/TE_LMS2.png')})no-repeat` ,
+              //backgroundSize: "cover",
               backgroundPosition: "center",
               backgroundRepeat: "no-repeat",
-              backgroundAttachment:"fixed"
+              backgroundAttachment:"fixed",
+             
             }
     }
   }

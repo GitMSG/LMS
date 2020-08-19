@@ -1,6 +1,6 @@
 <template>
      <div id="nav" class="nav">
-      <router-link :to="{ name: 'home' }" class="baritem">Home</router-link>
+     <!--  <router-link :to="{ name: 'home' }" class="baritem">Home</router-link> -->
       <router-link :to="{ name: 'profileForm'}" class="baritem">Profile Form</router-link>
       <router-link :to="{ name: 'profile' }" class="baritem">Profile</router-link>
       

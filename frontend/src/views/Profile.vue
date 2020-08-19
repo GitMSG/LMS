@@ -145,13 +145,14 @@ import TrainingForm from "@/components/TrainingForm.vue"
 
 <style scoped>
 #profile{
-   
-    padding:20px;
+    height: 100vh;
+   /* 
+    padding:20px; */
     border-radius:3px;
     color:silver;
 }
 #detail-container{
-    background-color:rgba(233, 235, 241, 0.6);
+    background-color:rgba(233, 235, 241, 0.8);
     box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14),0 1px 10px 0 rgba(0, 0, 0, 0.12);
 }
 #profile-detail{
@@ -165,7 +166,7 @@ import TrainingForm from "@/components/TrainingForm.vue"
     border: 1px solid #1c9a2f;
 }
 #profile-text{
-    background-color:rgba(32, 33, 36, .80 );
+    background-color:rgba(32, 33, 36, .8);
     box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14),0 1px 10px 0 rgba(0, 0, 0, 0.12);
     align-self:center;
 }
@@ -185,12 +186,12 @@ p{
   margin:0px;
   width: 100vw;
   height: 100vh;
-  position: absolute;
+  position: fixed;
   z-index: 1000;
 }
 .loading-image{
    margin-top:20%;
-   left:50%;
+ 
 }
 .form-button{
   background-color: rgba(36,104,143,1);

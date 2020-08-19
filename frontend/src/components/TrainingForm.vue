@@ -134,7 +134,7 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
 <style scoped>
 .new-training-form{
      margin:auto;
-    
+   /*  height: 75vh; */
     color:white;
     padding:30px;
 }
@@ -175,6 +175,7 @@ input{
 }
 h1{
     font-weight:lighter;
+    margin:0px;
 }
 .training-button{
     padding:5px;
