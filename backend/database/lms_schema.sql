@@ -115,8 +115,8 @@ REFERENCES cert_period(cert_id)ON DELETE CASCADE;
             --         'https://res.cloudinary.com/goshorn/image/upload/v1594733918/lms_test/m5dk9epbzckoohjh4zgv.jpg'           Lady model
             --         'https://res.cloudinary.com/goshorn/image/upload/v1595780617/lms_test/n3remymsuqppkuxk6zsr.jpg'          Bill Murray
 update users
-set profile_pic = 'https://res.cloudinary.com/goshorn/image/upload/v1595780617/lms_test/n3remymsuqppkuxk6zsr.jpg'
-where users.id = 10
+set profile_pic = 'https://res.cloudinary.com/goshorn/image/upload/v1596050794/lms_test/wgc3a23t3fia1wjcska9.jpg'
+where users.id = 2
 
 
 DELETE  FROM training t 

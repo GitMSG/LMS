@@ -12,21 +12,32 @@
                  
                         <span class="label">Date </span><input type="date" v-model="training.date"><br/>
 
-                       <!--  <span class="label">Compliance </span><input type="checkbox" v-model="training.isCompliance" id="isCompliance"><br/> -->
-                        <span class="label">Select One </span>
+                       
+                        <span class="label">Select Training Type </span>
                         <select v-model="type" class="dropdown" @change="showType($event.target.value)" >
                         <option value="complianceTime" >Compliance</option>
                         <option value="electiveTime" >Elective</option>
                         </select><br/>
 
-                    <div v-if="compliance === true" > <span class="label">Compliance Hours</span>
-                        <input  :bind="training.complianceTime" @input="handleInputCompliance($event.target.value)"><br/>
-                    </div>
-                    <div v-if="compliance === false" > <span class="label">Elective Hours</span>
-                        <input  :bind="training.electiveTime" @input="handleInputElective($event.target.value)"><br/>
-                    </div>
-                  
-                    <div class="dropzone-div">
+                         <div v-if="compliance === true" > <span class="label">Compliance Hours</span>
+                            <input  :bind="training.complianceTime" @input="handleInputCompliance($event.target.value)"><br/>
+                        </div>
+                        <div v-if="compliance === false" > <span class="label">Elective Hours</span>
+                            <input  :bind="training.electiveTime" @input="handleInputElective($event.target.value)"><br/>
+                        </div>
+
+                        <span class="label">Select Proof Type </span>
+                        <select v-model="proof" class="dropdown" @change="showProof($event.target.value)" >
+                        <option value="photo" >Upload Photo</option>
+                        <option value="link" >Paste Link</option>
+                        </select><br/>
+
+                   
+
+                    <div v-if="link === true" > <span class="label">Link </span>
+                        <input  v-model="training.proof" placeholder="Paste A Link ..." ><br/>
+                    </div>                  
+                    <div class="dropzone-div" v-if="dropzone === true" >
                         <span class="training-label">Enter Image of Certificate </span>
                         <vue-dropzone id="dropzone" 
                                     :options="dropzoneOptions" 
@@ -56,8 +67,11 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
         },
         data() {
             return {
+                proof: '',
                 type: '',
                 compliance:null,
+                dropzone:false,
+                link:false,
                 training: {
                     name: '',
                     provider: '',
@@ -89,6 +103,16 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
                     this.compliance = false
                 }
             },
+            showProof(p){
+                    if(p === 'photo'){
+                        this.dropzone = true;
+                        this.link = false;
+                    }
+                    if(p === 'link'){
+                        this.link = true;
+                        this.dropzone = false;
+                    }
+            },
             handleInputCompliance(value){
                 this.training.complianceTime = value * 60;
             },
@@ -112,7 +136,7 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
                         this.$router.push({name: 'profile'}); 
                         this.$router.go();
                     }
-                    //return response.json();
+                    
                 })
                 .catch((err) => console.error(err));
             },
@@ -133,16 +157,10 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
 
 <style scoped>
 .new-training-form{
-     margin:auto;
-   /*  height: 75vh; */
+    margin:auto;
     color:white;
     padding:30px;
 }
-#training-form{
-    
-    color:white;
-    padding:30px;
-    }
 .training-card{
     display: block;
     max-width:500px;
@@ -173,9 +191,15 @@ input{
     border:none;
     border-radius:2px;    
 }
+.dropdown{
+    padding:5px;
+    margin:10px;
+    border:none;
+    border-radius:2px;     
+}
 h1{
     font-weight:lighter;
-    margin:0px;
+    margin:30px 0px 0px 0px;
 }
 .training-button{
     padding:5px;

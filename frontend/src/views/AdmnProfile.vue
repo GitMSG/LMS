@@ -154,7 +154,7 @@ import EditUser from '@/components/EditUser.vue'
 
 <style scoped>
 #profile{
-   
+    height: 100vh;
     padding:20px;
     border-radius:3px;
     color:silver;

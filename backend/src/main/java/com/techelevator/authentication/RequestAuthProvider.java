@@ -40,7 +40,6 @@ public class RequestAuthProvider implements AuthProvider {
     public boolean signIn(String email, String password) {
         User authenticatedUser = dao.getValidUserWithPassword(email, password);
         if (authenticatedUser != null) {
-        	System.out.println("inside RAP 'signin  method  "+ dao.getUserByEmail(email).toString());
             request.setAttribute(USER_KEY, authenticatedUser);
             return true;
         } else {
@@ -76,7 +75,6 @@ public class RequestAuthProvider implements AuthProvider {
     @Override
     public boolean userHasPermission(String[] roles) {
         User currentUser = getCurrentUser();
-        System.out.println("inside RAP 'userhaspermission method  "+ currentUser+"  "+roles);
         if (currentUser != null && roles != null) {
             return Arrays.asList(roles).contains(currentUser.getPermission());
         } else {

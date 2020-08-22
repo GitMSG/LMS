@@ -2,8 +2,12 @@
     <div>
   
     <ul class="training-list">
-        
+               
             <li v-for="aTrain in training" v-bind:key="aTrain.trainingId" class="training-item"  >
+                 <div id="proof-image-div" v-if="image=== true"  >
+                    <img :src="aTrain.proof"  class="proofPic" height="400px"/>
+                    <button @click="closeProof" class="cancel-button" >Cancel</button>
+                </div>
             <div v-if="aTrain.isApproved === false" class="overlay" >
                 <div class="compliance-div" >
                     <h2 class="compliance" v-if="aTrain.complianceTime != 0" >Compliance</h2>
@@ -12,6 +16,7 @@
                <h2><span class="label">Training Name: </span><span class="var">{{aTrain.name}}</span></h2>
                <h2><span class="label">Training Provider: </span><span class="var">{{aTrain.provider}}</span></h2>
                <h2><span class="label">Training Date: </span><span class="var">{{aTrain.date}}</span></h2>
+               
                <h2>
                 <div v-if="aTrain.complianceTime != 0" ><span class="label">Compliance Time: </span>
                     <span class="var">{{aTrain.complianceTime/60}} hrs</span>
@@ -22,6 +27,7 @@
                </h2>
 
                <h3><span class="label">Training Description: </span><span class="var">{{aTrain.topic}}</span></h3>
+                <h3 class="proof-link" @click="showProof(aTrain.proof)" >Proof</h3>
                <h2 v-if="aTrain.isApproved === false" class="warn">Waiting on Approval</h2>
                 </div>
 
@@ -42,7 +48,7 @@
                     </div> 
                 </h2>
                 <h3><span class="label">Training Description: </span><span class="var">{{aTrain.topic}}</span></h3>              
-                
+                 <h3 class="proof-link" @click="showProof(aTrain.proof)" > Proof</h3>
             </div>
             </li>
            
@@ -61,15 +67,53 @@
         },
         data(){
             return{
-             
+             image:false
             }
         },
+        methods:{
+            showProof(p){
+                if(p.includes('cloudinary') ){
+                    console.log(p)
+                    this.image = true;
+                }
+                else this.link = true;
+            },
+            closeProof(){
+                if(this.image === true){
+                    this.image = false;
+                }
+            }
+        }
         
     }
 </script>
 
 <style>
-
+#proof-image-div{
+    display:flex;
+    flex-direction: column;
+  background-color:rgba(32, 33, 36, 1 );
+  margin:0px;
+  left:25%;
+  position: fixed;
+  z-index: 1;
+}
+.proofPic{
+    margin:20px;
+}
+.cancel-button{
+    align-self: center;
+  background-color: rgba(36,104,143,1);
+  color:white;
+  padding: 5px 20px;
+  max-width: 25%;
+  text-decoration: none;
+  font-size: 16px;
+  border-radius: 4px;
+  border:none;
+  margin:10px;
+  cursor:pointer
+}
 .training-item{
     background-color:rgba(32, 33, 36, 1);
     border-radius:4px;
@@ -89,6 +133,11 @@
     color:rgb(231, 202, 34);
     background-color: rgba(238, 240, 241, 0.6); 
     z-index: 2;
+}
+.proof-link{
+    color:rgba(36,104,143,1); 
+    padding:10px;
+    cursor: pointer;
 }
 .warn{
     text-align: center;

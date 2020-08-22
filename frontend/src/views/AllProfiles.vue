@@ -70,7 +70,7 @@ import auth from "@/auth.js"
 
 <style scoped>
 #profile{
-    /* height:100vh; */
+    height:100vh;
     padding:0px 10px;
     color:white;
 }

@@ -70,9 +70,11 @@ public class JdbcTrainingDao implements TrainingDao {
 							"WHERE t.approved = false AND ep.end_date is NULL";
 		SqlRowSet results = myJdbcTemplate.queryForRowSet(sql);
 		while (results.next()) {
+			String trainId = Integer.toString(results.getInt("train_id") );
 			String email = results.getString("email");
+			String uniqueTrainingCode = email+" -Train Id "+trainId;
 			Training aTraining = mapRowToTraining(results);
-			unApproved.put(email,aTraining);
+			unApproved.put(uniqueTrainingCode,aTraining);
 		}
 		return unApproved;
 	}
