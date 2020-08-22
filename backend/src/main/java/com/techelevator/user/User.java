@@ -28,6 +28,15 @@ public class User {
 		return true;
 	}
 
+	
+	@Override
+	public String toString() {
+		return "User [email=" + email + ", permission=" + permission + ", id=" + id + ", firstName=" + firstName
+				+ ", lastName=" + lastName + ", profilePic=" + profilePic + ", password=" + password
+				+ ", confirmPassword=" + confirmPassword + "]";
+	}
+
+
 	public String getFirstName() {
 		return firstName;
 	}

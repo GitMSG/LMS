@@ -7,9 +7,9 @@ public class EmployeeProfile {
 
 	private int profileId;
 	private int userId;
-	private String firstName;
-	private String lastName;
-	private String profilePic;
+//	private String firstName;
+//	private String lastName;
+//	private String profilePic;
 	private String role;
 	private Date startDate;
 	private Date endDate;
@@ -19,11 +19,11 @@ public class EmployeeProfile {
 
 	}
 
-	public EmployeeProfile(String role, Date startDate, String campusShortCode,String firstName,String lastName,String profilePic) {
+	public EmployeeProfile(String role, Date startDate, String campusShortCode) {
 		super();
-		this.firstName=firstName;
-		this.lastName=lastName;
-		this.profilePic=profilePic;
+//		this.firstName=firstName;
+//		this.lastName=lastName;
+//		this.profilePic=profilePic;
 		this.role = role;
 		this.startDate = startDate;
 		this.campusShortCode = campusShortCode;
@@ -38,29 +38,29 @@ public class EmployeeProfile {
 		this.profileId = profileId;
 	}
 
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public String getProfilePic() {
-		return profilePic;
-	}
-
-	public void setProfilePic(String profilePic) {
-		this.profilePic = profilePic;
-	}
+//	public String getFirstName() {
+//		return firstName;
+//	}
+//
+//	public void setFirstName(String firstName) {
+//		this.firstName = firstName;
+//	}
+//
+//	public String getLastName() {
+//		return lastName;
+//	}
+//
+//	public void setLastName(String lastName) {
+//		this.lastName = lastName;
+//	}
+//
+//	public String getProfilePic() {
+//		return profilePic;
+//	}
+//
+//	public void setProfilePic(String profilePic) {
+//		this.profilePic = profilePic;
+//	}
 
 	public int getUserId() {
 		return userId;

@@ -71,6 +71,13 @@ public class ProfileDTO {
 	public void setElectiveTime(int elective) {
 		this.electiveTime = elective;
 	}
+	@Override
+	public String toString() {
+		return "ProfileDTO [profileId=" + profileId + ", firstname=" + firstname + ", lastname=" + lastname
+				+ ", profilePic=" + profilePic + ", role=" + role + ", campusShortCode=" + campusShortCode
+				+ ", startDate=" + startDate + ", complianceTime=" + complianceTime + ", electiveTime=" + electiveTime
+				+ "]";
+	}
 	
 	
 	

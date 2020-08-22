@@ -55,14 +55,14 @@ public class ApiController {
 	private TrainingDao trainingDao;
 
 	@RequestMapping(path = "/createProfile", method = RequestMethod.POST)
-	public void addUserProfile(@RequestBody EmployeeProfile aUserProfile) {
+	public void addUserProfile(@RequestBody ProfileDTO aProfile) {
 		String email = authProvider.getCurrentUser().getEmail();
-		employeeProfileDao.createUserProfile(aUserProfile, email);
+		 userDao.createUserProfile( aProfile, email);
 	}
 
 	@RequestMapping(path = "/profile", method = RequestMethod.GET)
-	public EmployeeProfile getProfile()throws UnauthorizedException {
-		EmployeeProfile aProfile = new EmployeeProfile();
+	public ProfileDTO getProfile()throws UnauthorizedException {
+		ProfileDTO aProfile = new ProfileDTO();
 		String email =  authProvider.getCurrentUser().getEmail();
 				aProfile = employeeProfileDao.getProfileByEmail(email);
 				return aProfile;
@@ -79,7 +79,6 @@ public class ApiController {
 	@RequestMapping(path = "/allProfiles", method = RequestMethod.GET)
 	public List<ProfileDTO> getProfiles() {
 		List<ProfileDTO> allProfiles = employeeProfileDao.getAllProfiles();
-		
 		return allProfiles;
 	}
 

@@ -8,12 +8,12 @@ import com.techelevator.user.User;
 
 public interface EmployeeProfileDao {
 	
-	public void createUserProfile(EmployeeProfile newProfile, String email);
-	
 	public void makeUserInactive(Date endDate, int id);
 	
-	public EmployeeProfile getProfileByEmail(String email);
+	public ProfileDTO getProfileByEmail(String email);
 	
 	public List<ProfileDTO> getAllProfiles();
+	
+	public ProfileDTO getProfileById(int id);
 
 }

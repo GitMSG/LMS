@@ -14,6 +14,8 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
 import com.techelevator.authentication.PasswordHasher;
+import com.techelevator.employeeProfile.EmployeeProfile;
+import com.techelevator.profileDto.ProfileDTO;
 
 @Component
 public class JdbcUserDao implements UserDao {
@@ -52,29 +54,34 @@ public class JdbcUserDao implements UserDao {
 		return newUser;
 	}
 
-//	@Override
-//	public long createUser(User aUser, String email) {
-//
-//		long userId = jdbcTemplate.queryForObject(
-//				"UPDATE users SET firstname = ?,lastname = ?,profile_pic = ? WHERE email = '" + email+ "' RETURNING id",
-//				Long.class, aUser.getFirstName(), aUser.getLastName(), aUser.getProfilePic());
-//
-//		return userId;
-//	}
+	@Override
+	public void createUserProfile(ProfileDTO aProfile, String email) {
+		String profilePic ;
+		if (aProfile.getProfilePic() == null || aProfile.getProfilePic() == "") {
+			profilePic = "https://res.cloudinary.com/goshorn/image/upload/v1596286167/lms_test/TE_bur_z3zvc4.png";
+		}else {
+			profilePic = aProfile.getProfilePic();
+		}
+		String insertSql = 	"UPDATE employee_profile "
+               							+	"SET role = ?,start_date = ?, end_date = null, campus_short = ? "
+               							+	"FROM users "  
+               						+	"WHERE employee_profile.user_id = users.id AND users.email = '"+email+"';"
+									+ "UPDATE users SET firstname = ?,lastname = ?,profile_pic = ? WHERE email = '" + email+ "'";
+		jdbcTemplate.update(insertSql,aProfile.getRole(),aProfile.getStartDate(),aProfile.getCampusShortCode(),aProfile.getFirstname(), aProfile.getLastname(), profilePic);
+	}
 
 	@Override
 	public void changePassword(User user, String newPassword) {
 		byte[] salt = passwordHasher.generateRandomSalt();
 		String hashedPassword = passwordHasher.computeHash(newPassword, salt);
 		String saltString = new String(Base64.encode(salt));
-
 		jdbcTemplate.update("UPDATE users SET password=?, salt=? WHERE id=?", hashedPassword, saltString, user.getId());
 	}
 
 	@Override
 	public User getValidUserWithPassword(String email, String password) {
 		String sqlSearchForUser = "SELECT * FROM users WHERE UPPER(email) = ?";
-
+		System.out.println("inside jdbcuser 'getvaliduserwithpassword method  "+ email+"  ");
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlSearchForUser, email.toUpperCase());
 		if (results.next()) {
 			String storedSalt = results.getString("salt");
@@ -110,7 +117,11 @@ public class JdbcUserDao implements UserDao {
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlSelectUserByEmail, email);
 
 		if (results.next()) {
-			return mapResultToUser(results);
+			User aUser = new User();
+			aUser.setId(results.getLong("id"));
+			aUser.setEmail(results.getString("email"));
+			aUser.setPermission(results.getString("permission"));
+			return aUser;
 		} else {
 			return null;
 		}
@@ -124,7 +135,11 @@ public class JdbcUserDao implements UserDao {
 														+  "WHERE ep.emp_id = ?";
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlSelectUserByEmail, id);
 		if (results.next()) {
-			return mapResultToUser(results);
+			User aUser = new User();
+			aUser.setId(results.getLong("id"));
+			aUser.setEmail(results.getString("email"));
+			aUser.setPermission(results.getString("permission"));
+			return aUser;
 		} else {
 			return null;
 		}
@@ -155,6 +170,9 @@ public class JdbcUserDao implements UserDao {
 		user.setId(results.getLong("id"));
 		user.setEmail(results.getString("email"));
 		user.setPermission(results.getString("permission"));
+		user.setFirstName(results.getString("firstname"));
+		user.setLastName(results.getString("lastname"));
+		user.setProfilePic(results.getString("profile_pic"));
 		return user;
 	}
 

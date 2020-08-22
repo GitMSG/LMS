@@ -9,15 +9,15 @@
                 <img :src="profile.profilePic" class="profilePic" height="200px"/>
             </div>
             <div id="profile-text" >
-                <h1> {{profile.firstName+" "+profile.lastName}} </h1>
+                <h1> {{profile.firstname+" "+profile.lastname}} </h1>
                 <h2><span class="label">Location</span>{{profile.campusShortCode}}</h2>
                 <h2><span class="label">Position</span>{{profile.role}}</h2>
                 <h2><span class="label">Start Date</span>  {{profile.startDate}}</h2>
             </div>
             <div class="time-div" >
-                <p>Compliance Total:<span class="compliance" > {{compSum/60}}</span></p>
-                <p>Elective Total:    <span class="elective" >    {{elecSum/60}}</span></p>
-                <p>Total:    <span class="total" >    {{elecSum/60 + compSum/60}}</span></p>
+                <p>Compliance Total:<span class="compliance" > {{profile.complianceTime/60}}</span></p>
+                <p>Elective Total:    <span class="elective" >    {{profile.electiveTime/60}}</span></p>
+                <p>Total:    <span class="total" >    {{profile.electiveTime/60 + profile.complianceTime/60}}</span></p>
             </div>
         </div>
             <button v-if="!this.formMode" 
@@ -50,16 +50,18 @@ import TrainingForm from "@/components/TrainingForm.vue"
                 formMode: false,
                 profile:{
                      profileId: '',
-                     firstName: '',
-                     lastName: '',
+                     firstname: '',
+                     lastname: '',
                      campusShortCode: '',
                      role: '',
                      startDate: '',
                      profilePic: '',
+                     complianceTime:0,
+                     electiveTime:0,
                 },
                 trainingArr:[],
-                compSum: 0,
-                elecSum: 0,
+               /*  compSum: 0,
+                elecSum: 0, */
 
            }
 
@@ -84,13 +86,13 @@ import TrainingForm from "@/components/TrainingForm.vue"
                     })  
             .then ((theData) => {   
                 this.trainingArr = theData; 
-                this.getTotals(this.trainingArr);           
+               /*  this.getTotals(this.trainingArr);    */        
                     })
                     .catch((err) => {
                     console.log(err);
             })   
             },
-           getTotals(arr){
+          /*  getTotals(arr){
                let compTimeArr= []
                let elecTimeArr= []
                  arr.filter( (o)=>{
@@ -107,7 +109,7 @@ import TrainingForm from "@/components/TrainingForm.vue"
                   } 
               })
                    
-           }
+           } */
         },
         created() {
             fetch(`${process.env.VUE_APP_REMOTE_API}/api/profile`, {
@@ -123,7 +125,7 @@ import TrainingForm from "@/components/TrainingForm.vue"
                 .then ((theData) => {   
                     this.profile = theData;
                     this.showTraining();
-                      if(this.profile.firstName === "TE Firstname"){
+                      if(this.profile.firstname === "TE Firstname"){
                     this.$router.push('/profileForm')
                     this.$router.go()
                 }   

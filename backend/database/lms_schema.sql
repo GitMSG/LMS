@@ -113,15 +113,21 @@ REFERENCES cert_period(cert_id)ON DELETE CASCADE;
             --         'https://res.cloudinary.com/goshorn/image/upload/v1593971293/lms_test/yskdldqgqnvu7jieywyr.jpg'           Matt Photo
             --         'https://res.cloudinary.com/goshorn/image/upload/v1596286167/lms_test/TE_bur_z3zvc4.png'                  TE logo
             --         'https://res.cloudinary.com/goshorn/image/upload/v1594733918/lms_test/m5dk9epbzckoohjh4zgv.jpg'           Lady model
-         
+            --         'https://res.cloudinary.com/goshorn/image/upload/v1595780617/lms_test/n3remymsuqppkuxk6zsr.jpg'          Bill Murray
 update users
-set profile_pic = 'https://res.cloudinary.com/goshorn/image/upload/v1594733918/lms_test/m5dk9epbzckoohjh4zgv.jpg'
-where users.id = 3
+set profile_pic = 'https://res.cloudinary.com/goshorn/image/upload/v1595780617/lms_test/n3remymsuqppkuxk6zsr.jpg'
+where users.id = 10
 
-delete from training_cert_period
-where train_id = 2;
-delete from training 
-where train_id = 2;
+
+DELETE  FROM training t 
+WHERE t.train_id IN  ( SELECT tcp.train_id 
+   FROM training_cert_period tcp 
+      JOIN cert_period cp ON cp.cert_id = tcp.cert_period_id    
+    WHERE cp.emp_id IN (SELECT ep.emp_id 
+    FROM employee_profile ep 
+      JOIN users u ON ep.user_id = u.id  AND u.id = 8 )); 
+        DELETE FROM employee_profile WHERE user_id =8 ;
+        DELETE FROM users WHERE id = 8;
 --------------------------------------------------------------------------------------------------------------------- 
 ----------------------------------Testing sql queries before using in DAO---------------------------------------------     
         
@@ -137,7 +143,24 @@ where train_id = 2;
     WHERE t.approved = false AND ep.end_date is NULL
     GROUP BY ep.emp_id,ep.role, ep.campus_short,
              u.firstname, u.lastname, u.profile_pic
-    
+             
+             
+SELECT ep.emp_id,ep.role,ep.campus_short,ep.start_date,u.firstname, u.lastname, u.profile_pic,  
+ sum(t.compliance_time)compliance_time,sum(t.elective_time)elective_time 
+        FROM users u 
+ 		JOIN employee_profile ep ON ep.user_id = u.id 
+ 		JOIN cert_period cp ON cp.emp_id = ep.emp_id 
+ 		JOIN training_cert_period tcp ON tcp.cert_period_id = cp.cert_id 
+ 		JOIN training t ON t.train_id = tcp.train_id 
+	WHERE u.email = 'tim@gmail.com' 
+ GROUP BY ep.emp_id,ep.role, ep.campus_short,ep.start_date,u.firstname, u.lastname, u.profile_pic
+ 
+ SELECT ep.emp_id,ep.role,ep.campus_short,ep.start_date,u.firstname, u.lastname, u.profile_pic  
+    FROM users u 
+        JOIN employee_profile ep ON ep.user_id = u.id 
+    WHERE u.email = 'tim@gmail.com' 
+ --GROUP BY ep.emp_id,ep.role, ep.campus_short,ep.start_date,u.firstname, u.lastname, u.profile_pic
+
    ------------------------------------------------------------------------------------------------------------ 
    ------------------------------------------------------------------------------------------------------------- 
     

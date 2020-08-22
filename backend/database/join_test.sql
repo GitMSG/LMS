@@ -37,20 +37,27 @@
     CASE WHEN string_agg( t.is_compliance::character varying, ',')= 'true'  THEN SUM(t.minutes)
          END as compliance,
     CASE WHEN string_agg( t.is_compliance::character varying, ',')= 'false' THEN SUM(t.minutes) 
-         END as elective        
+         END as elective 
+            CASE WHEN (t.compliance_time > 0) THEN SUM(t.compliance_time) 
+                        END as compliance_time,
+                CASE WHEN (t.elective_time > 0) THEN SUM(t.elective_time) 
+                        END as elective_time
+                
             
-            
-            
-            
-            
-            
+          SELECT ep.emp_id,ep.role,ep.campus_short,ep.start_date,u.firstname,u.lastname,u.profile_pic
+                --sum(t.compliance_time)compliance_time, sum(t.elective_time)elective_time
+		FROM users u 
+	         JOIN employee_profile ep ON ep.user_id = u.id 
+		 JOIN cert_period cp ON cp.emp_id = ep.emp_id
+		 JOIN training_cert_period tcp ON tcp.cert_period_id = cp.cert_id 
+		 JOIN training t ON t.train_id = tcp.train_id 
+		WHERE u.email = 'jim@gmail.com'
+		 --GROUP BY ep.emp_id,ep.role, ep.campus_short,ep.start_date,u.firstname, u.lastname, u.profile_pic;
+          
              
              
     SELECT ep.emp_id,ep.role,ep.campus_short,u.firstname,u.lastname,t.is_compliance, 
-     CASE WHEN (t.is_compliance = true) THEN SUM(t.minutes) 
-          END as compliance,
-     CASE WHEN (t.is_compliance = false) THEN SUM(t.minutes) 
-          END as elective   
+    
     FROM training t
         JOIN training_cert_period tcp ON t.train_id = tcp.train_id
         JOIN cert_period cp ON tcp.cert_period_id = cp.cert_id
