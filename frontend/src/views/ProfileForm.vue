@@ -105,7 +105,7 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
 <style scoped>
 .new-profile-form{
     margin:auto;
-    height:100vh;
+    min-height:100vh;
     color:white;
     padding:30px;
    

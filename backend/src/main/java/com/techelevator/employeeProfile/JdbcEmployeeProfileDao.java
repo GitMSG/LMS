@@ -29,9 +29,9 @@ public class JdbcEmployeeProfileDao implements EmployeeProfileDao {
 		 ProfileDTO aProfile = new ProfileDTO();
 	     List<ProfileDTO> profiles = new ArrayList<>();
 	     String sqlBasic = "SELECT ep.emp_id,ep.role,ep.campus_short,ep.start_date,u.firstname, u.lastname, u.profile_pic "  
-				    +"FROM users u "
-			        +"JOIN employee_profile ep ON ep.user_id = u.id "
-			    +"WHERE u.firstname NOT LIKE 'TE Firstname' AND ep.end_date is NULL" ;
+				    					+"FROM users u "
+				    					+"JOIN employee_profile ep ON ep.user_id = u.id "
+				    				+"WHERE u.firstname NOT LIKE 'TE Firstname' AND ep.end_date is NULL" ;
 	     SqlRowSet basicResult = myJdbcTemplate.queryForRowSet(sqlBasic);
 			while(basicResult.next()) {								
 				aProfile = mapRowToBasic(basicResult);
@@ -92,9 +92,9 @@ public class JdbcEmployeeProfileDao implements EmployeeProfileDao {
 								}
 							if(aProfile.getComplianceTime() == 0 && aProfile.getElectiveTime() == 0) {
 								String sqlBasic = "SELECT ep.emp_id,ep.role,ep.campus_short,ep.start_date,u.firstname, u.lastname, u.profile_pic "  
-									    +"FROM users u "
-								        +"JOIN employee_profile ep ON ep.user_id = u.id "
-								    +"WHERE ep.emp_id = ?" ;
+									    					+"FROM users u "
+									    					+"JOIN employee_profile ep ON ep.user_id = u.id "
+									    				+"WHERE ep.emp_id = ?" ;
 								SqlRowSet basicResult = myJdbcTemplate.queryForRowSet(sqlBasic,id);
 									while(basicResult.next()) {								
 										aProfile = mapRowToBasic(basicResult);
@@ -135,17 +135,5 @@ public class JdbcEmployeeProfileDao implements EmployeeProfileDao {
 		return aProfile;
 	}
 	
-//	private EmployeeProfile mapRowToProfile(SqlRowSet result) {
-//		EmployeeProfile newProfile = new EmployeeProfile();
-//		newProfile.setProfileId(result.getInt("emp_id"));
-//		newProfile.setUserId(result.getInt("user_id"));
-//		newProfile.setRole(result.getString("role"));
-//		newProfile.setStartDate(result.getDate("start_date"));
-//		newProfile.setCampusShortCode(result.getString("campus_short"));
-//		newProfile.setFirstName(result.getString("firstname"));
-//		newProfile.setLastName(result.getString("lastname"));
-//		newProfile.setProfilePic(result.getString("profile_pic"));
-//		return newProfile;
-//	}
 
 }

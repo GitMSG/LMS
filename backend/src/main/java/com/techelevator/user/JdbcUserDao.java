@@ -45,12 +45,10 @@ public class JdbcUserDao implements UserDao {
 				"INSERT INTO users(email,firstname,lastname,profile_pic, password, salt, permission) VALUES (?, ?, ?, ?, ?, ?, ?) RETURNING id",
 				Long.class, email, defaultFirst, defaultLast, defaultPic, hashedPassword, saltString, permission);
 		jdbcTemplate.update("INSERT INTO employee_profile(user_id,role,start_date,end_date,campus_short)VALUES ('"+newId+"','"+defaultRole+"','"+defaultDate+"',null,'"+defaultCampus+"')");
-
 		User newUser = new User();
 		newUser.setId(newId);
 		newUser.setEmail(email);
 		newUser.setPermission(permission);
-
 		return newUser;
 	}
 
@@ -81,7 +79,6 @@ public class JdbcUserDao implements UserDao {
 	@Override
 	public User getValidUserWithPassword(String email, String password) {
 		String sqlSearchForUser = "SELECT * FROM users WHERE UPPER(email) = ?";
-		System.out.println("inside jdbcuser 'getvaliduserwithpassword method  "+ email+"  ");
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlSearchForUser, email.toUpperCase());
 		if (results.next()) {
 			String storedSalt = results.getString("salt");
@@ -102,7 +99,6 @@ public class JdbcUserDao implements UserDao {
 		List<User> users = new ArrayList<User>();
 		String sqlSelectAllUsers = "SELECT id, email, permission FROM users";
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlSelectAllUsers);
-
 		while (results.next()) {
 			User user = mapResultToUser(results);
 			users.add(user);
@@ -115,7 +111,6 @@ public class JdbcUserDao implements UserDao {
 	public User getUserByEmail(String email) {
 		String sqlSelectUserByEmail = "SELECT id, email, permission FROM users WHERE email = ?";
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlSelectUserByEmail, email);
-
 		if (results.next()) {
 			User aUser = new User();
 			aUser.setId(results.getLong("id"));
