@@ -109,6 +109,7 @@ export default {
     },
   },
   created() {
+     console.log(auth.getUser().rol)
     fetch(`${process.env.VUE_APP_REMOTE_API}/api/profile`, {
       method: "GET",
       headers: {
@@ -126,6 +127,11 @@ export default {
           this.$router.push("/profileForm");
           this.$router.go();
         }
+       /*  else if(auth.getUser().rol === 'admin'){
+              console.log(auth.getUser().rol)
+              this.$router.push({ path:"/admnHome" });
+              this.$router.go();
+            } */
       })
       .catch((err) => {
         console.log(err);

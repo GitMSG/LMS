@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import auth from './auth'
-import Home from './views/Home.vue'
+import AdmnHome from './views/AdmnHome.vue'
 import Login from './views/Login.vue'
 import Register from './views/Register.vue'
 import EditUserRoles from './views/EditUserRoles.vue'
@@ -18,9 +18,9 @@ const router = new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '/',
-      name: 'home',
-      component: Home,
+      path: '/admnhome',
+      name: 'admnhome',
+      component: AdmnHome,
       meta: {
         requiresAuth: true
       }

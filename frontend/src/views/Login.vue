@@ -84,9 +84,14 @@ export default {
               token = token.replace(/"/g, "");
             }
             auth.saveToken(token);
-            console.log("pushing to profile");
-            this.$router.push({ path: "/profile", params: this.email });
-            this.$router.go();
+            if(auth.getUser().rol === 'admin'){
+              this.$router.push({ path:"/admnhome" });
+              this.$router.go();
+            }else{
+              this.$router.push({ path: "/profile", params: this.email });
+              this.$router.go();    
+            }
+                      
           }
         })
         .catch((err) => console.error(err));

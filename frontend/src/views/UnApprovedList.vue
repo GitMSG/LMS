@@ -133,7 +133,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #unapproved-page {
   min-height: 100vh;
 }
