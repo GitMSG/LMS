@@ -38,7 +38,10 @@
           </p>
         </div>
       </div>
-      <button v-if="!this.formMode" v-on:click="toggleFormMode" class="form-button">Add Training</button>
+      <div class="sub-detail" >
+        <button v-if="!this.formMode" v-on:click="toggleFormMode" class="form-button">Add Training</button>
+        <h3 class="ctp" >{{curTrainPeriod}}</h3>
+      </div>
     </div>
     <div id="training">
       <training
@@ -77,6 +80,7 @@ export default {
         complianceTime: 0,
         electiveTime: 0,
       },
+      curTrainPeriod:'',
       trainingArr: [],
     };
   },
@@ -85,6 +89,19 @@ export default {
       if (!this.formMode) {
         this.formMode = true;
       }
+    },
+    setCurPeriod(tcp){
+      const endDate = new Date(tcp.currentPeriod)
+      endDate.setMonth(endDate.getMonth()+tcp.certLength)
+      const endYe = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(endDate)
+      const endMo = new Intl.DateTimeFormat('en', { month: 'short' }).format(endDate)
+      const startDate = new Date(tcp.currentPeriod)
+      //const startDate = new Date(date.getDate(date.setUTCDate()))
+      const starYe = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(startDate)
+      const starMo = new Intl.DateTimeFormat('en', { month: 'short' }).format(startDate)
+      console.log(startDate)
+       this.curTrainPeriod = `${starMo},${starYe}`+"  -  "+`${endMo},${endYe}`
+      return this.curTrainPeriod
     },
     showTraining() {
       fetch(
@@ -107,9 +124,31 @@ export default {
           console.log(err);
         });
     },
+    getCurtcp(){
+      fetch(
+        `${process.env.VUE_APP_REMOTE_API}/api/certperiod/${this.profile.campusShortCode}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: "Bearer " + auth.getToken(),
+          },
+          credentials: "same-origin",
+        }
+      )
+        .then((response) => {
+          return response.json();
+        })
+        .then((theData) => {
+          this.tcp = theData;
+          this.setCurPeriod(this.tcp)
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   },
   created() {
-     console.log(auth.getUser().rol)
+    
     fetch(`${process.env.VUE_APP_REMOTE_API}/api/profile`, {
       method: "GET",
       headers: {
@@ -123,15 +162,11 @@ export default {
       .then((theData) => {
         this.profile = theData;
         this.showTraining();
+        this.getCurtcp();
         if (this.profile.firstname === "TE Firstname") {
           this.$router.push("/profileForm");
           this.$router.go();
         }
-       /*  else if(auth.getUser().rol === 'admin'){
-              console.log(auth.getUser().rol)
-              this.$router.push({ path:"/admnHome" });
-              this.$router.go();
-            } */
       })
       .catch((err) => {
         console.log(err);
@@ -155,6 +190,10 @@ export default {
   background-color: rgba(233, 235, 241, 0.8);
   box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14),
     0 1px 10px 0 rgba(0, 0, 0, 0.12);
+}
+.sub-detail{
+  display:flex;
+  justify-content: space-around;
 }
 #profile-detail {
   display: flex;
@@ -207,5 +246,11 @@ p {
 }
 .label {
   font-weight: lighter;
+}
+.ctp{
+  color:rgba(32, 33, 36, 0.8);
+  font-weight: lighter;
+  font-style: italic;
+  
 }
 </style>

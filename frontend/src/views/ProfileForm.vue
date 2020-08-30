@@ -104,24 +104,18 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
 
 <style scoped>
 .new-profile-form{
-    margin:auto;
-    min-height:100vh;
+     background-color:rgba(32, 33, 36, .7 );
+     box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14),0 1px 10px 0 rgba(0, 0, 0, 0.12);
     color:white;
-    padding:30px;
-   
+    padding:10px;
+   margin:auto;
     }
 #profile-form{
-    display:flex;
-    flex-direction: column;
-    justify-content: center;
-    margin:auto;
-
+    min-height:100vh;
 }
 .profile-card{
     margin:auto;
     max-width:500px;
-    background-color:rgba(32, 33, 36, .7 );
-    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14),0 1px 10px 0 rgba(0, 0, 0, 0.12);
     text-align:right;
 }
 .dropzone-div{
@@ -153,11 +147,20 @@ input{
     border-radius:2px;   
 }
 h1{
+    margin-top:10px;
     font-weight:lighter;
 }
 .profile-button{
-    padding:5px;
-    margin:5px;
+  background-color: rgba(36, 104, 143, 1);
+  color: white;
+  padding: 5px 20px;
+  max-width: 25%;
+  text-decoration: none;
+  font-size: 16px;
+  border-radius: 4px;
+  border: none;
+  margin: 10px;
+  cursor: pointer;
 }
 
 </style>

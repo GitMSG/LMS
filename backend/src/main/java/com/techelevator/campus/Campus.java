@@ -1,5 +1,8 @@
 package com.techelevator.campus;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 public class Campus {
 	
 	
@@ -7,10 +10,27 @@ public class Campus {
 	private String city;
 	private String state;
 	private int certLength;
+	private Date currentPeriod;
+	
+	public Campus() {
+		
+	}
+	public Campus( int certLength, Date currentPeriod) {
+		this.certLength=certLength;
+		this.currentPeriod=currentPeriod;
+	}
 	
 	
-	
-	
+	public Date getCurrentPeriod() {
+		return currentPeriod;
+	}
+
+
+	public void setCurrentPeriod(Date currentPeriod) {
+		this.currentPeriod = currentPeriod;
+	}
+
+
 	public String getShortName() {
 		return shortName;
 	}
@@ -34,6 +54,13 @@ public class Campus {
 	}
 	public void setCertLength(int certLength) {
 		this.certLength = certLength;
+	}
+
+
+	@Override
+	public String toString() {
+		return "Campus [shortName=" + shortName + ", city=" + city + ", state=" + state + ", certLength=" + certLength
+				+ ", currentPeriod=" + currentPeriod + "]";
 	}
 	
 	

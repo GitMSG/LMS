@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import auth from './auth'
-import AdmnHome from './views/AdmnHome.vue'
 import Login from './views/Login.vue'
 import Register from './views/Register.vue'
 import EditUserRoles from './views/EditUserRoles.vue'
@@ -10,6 +9,8 @@ import Profile from './views/Profile.vue'
 import AdmnProfile from './views/AdmnProfile.vue'
 import AllProfiles from './views/AllProfiles.vue'
 import UnApprovedList from './views/UnApprovedList.vue'
+import Settings from './views/Settings.vue'
+import Search from './views/Search.vue'
 
 Vue.use(Router)
 
@@ -17,16 +18,9 @@ const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
+    
     {
-      path: '/admnhome',
-      name: 'admnhome',
-      component: AdmnHome,
-      meta: {
-        requiresAuth: true
-      }
-    },
-    {
-      path: "/login",
+      path: "/",
       name: "login",
       component: Login,
       meta: {
@@ -38,7 +32,7 @@ const router = new Router({
       name: 'profile',
       component: Profile,
       meta: {
-        requiresAuth: false
+        requiresAuth: true
       }
     },
     {
@@ -46,7 +40,7 @@ const router = new Router({
       name: 'admnprofile',
       component: AdmnProfile,
       meta: {
-        requiresAuth: false
+        requiresAuth: true
       }
     },
     {
@@ -89,6 +83,22 @@ const router = new Router({
          requiresAuth: true
        }
      },
+     {
+      path: '/settings',
+      name: 'settings',
+      component: Settings,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/search',
+      name: 'search',
+      component: Search,
+      meta: {
+        requiresAuth: true
+      }
+    },
   ]
 })
 

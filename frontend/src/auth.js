@@ -49,5 +49,6 @@ export default {
   },
   logout() {
     localStorage.removeItem('Authorization');
+    
   },
 };

@@ -26,9 +26,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.techelevator.authentication.AuthProvider;
 import com.techelevator.authentication.UnauthorizedException;
+import com.techelevator.campus.Campus;
+import com.techelevator.campus.CampusDao;
+import com.techelevator.certPeriod.CertPeriod;
 import com.techelevator.employeeProfile.EmployeeProfile;
 import com.techelevator.employeeProfile.EmployeeProfileDao;
 import com.techelevator.profileDto.ProfileDTO;
@@ -49,6 +53,8 @@ public class ApiController {
 	private AuthProvider authProvider;
 	@Autowired
 	private UserDao userDao;
+	@Autowired
+	private CampusDao campusDao;
 	@Autowired
 	private EmployeeProfileDao employeeProfileDao;
 	@Autowired
@@ -93,6 +99,24 @@ public class ApiController {
 		List<Training> usersTraining = trainingDao.getAUsersTraining(id);
 		return usersTraining;
 	}
+	
+	@RequestMapping(path = "/certperiod/{shortCode}", method = RequestMethod.GET)
+	public Campus getCP( @PathVariable  String shortCode ) {
+		Campus curCertPeriod = campusDao.getCertPeriod(shortCode);
+		return curCertPeriod;
+	}
+	
+	@RequestMapping(path = "/period/{campusShortCode}", method = RequestMethod.POST)
+	public void setCertLength(@PathVariable String campusShortCode, @RequestBody Campus c) throws UnauthorizedException {
+		String permission = authProvider.getCurrentUser().getPermission();
+		if(permission.equals("admin") ) {
+			campusDao.setCampusPeriod(campusShortCode, c);
+		}
+		else {
+			throw new UnauthorizedException();
+		}
+		
+	}
 
 	@RequestMapping(path = "/needApproval", method = RequestMethod.GET)
 	public Map<String,Training> getUnApproved() throws UnauthorizedException {
@@ -105,14 +129,15 @@ public class ApiController {
 			throw new UnauthorizedException();
 		}
 	}
+	
 	@RequestMapping(path = "/updateApproval/{id}", method = RequestMethod.PUT)
 	public void updateTrainingApproval(@PathVariable int id) {
 		trainingDao.updateApproval(id);
 	}
+	
 	@RequestMapping(path = "/deactivateUser/{id}", method = RequestMethod.PUT)
 	public void deactivateUser(@RequestBody Date endDate, @PathVariable int id) {
-		 employeeProfileDao.makeUserInactive(endDate,id);
-		
+		 employeeProfileDao.makeUserInactive(endDate,id);	
 	}
 
 	@RequestMapping(path = "/user/{id}", method = RequestMethod.GET)
@@ -120,6 +145,7 @@ public class ApiController {
 		User user = userDao.getUserById(id);
 		return user;
 	}
+	
 	@RequestMapping(path = "/users", method = RequestMethod.GET)
 	public List<User> getUsers() {
 		List<User> allUsers = userDao.getAllUsers();

@@ -2,6 +2,7 @@ package com.techelevator.profileDto;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class ProfileDTO {
 
@@ -51,6 +52,8 @@ public class ProfileDTO {
 		return startDate;
 	}
 	public void setStartDate(Date date) {
+		//String strDate = date.toString();
+		//LocalDate myDate = LocalDate.parse(strDate, DateTimeFormatter.ofPattern("yyyy-mm-dd"));
 		this.startDate = date;
 	}
 	public String getCampusShortCode() {

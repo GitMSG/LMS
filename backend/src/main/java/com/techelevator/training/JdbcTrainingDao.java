@@ -107,7 +107,7 @@ public class JdbcTrainingDao implements TrainingDao {
 		aTraining.setName(result.getString("train_name"));
 		aTraining.setProvider(result.getString("train_provider"));
 		aTraining.setTopic(result.getString("train_topic"));
-		aTraining.setDate(result.getDate("train_date"));
+		aTraining.setDate(result.getDate("train_date")) ;
 		aTraining.setComplianceTime(result.getInt("compliance_time"));
 		aTraining.setProof(result.getString("train_proof"));
 		aTraining.setElectiveTime(result.getInt("elective_time"));

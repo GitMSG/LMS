@@ -29,7 +29,7 @@
         </h2>
         <h2>
           <span class="label">Training Date:</span>
-          <span class="var">{{aTrain.date}}</span>
+         <span class="var">{{aTrain.date}}</span>
         </h2>
 
         <h2>
@@ -104,6 +104,8 @@ export default {
     closeProof() {
       if (this.image) {
         this.image = false;
+         this.$router.go();
+        
       }
     },
   },

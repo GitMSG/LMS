@@ -1,7 +1,10 @@
 package com.techelevator.training;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class Training {
 	private int trainingId;
@@ -71,10 +74,14 @@ public class Training {
 	}
 
 	public Date getDate() {
+//		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+//		dtf.format(date);
 		return date;
 	}
 
 	public void setDate(Date date) {
+//		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+//		dtf.format(date);
 		this.date = date;
 	}
 

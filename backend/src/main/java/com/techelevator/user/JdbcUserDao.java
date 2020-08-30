@@ -31,7 +31,7 @@ public class JdbcUserDao implements UserDao {
 
 	@Override
 	public User saveUser(String email, String password, String permission) { 			// Only creates a login for the user and
-		byte[] salt = passwordHasher.generateRandomSalt();										// adds defaults into some columns
+		byte[] salt = passwordHasher.generateRandomSalt();										// adds defaults into not null columns
 		String hashedPassword = passwordHasher.computeHash(password, salt);
 		String saltString = new String(Base64.encode(salt));
 		String defaultFirst = "TE Firstname";

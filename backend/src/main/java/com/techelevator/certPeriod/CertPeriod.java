@@ -11,7 +11,6 @@ public class CertPeriod {
 	private LocalDate certStart;
 	
 	public CertPeriod() {
-		
 	}
 	
 	public CertPeriod(int profileId, LocalDate certStart) {
@@ -21,6 +20,10 @@ public class CertPeriod {
 	}
 	
 	
+	@Override
+	public String toString() {
+		return "CertPeriod [certId=" + certId + ", profileId=" + profileId + ", certStart=" + certStart + "]";
+	}
 
 	public int getCertId() {
 		return certId;
