@@ -91,13 +91,22 @@ public class ApiController {
 	@RequestMapping(path = "/addTraining/{id}", method = RequestMethod.POST)
 	public void addTraining(@RequestBody Training newTraining, @PathVariable int id) {
 		String permission = authProvider.getCurrentUser().getPermission();
-		trainingDao.createTraining(newTraining, id, permission);
+		String code = campusDao.getShortCode(id);
+		trainingDao.createTraining(newTraining, id, permission,code);
 	}
 
 	@RequestMapping(path = "/training/{id}", method = RequestMethod.GET)
 	public List<Training> getTraining( @PathVariable  int id ) {
 		List<Training> usersTraining = trainingDao.getAUsersTraining(id);
 		return usersTraining;
+	}
+	
+	@RequestMapping(path = "/searchTraining", method = RequestMethod.GET)														
+	public  Map<String,Training> getFiltered( @RequestParam String fromDate,@RequestParam String toDate) {
+		LocalDate from = LocalDate.parse(fromDate);
+		LocalDate to = LocalDate.parse(toDate);		
+		 Map<String,Training> filteredTrainings = trainingDao.searchTrainingFiltered(from, to);;
+		return filteredTrainings;
 	}
 	
 	@RequestMapping(path = "/certperiod/{shortCode}", method = RequestMethod.GET)

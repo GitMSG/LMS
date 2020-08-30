@@ -189,7 +189,7 @@ export default {
 }
 .compliance-div {
   text-align: center;
-  float: right;
+  /* float: right; */
   margin: 10px;
   padding: 10px;
 }

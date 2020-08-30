@@ -5,4 +5,6 @@ public interface CampusDao {
 	public void setCampusPeriod(String campusShortCode,Campus c);
 	
 	public Campus getCertPeriod(String shortCode);
+	
+	public String getShortCode(int id);
 }

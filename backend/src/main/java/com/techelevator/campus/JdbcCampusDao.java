@@ -33,5 +33,15 @@ private JdbcTemplate myJdbcTemplate;
 		}
 		return curPeriod;
 	}
+	
+	@Override
+	public String getShortCode(int id) {
+		String code = myJdbcTemplate.queryForObject("SELECT short_code "
+																						+"FROM campus c "
+																						+"JOIN employee_profile ep ON ep.campus_short = c.short_code "
+																						+ "WHERE ep.emp_id = '"+id+"' ",String.class); 
+			
+		return code;
+	}
 
 }

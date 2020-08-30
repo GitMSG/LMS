@@ -99,7 +99,7 @@ export default {
       //const startDate = new Date(date.getDate(date.setUTCDate()))
       const starYe = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(startDate)
       const starMo = new Intl.DateTimeFormat('en', { month: 'short' }).format(startDate)
-      console.log(startDate)
+      
        this.curTrainPeriod = `${starMo},${starYe}`+"  -  "+`${endMo},${endYe}`
       return this.curTrainPeriod
     },
