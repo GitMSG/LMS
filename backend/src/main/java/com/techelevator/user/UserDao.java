@@ -9,7 +9,7 @@ public interface UserDao {
 
     public User saveUser(String email, String password, String permission);
 
-    public void changePassword(User user, String newPassword);
+    public void changePassword(int id, String newPassword);
 
     public User getValidUserWithPassword(String email, String password);
     

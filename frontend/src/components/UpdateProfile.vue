@@ -1,37 +1,35 @@
 <template>
     <div id="profile-form">
-    <form class="new-profile-form" @submit.prevent="createProfile">
-        <h1>Create Your Profile</h1>
+    <div class="new-profile-form" >
+        <h1>Edit Profile</h1>
         <div class="profile-card">
-                        <span class="label">First Name </span><input type="text" v-model="profile.firstname"><br/>
-                  
-                        <span class="label">Last Name </span><input type="text" v-model="profile.lastname"><br/>
-
-                        <span class="label">Select Location </span>
-                        <select v-model="profile.campusShortCode" class="dropdown">
-                        <option value="CLE" >CLE</option>
-                        <option value="CBUS" >CBUS</option>
-                        <option value="CINCY" >CINCY</option>
-                        <option value="PGH" >PGH</option>
-                        <option value="PHL" >PHL</option>
-                        </select><br/>
-                 
-                        <span class="label">Role </span><input type="text" v-model="profile.role"><br/>
-                  
-                        <span class="label">Start Date </span><input type="date" v-model="profile.startDate"><br/>
-                  
-                    <div class="dropzone-div">
-                        <span class="profile-label">Profile Picture </span>
-                        <vue-dropzone id="dropzone" 
-                                    :options="dropzoneOptions" 
-                                    v-on:vdropzone-sending="addFormData" 
-                                    @vdropzone-success="getSuccess" 
-                                    v-model="profile.profilePic">
-                        </vue-dropzone>
-                    </div>
+            <div class="text-inputs">
+            <span class="label">First Name </span><input type="text" v-model="profile.firstname"><br/>
+            <span class="label">Last Name </span><input type="text" v-model="profile.lastname"><br/>
+            <span class="label">Role </span><input type="text" v-model="profile.role"><br/>
+            <span class="label">Start Date </span><input type="date" v-model="profile.startDate"><br/>
+            <span class="label">Select Location </span>
+            <select v-model="profile.campusShortCode" class="dropdown">
+            <option value="CLE" >CLE</option>
+            <option value="CBUS" >CBUS</option>
+            <option value="CINCY" >CINCY</option>
+            <option value="PGH" >PGH</option>
+            <option value="PHL" >PHL</option>
+            </select><br/>
+            </div>
+            <div class="dropzone-div">
+                <span class="profile-label">Profile Picture </span>
+                <vue-dropzone id="dropzone" 
+                            :options="dropzoneOptions" 
+                            v-on:vdropzone-sending="addFormData" 
+                            @vdropzone-success="getSuccess" 
+                            v-model="profile.profilePic">
+                </vue-dropzone>
+            </div>
         </div>
-        <button class="profile-button" type="submit" >Add Profile</button>
-    </form>
+        <button class="profile-button" type="submit" @click="createProfile" >Update</button>
+        <button class="profile-button" @click="$emit('toggle-update-profile')" >Cancel</button>
+    </div>
 
     </div>
 </template>
@@ -41,22 +39,22 @@ import auth from '@/auth.js'
 import vue2Dropzone from 'vue2-dropzone'
 import 'vue2-dropzone/dist/vue2Dropzone.min.css'
     export default {
-         components: {
-        vueDropzone: vue2Dropzone
-        },
-        data() {
-            return {
-                
-                profile: {
+        props:{
+             profile: {
                     firstname: '',
                     lastname: '',
                     campusShortCode: '',
                     role: '',
                     startDate: '',
                     profilePic: '',
-                    
-                    
                 },
+        },
+        name:"UpdateProfile",
+        components: {
+        vueDropzone: vue2Dropzone
+        },
+        data() {
+            return {
                 dropzoneOptions: {
                     url: `https://api.cloudinary.com/v1_1/goshorn/image/upload` ,
                     thumbnailWidth: 150,
@@ -65,9 +63,7 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
                 },
                 post: {
                     profilePic: '',
-                    
-                },
-                             
+                },               
             }
         },
         methods:{
@@ -82,7 +78,7 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
                         })
                         .then((response) => {
                             if(response.ok) {
-                                this.$router.push({name: 'profile'});
+                                this.$router.go()
                             }
                         })
                         .catch((err) => console.error(err));
@@ -107,20 +103,27 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
      box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14),0 1px 10px 0 rgba(0, 0, 0, 0.12);
     color:white;
     padding:10px;
+    max-width:75%;
    margin:auto;
     }
 #profile-form{
     min-height:100vh;
 }
 .profile-card{
-    margin:auto;
-    max-width:500px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+   /*  margin:auto; */
+    
     text-align:right;
+}
+.text-inputs{
+    margin-top: 20px;
 }
 .dropzone-div{
     text-align:center;
-    width:100%;
-    margin-top:20px;
+   /*  padding-bottom: 20px; */
+   
     
 }    
 #dropzone{

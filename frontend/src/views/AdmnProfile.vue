@@ -3,7 +3,6 @@
     <div id="detail-container">
       <div id="profile-detail">
         <button v-on:click="toggleEditMode" v-if="!editUser" class="edit-button">Edit User</button>
-
         <div v-if="editUser" class="edit-div">
           <button v-on:click="toggleEditMode" v-if="editUser" class="edit-button">Cancel Edit</button>
           <EditUser

@@ -109,7 +109,7 @@ router.beforeEach((to, from, next) => {
 
   // If it does and they are not logged in, send the user to "/login"
   if (requiresAuth && !user) {
-    next("/login");
+    next("/");
   } else {
     // Else let them go to their next destination
     next();

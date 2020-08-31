@@ -69,11 +69,11 @@ public class JdbcUserDao implements UserDao {
 	}
 
 	@Override
-	public void changePassword(User user, String newPassword) {
+	public void changePassword(int id, String newPassword) {
 		byte[] salt = passwordHasher.generateRandomSalt();
 		String hashedPassword = passwordHasher.computeHash(newPassword, salt);
 		String saltString = new String(Base64.encode(salt));
-		jdbcTemplate.update("UPDATE users SET password=?, salt=? WHERE id=?", hashedPassword, saltString, user.getId());
+		jdbcTemplate.update("UPDATE users SET password=?, salt=? WHERE id=?", hashedPassword, saltString, id);
 	}
 
 	@Override

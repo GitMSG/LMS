@@ -2,7 +2,7 @@
     <div id="admin-nav">
      <router-link :to="{ name: 'register' }" class="admin-item">Add User</router-link>
      <router-link :to="{ name: 'allProfiles' }" class="admin-item" v-if="userRole == 'admin'"> All Profiles</router-link>
-     <router-link :to="{ name: 'unApprovedList' }" class="admin-item" v-if="userRole == 'admin'">Needs Approval</router-link>
+     <router-link :to="{ name: 'unApprovedList' }" class="admin-item" v-if="userRole == 'admin'">Need Approval</router-link>
      <router-link :to="{ name: 'settings' }" class="admin-item" v-if="userRole == 'admin'">Settings</router-link>
      <router-link :to="{ name: 'search' }" class="admin-item" v-if="userRole == 'admin'">Search</router-link>
     </div>

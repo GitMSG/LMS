@@ -5,11 +5,17 @@
     </div>
     <div id="detail-container">
       <div id="profile-detail">
+        <button v-on:click="toggleEditMode" v-if="!editUser" class="edit-button">Settings</button>
+        <div class="settings" v-if="editUser">
+        <button @click="toggleEditMode" v-if="editUser" class="edit-button">Cancel Edit</button>
+        <button @click="togglePassword"  class="edit-button">Change Password</button>
+        <button @click="toggleUpdateProfile" class="edit-button">Edit Profile</button>
+        </div>
         <div id="image-div">
           <img :src="profile.profilePic" class="profilePic" height="200px" />
         </div>
         <div id="profile-text">
-          <h1>{{profile.firstname+" "+profile.lastname}}</h1>
+          <h1 id="profile-name">{{profile.firstname+" "+profile.lastname}}</h1>
           <h2>
             <span class="label">Location</span>
             {{profile.campusShortCode}}
@@ -40,12 +46,21 @@
       </div>
       <div class="sub-detail" >
         <button v-if="!this.formMode" v-on:click="toggleFormMode" class="form-button">Add Training</button>
-        <h3 class="ctp" >{{curTrainPeriod}}</h3>
+        <button v-else v-on:click="toggleFormMode" class="form-button">Cancel</button>
+        <div class="ctp">
+          <h3 class="h3-period">Current Period</h3>
+          <h3 class="h3-period" >{{curTrainPeriod}}</h3>
+        </div>
       </div>
     </div>
     <div id="training">
+      <password-update v-if="passwordVisible" v-on:toggle-password="togglePassword"/>
+      <update-profile 
+        v-if="updateProfile" 
+        v-on:toggle-update-profile="toggleUpdateProfile"
+        :profile="profile"/>
       <training
-        v-if="!this.formMode"
+        v-if="!this.formMode && !this.passwordVisible && !this.updateProfile"
         :profileId="profile.profileId"
         :training="trainingArr"
         :firstName="profile.firstName"
@@ -59,14 +74,21 @@
 import auth from "@/auth.js";
 import Training from "@/components/Training.vue";
 import TrainingForm from "@/components/TrainingForm.vue";
+import PasswordUpdate from "@/components/PasswordUpdate.vue";
+import UpdateProfile from "@/components/UpdateProfile.vue";
 export default {
   name: "profile",
   components: {
     Training,
     TrainingForm,
+    PasswordUpdate,
+    UpdateProfile,
   },
   data() {
     return {
+      passwordVisible:false,
+      updateProfile:false,
+      editUser: false,
       isLoading: true,
       formMode: false,
       profile: {
@@ -88,17 +110,47 @@ export default {
     toggleFormMode() {
       if (!this.formMode) {
         this.formMode = true;
+      }else{
+        this.formMode = false;
       }
     },
+    toggleEditMode(){
+       if (!this.editUser) {
+        this.editUser = true;
+      } else {
+        this.editUser = false;
+        this.passwordVisible =false;
+        this.updateProfile =false;
+        
+      }
+    },
+    togglePassword(){
+      if(!this.passwordVisible){
+        this.passwordVisible = true;
+        this.updateProfile=false;
+      }
+      else{
+        this.passwordVisible = false;
+      }
+    },
+    toggleUpdateProfile(){
+     if(!this.updateProfile){
+       this.updateProfile = true;
+       this.passwordVisible =false;
+     }
+     else{
+       this.updateProfile = false;
+     }
+    },
     setCurPeriod(tcp){
-      const endDate = new Date(tcp.currentPeriod)
+      let endDate = new Date(tcp.currentPeriod)
       endDate.setMonth(endDate.getMonth()+tcp.certLength)
-      const endYe = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(endDate)
-      const endMo = new Intl.DateTimeFormat('en', { month: 'short' }).format(endDate)
-      const startDate = new Date(tcp.currentPeriod)
-      //const startDate = new Date(date.getDate(date.setUTCDate()))
-      const starYe = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(startDate)
-      const starMo = new Intl.DateTimeFormat('en', { month: 'short' }).format(startDate)
+      let endYe = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(endDate)
+      let endMo = new Intl.DateTimeFormat('en', { month: 'short' }).format(endDate)
+      let d = new Date(tcp.currentPeriod)
+      let startDate = new Date(d.setHours(d.getHours()+4))
+      let starYe = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(startDate)
+      let starMo = new Intl.DateTimeFormat('en', { month: 'short' }).format(startDate)
       
        this.curTrainPeriod = `${starMo},${starYe}`+"  -  "+`${endMo},${endYe}`
       return this.curTrainPeriod
@@ -193,7 +245,8 @@ export default {
 }
 .sub-detail{
   display:flex;
-  justify-content: space-around;
+  justify-content: space-between;
+  margin:0px 4%;
 }
 #profile-detail {
   display: flex;
@@ -210,6 +263,10 @@ export default {
   box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14),
     0 1px 10px 0 rgba(0, 0, 0, 0.12);
   align-self: center;
+  text-align: left;
+}
+#profile-name{
+  text-align: center;
 }
 .time-div {
   background-color: rgba(32, 33, 36, 0.8);
@@ -218,6 +275,10 @@ export default {
   align-self: center;
   text-align: right;
   padding: 10px;
+}
+.settings{
+  display: flex;
+  flex-direction: column;
 }
 p {
   color: silver;
@@ -243,6 +304,22 @@ p {
   border: none;
   margin: 10px;
   cursor: pointer;
+  align-self: center;
+}
+
+.edit-button {
+  float: left;
+  width: 130px;
+  height: 28px;
+  background-color: rgba(36, 104, 143, 1);
+  color: white;
+  padding: 5px 15px;
+  text-decoration: none;
+  font-size: 12px;
+  border-radius: 4px;
+  border: none;
+  margin: 5px;
+  cursor: pointer;
 }
 .label {
   font-weight: lighter;
@@ -251,6 +328,8 @@ p {
   color:rgba(32, 33, 36, 0.8);
   font-weight: lighter;
   font-style: italic;
-  
+}
+.h3-period{
+  margin:0px 10px;
 }
 </style>

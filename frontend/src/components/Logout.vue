@@ -27,14 +27,12 @@ export default {
   text-decoration: none;
   font-size: 16px;
   border-radius: 4px;
- 
+  
 }
 .logout-button:hover{
   background-color: white;
   color:#336699;
   cursor:pointer;
 }
- .logout{
-   margin:auto;
- }
+ 
  </style>

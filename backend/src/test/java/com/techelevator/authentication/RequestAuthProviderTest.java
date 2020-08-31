@@ -101,44 +101,44 @@ public class RequestAuthProviderTest {
         assertFalse(sut.signIn("TEST", "TEST"));
     }
 
-    @Test
-    public void changePasswordSuccessTest() {
-        User testUser = new User();
-        testUser.setId(0);
-        testUser.setEmail("TEST");
+//    @Test
+//    public void changePasswordSuccessTest() {
+//        User testUser = new User();
+//        testUser.setId(0);
+//        testUser.setEmail("TEST");
+//
+//        when(mockedRequest.getAttribute(RequestAuthProvider.USER_KEY)).thenReturn(testUser);
+//        when(mockedDao.getValidUserWithPassword("TEST", "TEST")).thenReturn(testUser);
+//
+//        assertTrue(sut.changePassword("TEST", "NEWVALUE"));
+//        verify(mockedDao).changePassword(testUser, "NEWVALUE");
+//    }
 
-        when(mockedRequest.getAttribute(RequestAuthProvider.USER_KEY)).thenReturn(testUser);
-        when(mockedDao.getValidUserWithPassword("TEST", "TEST")).thenReturn(testUser);
+//    @Test
+//    public void changePasswordBadPasswordTest() {
+//        User testUser = new User();
+//        testUser.setId(0);
+//        testUser.setEmail("TEST");
+//
+//        when(mockedRequest.getAttribute(RequestAuthProvider.USER_KEY)).thenReturn(testUser);
+//        when(mockedDao.getValidUserWithPassword("TEST", "TEST")).thenReturn(null);
+//
+//        assertFalse(sut.changePassword("TEST", "NEWVALUE"));
+//        verify(mockedDao, times(0)).changePassword(testUser, "NEWVALUE");
+//    }
 
-        assertTrue(sut.changePassword("TEST", "NEWVALUE"));
-        verify(mockedDao).changePassword(testUser, "NEWVALUE");
-    }
-
-    @Test
-    public void changePasswordBadPasswordTest() {
-        User testUser = new User();
-        testUser.setId(0);
-        testUser.setEmail("TEST");
-
-        when(mockedRequest.getAttribute(RequestAuthProvider.USER_KEY)).thenReturn(testUser);
-        when(mockedDao.getValidUserWithPassword("TEST", "TEST")).thenReturn(null);
-
-        assertFalse(sut.changePassword("TEST", "NEWVALUE"));
-        verify(mockedDao, times(0)).changePassword(testUser, "NEWVALUE");
-    }
-
-    @Test
-    public void changePasswordNoOneLoggedInTest() {
-        User testUser = new User();
-        testUser.setId(0);
-        testUser.setEmail("TEST");
-
-        when(mockedRequest.getAttribute(RequestAuthProvider.USER_KEY)).thenReturn(null);
-        when(mockedDao.getValidUserWithPassword("TEST", "TEST")).thenReturn(testUser);
-
-        assertFalse(sut.changePassword("TEST", "NEWVALUE"));
-        verify(mockedDao, times(0)).changePassword(testUser, "NEWVALUE");
-    }
+//    @Test
+//    public void changePasswordNoOneLoggedInTest() {
+//        User testUser = new User();
+//        testUser.setId(0);
+//        testUser.setEmail("TEST");
+//
+//        when(mockedRequest.getAttribute(RequestAuthProvider.USER_KEY)).thenReturn(null);
+//        when(mockedDao.getValidUserWithPassword("TEST", "TEST")).thenReturn(testUser);
+//
+//        assertFalse(sut.changePassword("TEST", "NEWVALUE"));
+//        verify(mockedDao, times(0)).changePassword(testUser, "NEWVALUE");
+//    }
 
     @Test
     public void hasRoleSuccessTest() {

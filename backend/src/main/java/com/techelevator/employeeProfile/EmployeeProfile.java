@@ -8,15 +8,15 @@ public class EmployeeProfile {
 	private int profileId;
 	private int userId;
 	private String role;
-	private LocalDate startDate;
-	private LocalDate endDate;
+	private Date startDate;
+	private Date endDate;
 	private String campusShortCode;
 
 	public EmployeeProfile() {
 
 	}
 
-	public EmployeeProfile(String role, LocalDate startDate, String campusShortCode) {
+	public EmployeeProfile(String role, Date startDate, String campusShortCode) {
 		super();
 		this.role = role;
 		this.startDate = startDate;
@@ -48,19 +48,19 @@ public class EmployeeProfile {
 		this.role = role;
 	}
 
-	public LocalDate getStartDate() {
+	public Date getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(LocalDate startDate) {
+	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
 
-	public LocalDate getEndDate() {
+	public Date getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(LocalDate endDate) {
+	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
 

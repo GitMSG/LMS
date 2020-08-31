@@ -165,6 +165,14 @@ public class ApiController {
 	public void changeUserPermission(@RequestBody User user) {
 		userDao.changePermission(user.getEmail(), user.getPermission());
 	}
+	
+	@RequestMapping(path = "/updatePassword", method = RequestMethod.PUT)
+	public void alterPassword(@RequestBody User user) {
+		int id = (int)authProvider.getCurrentUser().getId();
+		String password = user.getPassword();
+		System.out.println(password);
+		 userDao.changePassword(id, password);	
+	}
 
 	@RequestMapping(path = "/deleteUser/{id}", method = RequestMethod.DELETE)
 	public void deleteUser(@PathVariable int id) {
