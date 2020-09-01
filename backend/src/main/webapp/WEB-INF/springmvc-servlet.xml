@@ -54,9 +54,9 @@
 	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" value="org.postgresql.Driver" />
 
-		<property name="url" value="jdbc:postgresql://localhost:5432/lms" />
-		<property name="username" value="postgres" />
-		<property name="password" value="postgres1" />
+		<property name="url" value="jdbc:postgresql://ec2-52-207-124-89.compute-1.amazonaws.com:5432/ddcp9poscn02oo" />
+		<property name="username" value="smidnumploecvs" />
+		<property name="password" value="58992651dcea73f122e5483fd5b2e201258f150288a54e4b263914c467ffbeb6" />
 	</bean>
 	
 	<!-- enable the configuration of transactional behavior based on annotations -->
