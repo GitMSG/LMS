@@ -77,7 +77,7 @@ INSERT INTO campus (short_code, city, state, cert_length, current_period)
         ('CBUS', 'Columbus','Ohio', 24, null),
         ('CINCY','Cincinnati','Ohio', 24, null),
         ('PGH','Pittsburgh','Pennsylvania', 24, null),
-        ('PHL','Philadelphia','Pennsylvania', 24, null),
+        ('PHL','Philadelphia','Pennsylvania', 24, null);
 
 INSERT INTO cert_period (emp_id, cert_start_date) 
         VALUES ((SELECT id FROM users WHERE users.email ='matt@gmail.com'), '2018-10-01');
