@@ -1,6 +1,3 @@
-
-
-
 DROP TABLE IF EXISTS users                      cascade;
 DROP TABLE IF EXISTS employee_profile           cascade;
 DROP TABLE IF EXISTS training                   cascade;
@@ -25,6 +22,7 @@ CREATE TABLE campus(
     city varchar(64) NOT NULL,
     state varchar(64) NOT NULL,
     cert_length integer NOT NULL,
+    current_period date,
     CONSTRAINT pk_campus_short_code PRIMARY KEY (short_code)
 );
 
@@ -64,6 +62,7 @@ CREATE TABLE training_cert_period (
     CONSTRAINT pk_training_cert_period_train_id_cert_period_id PRIMARY KEY (train_id, cert_period_id)
 );
 
+
 -- Password is 'greatwall'
 
 INSERT INTO users (email, firstname, lastname, profile_pic, password, salt, permission) 
@@ -73,12 +72,12 @@ INSERT INTO users (email, firstname, lastname, profile_pic, password, salt, perm
 INSERT INTO training (train_name, train_provider, train_topic, train_date, compliance_time, elective_time, train_proof, approved) 
         VALUES('LEARNING HOW TO TEACH', 'YMCA', 'We teach people how to teach, its very educational.', '2020-02-13',null, 90, null, true);
         
-INSERT INTO campus (short_code, city, state, cert_length)
-        --VALUES('CLE', 'Cleveland', 'Ohio', 2);
-        --VALUES('CBUS', 'Columbus','Ohio', 2);
-        --VALUES('CINCY','Cincinnati','Ohio', 2);
-        --VALUES('PGH','Pittsburgh','Pennsylvania', 2);
-        VALUES('PHL','Philadelphia','Pennsylvania', 2);
+INSERT INTO campus (short_code, city, state, cert_length, current_period)
+        VALUES('CLE', 'Cleveland', 'Ohio', 24, null),
+        VALUES('CBUS', 'Columbus','Ohio', 24, null),
+        VALUES('CINCY','Cincinnati','Ohio', 24, null),
+        VALUES('PGH','Pittsburgh','Pennsylvania', 24, null),
+        VALUES('PHL','Philadelphia','Pennsylvania', 24, null),
 
 INSERT INTO cert_period (emp_id, cert_start_date) 
         VALUES ((SELECT id FROM users WHERE users.email ='matt@gmail.com'), '2018-10-01');
@@ -114,9 +113,34 @@ REFERENCES cert_period(cert_id)ON DELETE CASCADE;
             --         'https://res.cloudinary.com/goshorn/image/upload/v1596286167/lms_test/TE_bur_z3zvc4.png'                  TE logo
             --         'https://res.cloudinary.com/goshorn/image/upload/v1594733918/lms_test/m5dk9epbzckoohjh4zgv.jpg'           Lady model
             --         'https://res.cloudinary.com/goshorn/image/upload/v1595780617/lms_test/n3remymsuqppkuxk6zsr.jpg'          Bill Murray
+/*   ALTER TABLE campus
+   ADD COLUMN current_period DATE;
+   
+   UPDATE campus
+   SET current_period = 
+  SELECT cert_length, current_period FROM campus WHERE short_code = 'CLE' 
+            
 update users
-set profile_pic = 'https://res.cloudinary.com/goshorn/image/upload/v1596050794/lms_test/wgc3a23t3fia1wjcska9.jpg'
-where users.id = 2
+set profile_pic = 'https://res.cloudinary.com/goshorn/image/upload/v1595780617/lms_test/n3remymsuqppkuxk6zsr.jpg'
+where users.id = 10
+
+update users
+set salt = 'kidcasB0te7i0jK0fmRIGHSm0mYhdLTaiGkEAiEvLp7dAEHWnuT8n/5bd2V/mqjstQ198iImm1xCmEFu+BHyOz1Mf7vm4LILcrr17y7Ws40Xyx4FOCt8jD03G+jEafpuVJnPiDmaZQXJEpEfekGOvhKGOCtBnT5uatjKEuVWuDA='
+where id =1;
+update users
+set password = 'FjZDm+sndmsdEDwNtfr6NA=='
+where id =1
+
+
+update campus
+set cert_length = 24
+where cert_length =2
+
+delete from training
+where train_id =17;
+delete from training_cert_period
+where train_id =17;
+
 
 
 DELETE  FROM training t 
@@ -140,6 +164,7 @@ WHERE t.train_id IN  ( SELECT tcp.train_id
         JOIN cert_period cp ON tcp.cert_period_id = cp.cert_id
         JOIN employee_profile ep ON cp.emp_id = ep.emp_id
         JOIN users u ON ep.user_id = u.id
+       WHERE t.train_date >= '2020-08-05' AND t.train_date <= '2020-08-30' 
     WHERE t.approved = false AND ep.end_date is NULL
     GROUP BY ep.emp_id,ep.role, ep.campus_short,
              u.firstname, u.lastname, u.profile_pic
@@ -171,9 +196,4 @@ SELECT ep.emp_id,ep.role,ep.campus_short,ep.start_date,u.firstname, u.lastname, 
         
         SELECT EXISTS(SELECT 1 FROM employee_profile WHERE user_id = ?);
         "SELECT count(*) FROM employee_profile WHERE user_id = ?"
-        
-          
-    
-
-
-
+        */
