@@ -4,7 +4,7 @@
       <h1>Add Training</h1>
       <div class="training-card">
         <span class="label">Name</span>
-        <input type="text" v-model="training.name" placeholder="Training Name.." />
+        <input type="text" v-model="training.name" placeholder="Training Name.." autofocus />
         <br />
 
         <span class="label">Provider</span>

@@ -4,7 +4,7 @@
      <h1>Settings</h1>
      <div>
         <span class="label">Select Location </span>
-            <select v-model="campusShortCode" class="dropdown">
+            <select v-model="campusShortCode" class="dropdown" autofocus>
                 <option value="CLE" >CLE</option>
                 <option value="CBUS" >CBUS</option>
                 <option value="CINCY" >CINCY</option>

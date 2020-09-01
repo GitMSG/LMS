@@ -92,6 +92,7 @@
           <h3 class="proof-link" v-else>
             <a v-bind:href="aTrain.proof" target="blank">Link</a>
           </h3>
+          <button class="delete-button" @click="deleteTraining(aTrain.trainingId)">Delete</button>
         </div>
       </li>
     </ul>
@@ -99,7 +100,7 @@
 </template>
 
 <script>
-
+import auth from "@/auth.js";
 export default {
   props: {
     firstName: String,
@@ -122,6 +123,23 @@ export default {
       if (this.image) {
         this.image = false;
       }
+    },
+    deleteTraining(t){
+      console.log(t)
+       fetch(`${process.env.VUE_APP_REMOTE_API}/api/deleteTraining/${t}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: "Bearer " + auth.getToken(),
+        },
+        credentials: "same-origin",
+      })
+        .then((response) => {
+          if (response.ok) {
+            this.$router.push({ name: "profile" });
+            this.$router.go();
+          }
+        })
+        .catch((err) => console.error(err));
     },
   },
 };
@@ -153,6 +171,17 @@ export default {
   border-radius: 4px;
   border: none;
   margin: 10px;
+  cursor: pointer;
+}
+.delete-button {
+  background-color: rgba(36, 104, 143, 1);
+  color: white;
+  padding: 5px 20px;
+  text-decoration: none;
+  font-size: 16px;
+  border-radius: 4px;
+  border: none;
+  margin: 0px 10px;
   cursor: pointer;
 }
 .training-item {

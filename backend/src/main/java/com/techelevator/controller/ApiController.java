@@ -101,6 +101,11 @@ public class ApiController {
 		return usersTraining;
 	}
 	
+	@RequestMapping(path = "/deleteTraining/{id}", method = RequestMethod.DELETE)
+	public void removeTraining(@PathVariable int id) {
+		trainingDao.deleteTraining(id);
+	}
+	
 	@RequestMapping(path = "/searchTraining", method = RequestMethod.GET)														
 	public  Map<String,Training> getFiltered( @RequestParam String fromDate,@RequestParam String toDate) {
 		LocalDate from = LocalDate.parse(fromDate);

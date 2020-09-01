@@ -11,7 +11,7 @@
     <div v-if="toggleDate">
       <button v-on:click="makeInactive()" class="deactivate">Deactivate</button>
     </div>
-    <select v-model="user.permission" class="permission-select">
+    <select v-model="user.permission" class="short-input">
       <option value="user" v-if="this.$props.currentpermission != 'user'">User</option>
       <option value="admin" v-if="this.$props.currentpermission != 'admin'">Admin</option>
     </select>
@@ -166,5 +166,19 @@ input {
   border: none;
   border-radius: 4px;
   margin: 10px 5px 2px 5px;
+}
+.short-input{
+  padding: 5px;
+  margin: 15px 5px 5px 5px;
+  width: 125px;
+  float: left;
+  border: none;
+  border-radius: 2px;
+}
+.dropdown {
+  padding: 5px;
+  margin: 10px;
+  border: none;
+  border-radius: 2px;
 }
 </style>

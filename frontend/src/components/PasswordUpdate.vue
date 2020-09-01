@@ -17,6 +17,7 @@
           placeholder="Password"
           v-model="user.password"
           required
+          autofocus
         /> <br>
         <input
           type="password"

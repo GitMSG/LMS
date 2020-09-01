@@ -1,8 +1,10 @@
 <template>
 <body :style="image">
-  <nav-bar v-if="aUser != null" />
-  <admin-nav v-if="this.userRole == 'admin'" />
+ <!--  <nav-bar v-if="aUser != null" />
+  <admin-nav v-if="this.userRole == 'admin'" /> -->
   <div class="app">
+    <nav-bar v-if="aUser != null" />
+    <admin-nav v-if="this.userRole == 'admin'" />
     <router-view />
   </div>
 </body>

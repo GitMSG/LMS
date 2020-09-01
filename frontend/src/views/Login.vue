@@ -60,7 +60,7 @@ export default {
   created() {
     setTimeout(() => {
       this.isLoading = false;
-    }, 750);
+    }, 1000);
   },
   methods: {
     toLower(){
@@ -144,7 +144,7 @@ input {
   background-color: rgba(32, 33, 36, 1);
   margin: 0px;
   width: 100vw;
-  height: 100vh;
+  height: 110vh;
   position: absolute;
   z-index: 1000;
 }

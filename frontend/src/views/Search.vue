@@ -5,7 +5,7 @@
         <h1 v-if="employee === true" >Employee Search</h1>
         <h1 v-if="training === true" >Training Search</h1>
         <span class="label" v-if="employee === false && training === false"> Employee or Training </span>
-                <select v-model="type" class="dropdown" @change="typeCheck($event.target.value)">
+                <select v-model="type" class="dropdown" @change="typeCheck($event.target.value)" autofocus>
                 <option value="employee" >Employee</option>
                 <option value="training" >Training</option>
                 </select><br/>

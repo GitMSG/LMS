@@ -145,6 +145,7 @@ export default {
     setCurPeriod(tcp){
       let endDate = new Date(tcp.currentPeriod)
       endDate.setMonth(endDate.getMonth()+tcp.certLength)
+      endDate.setHours(endDate.getHours()+4)
       let endYe = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(endDate)
       let endMo = new Intl.DateTimeFormat('en', { month: 'short' }).format(endDate)
       let d = new Date(tcp.currentPeriod)
@@ -226,7 +227,7 @@ export default {
       .finally(() => {
         setTimeout(() => {
           this.isLoading = false;
-        }, 1000);
+        }, 1500);
       });
   },
 };
@@ -287,7 +288,7 @@ p {
   background-color: rgba(32, 33, 36, 1);
   margin: 0px;
   width: 100vw;
-  height: 100vh;
+  height: 110vh;
   position: fixed;
   z-index: 1000;
 }

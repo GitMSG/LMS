@@ -4,7 +4,7 @@
         <h1>Edit Profile</h1>
         <div class="profile-card">
             <div class="text-inputs">
-            <span class="label">First Name </span><input type="text" v-model="profile.firstname"><br/>
+            <span class="label">First Name </span><input type="text" v-model="profile.firstname" autofocus><br/>
             <span class="label">Last Name </span><input type="text" v-model="profile.lastname"><br/>
             <span class="label">Role </span><input type="text" v-model="profile.role"><br/>
             <span class="label">Start Date </span><input type="date" v-model="profile.startDate"><br/>

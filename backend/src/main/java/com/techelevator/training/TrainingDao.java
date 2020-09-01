@@ -17,4 +17,6 @@ public interface TrainingDao {
 	
 	public  Map<String,Training> searchTrainingFiltered(LocalDate from, LocalDate to);
 	
+	public void deleteTraining(int id);
+	
 }

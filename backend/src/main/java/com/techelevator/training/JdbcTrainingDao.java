@@ -129,6 +129,12 @@ public class JdbcTrainingDao implements TrainingDao {
 		return trainings;
 	}
 	
+	@Override
+	public void deleteTraining(int id) {
+		String sql = "DELETE FROM training t WHERE t.train_id = '"+id+"'; DELETE FROM training_cert_period tcp WHERE tcp.train_id = '"+id+"'";
+		myJdbcTemplate.update(sql);
+	}
+	
 	private boolean withinRange(LocalDate td, String c) {																								// Helper method to see if training falls within current cert period
 		Campus camp = new Campus();
 		String campusSql = "SELECT cert_length,current_period FROM campus WHERE short_code = '" + c + "'";

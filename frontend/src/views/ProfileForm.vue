@@ -3,7 +3,7 @@
     <form class="new-profile-form" @submit.prevent="createProfile">
         <h1>Create Your Profile</h1>
         <div class="profile-card">
-                        <span class="label">First Name </span><input type="text" v-model="profile.firstname"><br/>
+                        <span class="label">First Name </span><input type="text" v-model="profile.firstname" autofocus><br/>
                   
                         <span class="label">Last Name </span><input type="text" v-model="profile.lastname"><br/>
 

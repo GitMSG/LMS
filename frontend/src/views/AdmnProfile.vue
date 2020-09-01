@@ -44,8 +44,8 @@
           </p>
         </div>
       </div>
-
       <button v-if="!this.formMode" v-on:click="toggleFormMode" class="form-button">Add Training</button>
+      <button v-else v-on:click="toggleFormMode" class="form-button">Cancel</button>
     </div>
 
     <div id="training">
@@ -142,6 +142,8 @@ export default {
     toggleFormMode() {
       if (!this.formMode) {
         this.formMode = true;
+      }else{
+        this.formMode = false;
       }
     },
     toggleEditMode() {

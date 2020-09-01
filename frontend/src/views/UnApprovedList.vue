@@ -2,7 +2,7 @@
   <div id="unapproved-page">
     <ul class="training-list">
       <h1 class="notraining" v-if="noTrainings == true">No Trainings need approved</h1>
-      <li v-for="aTrain in trainingArr" v-bind:key="aTrain.trainingId" class="training-item">
+      <li v-for="(aTrain) in trainingArr" v-bind:key="aTrain.trainingId" class="training-item">
         <div
           id="proof-image-div"
           v-if="image === true && aTrain.proof.includes('cloudinary')"
@@ -17,7 +17,7 @@
         </div>
         <h2>
           <span class="label">User:</span>
-          <span class="var">{{getUserEmail(users)}}</span>
+          <span class="var" >{{getUserEmail(users)}}</span>
         </h2>
         <h2>
           <span class="label">Training Name:</span>
@@ -48,7 +48,7 @@
         </h3>
         <h3
           class="proof-link"
-          @click="showProof(aTrain.proof)"
+          @click.prevent="showProof(aTrain.proof)"
           v-if=" aTrain.proof.includes('cloudinary')"
         >Image</h3>
         <h3 class="proof-link" v-else>
@@ -68,6 +68,7 @@ export default {
 
   data() {
     return {
+      //users: [],
       trainingArr: [],
       noTrainings: false,
       image: false,
@@ -78,8 +79,9 @@ export default {
     getUserEmail(u) {
       for (let i = 0; i < u.length; i++) {
         let el = u.shift();
-        return el;
+        return el        
       }
+    // return this.users
     },
     approveTraining(id) {
       fetch(`${process.env.VUE_APP_REMOTE_API}/api/updateApproval/${id}`, {
@@ -99,6 +101,7 @@ export default {
     showProof(p) {
       if (p.includes("cloudinary")) {
         this.image = true;
+        
       }
     },
     closeProof() {
@@ -126,6 +129,7 @@ export default {
           this.noTrainings = true;
         } else {
           this.users = Object.keys(this.trainingArr);
+          //this.getUserEmail(users)
         }
       })
       .catch((err) => {
