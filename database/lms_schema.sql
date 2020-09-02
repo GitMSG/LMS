@@ -108,6 +108,19 @@ ALTER TABLE training_cert_period
 ADD FOREIGN KEY(cert_period_id)
 REFERENCES cert_period(cert_id)ON DELETE CASCADE;
 
+--update campus 
+--set current_period = '2018-10-01';
+update users
+set profile_pic = 'https://res.cloudinary.com/goshorn/image/upload/v1594733918/lms_test/m5dk9epbzckoohjh4zgv.jpg'
+where users.id = 5;
+update users
+set email = 'jenny@gmail.com'
+where users.id = 5;
+
+update training 
+set train_proof = 'https://res.cloudinary.com/goshorn/image/upload/v1598367287/lms_test/yvsjfdhnne2mterqz1z9.jpg' 
+where train_id =1;
+
             --         'https://res.cloudinary.com/goshorn/image/upload/v1596050794/lms_test/wgc3a23t3fia1wjcska9.jpg'           Wierd Guy
             --         'https://res.cloudinary.com/goshorn/image/upload/v1593971293/lms_test/yskdldqgqnvu7jieywyr.jpg'           Matt Photo
             --         'https://res.cloudinary.com/goshorn/image/upload/v1596286167/lms_test/TE_bur_z3zvc4.png'                  TE logo
