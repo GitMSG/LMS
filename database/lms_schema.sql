@@ -73,11 +73,11 @@ INSERT INTO training (train_name, train_provider, train_topic, train_date, compl
         VALUES('LEARNING HOW TO TEACH', 'YMCA', 'We teach people how to teach, its very educational.', '2020-02-13',null, 90, null, true);
         
 INSERT INTO campus (short_code, city, state, cert_length, current_period)
-        VALUES('CLE', 'Cleveland', 'Ohio', 24, null),
-        ('CBUS', 'Columbus','Ohio', 24, null),
-        ('CINCY','Cincinnati','Ohio', 24, null),
-        ('PGH','Pittsburgh','Pennsylvania', 24, null),
-        ('PHL','Philadelphia','Pennsylvania', 24, null);
+        VALUES('CLE', 'Cleveland', 'Ohio', 24, '2018-10-01'),
+        ('CBUS', 'Columbus','Ohio', 24,'2018-10-01'),
+        ('CINCY','Cincinnati','Ohio', 24, '2018-10-01'),
+        ('PGH','Pittsburgh','Pennsylvania', 24, '2018-10-01'),
+        ('PHL','Philadelphia','Pennsylvania', 24, '2018-10-01');
 
 INSERT INTO cert_period (emp_id, cert_start_date) 
         VALUES ((SELECT id FROM users WHERE users.email ='matt@gmail.com'), '2018-10-01');
@@ -110,7 +110,7 @@ REFERENCES cert_period(cert_id)ON DELETE CASCADE;
 
 --update campus 
 --set current_period = '2018-10-01';
-update users
+/*update users
 set profile_pic = 'https://res.cloudinary.com/goshorn/image/upload/v1594733918/lms_test/m5dk9epbzckoohjh4zgv.jpg'
 where users.id = 5;
 update users
@@ -119,7 +119,7 @@ where users.id = 5;
 
 update training 
 set train_proof = 'https://res.cloudinary.com/goshorn/image/upload/v1598367287/lms_test/yvsjfdhnne2mterqz1z9.jpg' 
-where train_id =1;
+where train_id =1;*/
 
             --         'https://res.cloudinary.com/goshorn/image/upload/v1596050794/lms_test/wgc3a23t3fia1wjcska9.jpg'           Wierd Guy
             --         'https://res.cloudinary.com/goshorn/image/upload/v1593971293/lms_test/yskdldqgqnvu7jieywyr.jpg'           Matt Photo

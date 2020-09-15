@@ -50,14 +50,21 @@
 	<!-- ************************* -->
 	<!--  DATA ACCESS CONFIGURATION -->
 	<!-- ************************* -->
-	
 	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="org.postgresql.Driver" />
+
+		<property name="url" value="jdbc:postgresql://localhost:5432/lms" />
+		<property name="username" value="postgres" />
+		<property name="password" value="postgres1" />
+	</bean>
+	
+	<!-- <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" value="org.postgresql.Driver" />
 
 		<property name="url" value="jdbc:postgresql://ec2-54-91-178-234.compute-1.amazonaws.com:5432/dfqblo6jsidh5i" />
 		<property name="username" value="hfvaammkxgvfxe" />
 		<property name="password" value="9c07ea82350238291e62dafb09acdb4807644a3b6313309615cc395a8953c657" />
-	</bean>
+	</bean> -->
 	
 	<!-- enable the configuration of transactional behavior based on annotations -->
 	<tx:annotation-driven transaction-manager="txManager" />
